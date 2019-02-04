@@ -3,8 +3,6 @@
  * This is the file where you will declare the routes of
  * your REST application, protect routes with middleware,
  * etc...
- *
- * @author Maxime Flament
  */
 
 let express = require('express');
