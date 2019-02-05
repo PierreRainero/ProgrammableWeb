@@ -5,6 +5,7 @@
  *     - GET : Return product corresponding to productCode
  */
 const Product = require('./product.js');
+const franceDb = require('../database/france.js');
 let router = require('express').Router();
 const https = require('https');
 
@@ -16,26 +17,25 @@ const https = require('https');
 const getProductByCode = async (req, res) => {
     if (!req.params.productid || req.params.productid === '') {
         res.status(422).send("Product id is missing.");
+        return;
     }
 
-    // @TODO
-    // REMPLACER PAR APPEL A LA BASE MONGO
-    https.get('https://fr.openfoodfacts.org/api/v0/produit/' + req.params.productid + '.json', (resp) => {
-        let data = '';
-
-        resp.on('data', (chunk) => {
-            data += chunk;
-        });
-
-        resp.on('end', () => {
-            const json = JSON.parse(data);
-            let product = new Product(json.code, json.product.product_name_fr);
-            res.status(200).send(product);
-        });
-    }).on("error", (err) => {
-        console.log("Error: " + err.message);
-        res.status(500).send(err.message);
-    });
+    franceDb.findByCode(
+        req.params.productid,
+        (productFound) => {
+            if(productFound.length === 1){
+                const json = JSON.parse(JSON.stringify(productFound[0]));
+                const product = new Product(json.code, json.product_name_fr);
+                res.status(200).send(product);
+            }else{
+                res.status(422).send("Invalid code.");
+            }
+        },
+        (error) => {
+            console.log("Error: " + error.message);
+            res.status(500).send(error.message);
+        }
+    );
 };
 
 // ROUTES :
