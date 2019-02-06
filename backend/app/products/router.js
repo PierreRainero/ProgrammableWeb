@@ -8,7 +8,6 @@
 const Product = require('./product.js');
 const franceDb = require('../database/france.js');
 let router = require('express').Router();
-const https = require('https');
 
 /**
  * Get a specific product using his code
@@ -25,8 +24,7 @@ const getProductByCode = async (req, res) => {
         req.params.productCode,
         (productFound) => {
             if(productFound.length === 1){
-                const json = JSON.parse(JSON.stringify(productFound[0]));
-                const product = new Product(json.code, json.product_name);
+                const product = parseProduct(productFound[0].toJSON());
                 res.status(200).send(product);
             }else{
                 res.status(422).send("Invalid code.");
@@ -42,8 +40,8 @@ const getProductByCode = async (req, res) => {
 /**
  * Get all products (ordered by id) by group. Each group can be defined using query parameters.
  * By default the page is "1" (first group) for "20" items per page (20 products by group).
- * @param {*} req Express HTTP request containing "page" and "itemsPerPage" as query parameters
- * @param {*} res Express HTTP response containing corresponding products
+ * @param {express.Request} req Express HTTP request containing "page" and "itemsPerPage" as query parameters
+ * @param {express.Response} res Express HTTP response containing corresponding products
  */
 const getAllProducts = async (req, res) => {
     const queryParameters = req.query;
@@ -59,8 +57,7 @@ const getAllProducts = async (req, res) => {
         (productsFound) => {
         const products = new Array();
         for(const product of productsFound){
-            const json = JSON.parse(JSON.stringify(product));
-            products.push(new Product(json.code, json.product_name_fr));
+            products.push(parseProduct(product.toJSON()));
         }
             res.status(200).send(products);
         },
@@ -68,6 +65,24 @@ const getAllProducts = async (req, res) => {
         console.log("Error: " + error.message);
         res.status(500).send(error.message);
     });
+}
+
+/**
+ * Generate a Product object from a json object from the database
+ * @param {Object} productJson json object
+ * @return {Product} product parsed
+ */
+const parseProduct = (productJson) => {
+    const product = new Product(parseInt(productJson.code), productJson.product_name);
+
+    const ingredients = productJson.ingredients;
+    if(ingredients && ingredients.length>0){
+        for(const ingredient of ingredients){
+            product.addIngredient(ingredient.id, ingredient.text);
+        }
+    }
+
+    return product;
 }
 
 // ROUTES :

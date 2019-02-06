@@ -61,7 +61,7 @@ const findAllFromCategory = (kw, successCallBack, errorCallback) => {
 }
 
 const findAll = (page, itemsPerPage, successCallBack, errorCallback) => {
-  franceModel.find({}).sort({id: 1}).skip(itemsPerPage*(page-1)).limit(itemsPerPage).exec((err, result) => {
+  franceModel.find({}).skip(itemsPerPage*(page-1)).limit(itemsPerPage).exec((err, result) => {
     if (err) {
       return errorCallback(err);
     }

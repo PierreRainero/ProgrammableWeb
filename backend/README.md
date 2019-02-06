@@ -37,25 +37,43 @@ Permet de retrouver tous les produits par groupe. Les produits sont classés en 
 ```json
 [
     {
-        "code": "00",
-        "name": "lignaform"
+        "code": 339,
+        "name": "",
+        "ingredients": []
     },
     {
-        "code": "00000"
+        "code": 69016165,
+        "name": "BoFrost Nudelpfanne",
+        "ingredients": []
     },
     {
-        "code": "0000000000031",
-        "name": "Cacao"
+        "code": 36,
+        "name": "",
+        "ingredients": []
     }
 ]
 ```
 
 `/api/products/{productCode}` : **GET**  
-Permet de retrouver un produit à partir de son code (code barre). L'objet retourné dans le cas d'une recherche réussit (code 200) et où le _productCode_ vaut "0000000003087" est le suivant :
+Permet de retrouver un produit à partir de son code (code barre). L'objet retourné dans le cas d'une recherche réussit (code 200) et où le _productCode_ vaut "3760198720391" est le suivant :
 
 ```json
 {
-    "code":"0000000003087",
-    "name":"Farine de blé noir"
+    "code": 3760198720391,
+    "name": "Olive noire à la grecque ",
+    "ingredients": [
+        {
+            "id": "Olive",
+            "name": "olives"
+        },
+        {
+            "id": "Canola-oil",
+            "name": "huile de colza"
+        },
+        {
+            "id": "Salt",
+            "name": "sel"
+        }
+    ]
 }
 ```
