@@ -24,8 +24,7 @@ const getProductByCode = async (req, res) => {
         req.params.productCode,
         (productFound) => {
             if(productFound.length === 1){
-                const product = parseProduct(productFound[0].toJSON());
-                res.status(200).send(product);
+                res.status(200).send(parseProduct(productFound[0].toJSON()));
             }else{
                 res.status(422).send("Invalid code.");
             }
@@ -73,12 +72,28 @@ const getAllProducts = async (req, res) => {
  * @return {Product} product parsed
  */
 const parseProduct = (productJson) => {
-    const product = new Product(parseInt(productJson.code), productJson.product_name);
+    const product = new Product(parseInt(productJson.code), productJson.product_name, productJson.nutrition_grades, productJson.nova_group);
 
     const ingredients = productJson.ingredients;
     if(ingredients && ingredients.length>0){
         for(const ingredient of ingredients){
             product.addIngredient(ingredient.id, ingredient.text);
+        }
+    }
+
+    if(productJson.allergens_from_ingredients){
+        const allergens = productJson.allergens_from_ingredients.split(', ');
+        if(allergens.length>0){
+            for(const allergen of allergens){
+                product.addAllergen(allergen);
+            }
+        }
+    }
+
+    const additives = productJson.additives_prev_original_tags;
+    if(additives && additives.length>0){
+        for(const additive of additives){
+            product.addAdditive(additive);
         }
     }
 

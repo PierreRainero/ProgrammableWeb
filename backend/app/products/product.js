@@ -42,11 +42,17 @@ module.exports = class Product {
      * Normal constructor
      * @param {number} code Scan code
      * @param {string} name Product name
+     * @param {string} nutrigrade Nutrition grade (A, B, C, D, E)
+     * @param {string} novaGroup Nova group (1, 2, 3, 4) : -1 for unknow
      */
-    constructor(code, name) {
+    constructor(code, name, nutrigrade, novaGroup) {
         this.code = code;
         this.name = !name ? "" : name;
+        this.nutrigrade = !nutrigrade ? "" : nutrigrade.toUpperCase();
+        this.novaGroup = !novaGroup ? -1 : parseInt(novaGroup);
         this.ingredients = new Array();
+        this.allergens = new Array();
+        this.additives = new Array();
     }
 
     /**
@@ -56,5 +62,27 @@ module.exports = class Product {
      */
     addIngredient(id, name) {
         this.ingredients.push(new Ingredient(formatKey(id), name));
+    }
+
+    /**
+     * Add an allergen to the product
+     * @param {string} allergenToAdd allergen name
+     */
+    addAllergen(allergenToAdd){
+        const formatAllergen = formatKey(allergenToAdd);
+        if (this.allergens.indexOf(formatAllergen) === -1) {
+            this.allergens.push(formatAllergen);
+        }
+    }
+
+    /**
+     * Add an additive to the product
+     * @param {string} additiveToAdd additive name (id)
+     */
+    addAdditive(additiveToAdd){
+        const formatAdditive = formatKey(additiveToAdd);
+        if (this.additives.indexOf(formatAdditive) === -1) {
+            this.additives.push(formatAdditive);
+        }
     }
 }
