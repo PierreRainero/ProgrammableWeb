@@ -3,8 +3,8 @@
 ## Informations sur l'équipe
 
 * Membres :
-  * [Fabien DURANDO](fabien.durando@etu.unice.fr)
-  * [Théo FRASQUET](fabien.frasquet@etu.unice.fr)
+  * [Fabien DURANDO](fabien.durando@outlook.com)
+  * [Théo FRASQUET](theo.frasquet@gmail.com)
   * [Gregory MERLET](gregory.merlet@outlook.fr)
   * [Pierre RAINERO](pierre.rainero@hotmail.fr)
   * [Gaulthier TOUSSAINT](gaulthiertoussaint@gmail.com)
@@ -15,7 +15,7 @@ Pour déployer cette application il est nécessaire de disposer des technologies
 
 * [NodeJS](https://nodejs.org)
 
-Il faut ensuite utiliser la commande `npm i` pour récupérer les dépendances nécessaires au bon fonctionnement de l'application. Pour lancer le serveur il suffit alors d'utiliser la commande `npm start`.
+Il faut ensuite utiliser la commande `npm i` pour récupérer toutes les dépendances nécessaires au bon fonctionnement de l'application. Pour lancer le serveur il suffit d'utiliser la commande `npm start`.
 
 ## API
 
@@ -31,7 +31,8 @@ Une fois le serveur du "backend" lancé l'api suivante est exposée (port 3000) 
 ## Fonctionnalités
 
 `/api/products?page=1&itemsPerPage=3` : **GET**  
-Permet de retrouver tous les produits par groupe. Les produits sont classés en fonction de leur "id", on peut définir le nombre de produits par groupe et quel groupe on souhaite chercher :
+Permet de retrouver tous les produits par groupe. Les produits sont classés en fonction de leur "id", on peut définir le nombre de produits par groupe et quel groupe on souhaite chercher :  
+**Par défaut :** _page=1, itemsPerPage=20_
 
 ```json
 [
@@ -50,7 +51,7 @@ Permet de retrouver tous les produits par groupe. Les produits sont classés en 
 ```
 
 `/api/products/{productCode}` : **GET**  
-Permet de retrouver un produit à partir de son code (code barre). L'objet retourné dans le cas d'une recherche réussit (code 200) est le suivant :
+Permet de retrouver un produit à partir de son code (code barre). L'objet retourné dans le cas d'une recherche réussit (code 200) et où le _productCode_ vaut "0000000003087" est le suivant :
 
 ```json
 {

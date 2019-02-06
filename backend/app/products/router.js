@@ -50,8 +50,8 @@ const getAllProducts = async (req, res) => {
     let page = 1;
     let itemsPerPage = 20;
     if(queryParameters!==undefined || queryParameters.length > 1){
-        page = queryParameters.page && !isNaN(queryParameters.page) ? parseInt(queryParameters.page) : 1;
-        itemsPerPage = queryParameters.itemsPerPage && !isNaN(queryParameters.itemsPerPage)? parseInt(queryParameters.itemsPerPage) : 20;
+        page = queryParameters.page && !isNaN(queryParameters.page) && queryParameters.page>0 ? parseInt(queryParameters.page) : 1;
+        itemsPerPage = queryParameters.itemsPerPage && !isNaN(queryParameters.itemsPerPage) && queryParameters.itemsPerPage>0 ? parseInt(queryParameters.itemsPerPage) : 20;
     }
 
     franceDb.findAll(
