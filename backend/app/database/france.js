@@ -1,4 +1,4 @@
-const mongoose =  require('./database').mongoose;
+const mongoose = require('./database').mongoose;
 const db = require('./database').db;
 
 const franceSchema = mongoose.Schema({
@@ -34,8 +34,8 @@ const franceSchema = mongoose.Schema({
   states_hierarchy: [],
   states_tags: [],
 }, {
-  strict: true
-});
+    strict: true
+  });
 
 let franceModel = db.model(
   'france',
@@ -44,9 +44,10 @@ let franceModel = db.model(
 );
 
 const findByCode = (code, successCallBack, errorCallback) => {
-  franceModel.find({code: code}).exec((err, result) => {
-    if(err)
+  franceModel.find({ code: code }).exec((err, result) => {
+    if (err) {
       return errorCallback(err);
+    }
     successCallBack(result);
   })
 }
@@ -59,6 +60,16 @@ const findAllFromCategory = (kw, successCallBack, errorCallback) => {
 
 }
 
+const findAll = (page, itemsPerPage, successCallBack, errorCallback) => {
+  franceModel.find({}).sort({id: 1}).skip(itemsPerPage*(page-1)).limit(itemsPerPage).exec((err, result) => {
+    if (err) {
+      return errorCallback(err);
+    }
+    successCallBack(result);
+  })
+}
+
 exports.findByCode = findByCode;
 exports.findByKeyword = findByKeyword;
 exports.findAllFromCategory = findAllFromCategory;
+exports.findAll = findAll;
