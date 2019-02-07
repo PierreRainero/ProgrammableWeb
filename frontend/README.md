@@ -1,68 +1,29 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Frontend
 
-## Available Scripts
+## Informations sur l'équipe
 
-In the project directory, you can run:
+* Membres :
+  * [Fabien DURANDO](fabien.durando@outlook.com)
+  * [Théo FRASQUET](theo.frasquet@gmail.com)
+  * [Gregory MERLET](gregory.merlet@outlook.fr)
+  * [Pierre RAINERO](pierre.rainero@hotmail.fr)
+  * [Gaulthier TOUSSAINT](gaulthiertoussaint@gmail.com)
 
-### `npm start`
+## Techonologies
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+* [npm](https://www.npmjs.com/) 6.4.1
+* [React](https://reactjs.org/) 16.7.0
+* [Sass](https://sass-lang.com/guide) 4.11.0
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+## Deploiement
 
-### `npm test`
+`npm i` : Permet toutes les dépendances nécessaires au bon fonctionnement de l'application.
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Environnement de test
 
-### `npm run build`
+`npm start` : Permet de lancer l'application dans un environnement de test (port 3000). Le déploiement n'est pas optimisé mais le projet recompile dynamiquement.
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Production
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+`npm run build` : Crée un dossier **"build"** dans lequel est créé une version _static_ de l'application. Celle-ci est optimisée et doit être utilisée pour la production.  
+⚠ Il est nécessaire de disposer d'un serveur pour utiliser l'application ainsi déployée. Il est possible d'en simuler avec des outils comme [LiveServer](https://github.com/ritwickdey/vscode-live-server) pour "Visual Studio Code".
