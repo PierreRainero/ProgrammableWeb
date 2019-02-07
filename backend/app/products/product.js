@@ -94,15 +94,15 @@ module.exports = class Product {
         let scoreCalcul = this.novaGroup!==-1? (this.novaGroup-1)*5 : 20;
         switch(this.nutrigrade.toLocaleUpperCase()){
             case 'A':
-                scoreCalcul += -5;
-                break;
-
-            case 'B':
                 scoreCalcul += 0;
                 break;
 
-            case 'C':
+            case 'B':
                 scoreCalcul += 5;
+                break;
+
+            case 'C':
+                scoreCalcul += 10;
                 break;
             
             case 'D':

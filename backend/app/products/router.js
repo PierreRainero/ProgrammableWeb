@@ -38,32 +38,56 @@ const getProductByCode = async (req, res) => {
 
 /**
  * Get all products (ordered by id) by group. Each group can be defined using query parameters.
- * By default the page is "1" (first group) for "20" items per page (20 products by group).
- * @param {express.Request} req Express HTTP request containing "page" and "itemsPerPage" as query parameters
- * @param {express.Response} res Express HTTP response containing corresponding products
+ * @param {express.Request} req Express HTTP request 
+ * @param {express.Response} res Express HTTP response
  */
 const getAllProducts = async (req, res) => {
     const queryParameters = req.query;
-    let page = 1;
-    let itemsPerPage = 20;
-    if(queryParameters!==undefined || queryParameters.length > 1){
-        page = queryParameters.page && !isNaN(queryParameters.page) && queryParameters.page>0 ? parseInt(queryParameters.page) : 1;
-        itemsPerPage = queryParameters.itemsPerPage && !isNaN(queryParameters.itemsPerPage) && queryParameters.itemsPerPage>0 ? parseInt(queryParameters.itemsPerPage) : 20;
-    }
 
+    if(queryParameters!==undefined){
+        if(queryParameters.name){
+            getProductsByName(res, queryParameters.name);
+        } else if(queryParameters.ingredient){
+            getProductsByIngredient(res, queryParameters.ingredient);
+        } else if(queryParameters.page && !isNaN(queryParameters.page) && queryParameters.itemsPerPage && !isNaN(queryParameters.itemsPerPage)){
+            getAllProductsWithIndex(res, parseInt(queryParameters.page), parseInt(queryParameters.itemsPerPage));
+        } else {
+            getAllProductsWithIndex(res, 1, 20);
+        }
+    } else {
+        getAllProductsWithIndex(res, 1, 20);
+    }
+}
+
+/**
+ * Get all products (ordered by id) by group. Each group can be defined using query parameters.
+ * By default the page is "1" (first group) for "20" items per page (20 products by group).
+ * @param {express.Response} res Express HTTP response containing corresponding products
+ * @param {*} page 
+ * @param {*} itemsPerPage 
+ */
+const getAllProductsWithIndex = (res, page, itemsPerPage) => {
     franceDb.findAll(
         page, itemsPerPage,
         (productsFound) => {
-        const products = new Array();
-        for(const product of productsFound){
-            products.push(parseProduct(product.toJSON()));
-        }
+            const products = new Array();
+            for(const product of productsFound){
+                products.push(parseProduct(product.toJSON()));
+            }
             res.status(200).send(products);
         },
     (error) => {
         console.log("Error: " + error.message);
         res.status(500).send(error.message);
     });
+}
+
+const getProductsByName = (res, name) => {
+    res.status(200).send(name);
+}
+
+const getProductsByIngredient = (res, ingredient) => {
+    res.status(200).send(ingredient);
 }
 
 /**
