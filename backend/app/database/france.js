@@ -7,14 +7,13 @@ const franceSchema = mongoose.Schema({
   checkers_tags: [],
   code: String,
   codes_tags: [],
-  codes_tags: [],
   complete: Number,
+  correctors_tags: [],
   countries: String,
   countries_hierarchy: [],
   countries_tags: [],
   created_t: Number,
   creator: String,
-  editors_tags: [],
   entry_dates_tags: [],
   id: String,
   informers_tags: [],
@@ -43,10 +42,11 @@ let franceModel = db.model(
   'france'
 );
 
-const findAll = (successCallBack, errorCallback) => {
-  franceModel.find({}).exec((err, result) => {
-    if(err)
+const findAll = (page, itemsPerPage, successCallBack, errorCallback) => {
+  franceModel.find({}).skip(itemsPerPage*(page-1)).limit(itemsPerPage).exec((err, result) => {
+    if (err) {
       return errorCallback(err);
+    }
     successCallBack(result);
   })
 }
