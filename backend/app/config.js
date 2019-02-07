@@ -4,8 +4,6 @@
  * in order to hide them elsewhere in the application,
  * for example: secrets for JWT authentication, your database
  * ports and IP, etc....
- *
- * @author Maxime Flament
  */
 
 let config = module.exports;

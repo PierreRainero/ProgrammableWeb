@@ -18,8 +18,7 @@ app.use(cors());
 
 // Load the routes
 app.use(require('./site/router'));
-app.use('/api', require('./customers/router'));
-// Repeat the above line for additional model areas
+app.use('/api', require('./products/router'));
 
 // FINALLY, use any error handlers
 app.use(require('./errors/not-found'));

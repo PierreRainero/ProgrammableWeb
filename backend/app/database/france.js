@@ -1,4 +1,4 @@
-const mongoose =  require('./database').mongoose;
+const mongoose = require('./database').mongoose;
 const db = require('./database').db;
 
 const franceSchema = mongoose.Schema({
@@ -34,8 +34,8 @@ const franceSchema = mongoose.Schema({
   states_hierarchy: [],
   states_tags: [],
 }, {
-  strict: true
-});
+    strict: true
+  });
 
 let franceModel = db.model(
   'france',
@@ -52,9 +52,10 @@ const findAll = (successCallBack, errorCallback) => {
 }
 
 const findByCode = (code, successCallBack, errorCallback) => {
-  franceModel.find({code: code}).exec((err, result) => {
-    if(err)
+  franceModel.find({ code: code }).exec((err, result) => {
+    if (err) {
       return errorCallback(err);
+    }
     successCallBack(result);
   })
 }
