@@ -14,6 +14,8 @@
 * [npm](https://www.npmjs.com/) 6.4.1
 * [React](https://reactjs.org/) 16.7.0
 * [Sass](https://sass-lang.com/guide) 4.11.0
+* [Bootstrap](https://react-bootstrap.github.io/) 1.0.0-beta.5
+* [FontAwesome](https://www.npmjs.com/package/@fortawesome/react-fontawesome) 0.1.4
 
 ## Deploiement
 

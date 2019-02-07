@@ -63,8 +63,8 @@ const getAllProducts = async (req, res) => {
  * Get all products (ordered by id) by group. Each group can be defined using query parameters.
  * By default the page is "1" (first group) for "20" items per page (20 products by group).
  * @param {express.Response} res Express HTTP response containing corresponding products
- * @param {*} page 
- * @param {*} itemsPerPage 
+ * @param {number} page page number to display (itemsPerPage*page)
+ * @param {number} itemsPerPage number of products per diplayed by page
  */
 const getAllProductsWithIndex = (res, page, itemsPerPage) => {
     franceDb.findAll(
