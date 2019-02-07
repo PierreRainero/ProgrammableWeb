@@ -97,6 +97,7 @@ const parseProduct = (productJson) => {
         }
     }
 
+    product.calculateScore();
     return product;
 }
 

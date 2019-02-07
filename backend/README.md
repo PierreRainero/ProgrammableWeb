@@ -39,6 +39,7 @@ Permet de retrouver tous les produits par groupe. Les produits sont classés en 
     {
         "code": 3760198720162,
         "name": "Poudre d'amande blanche",
+        "score": 85,
         "nutrigrade": "",
         "novaGroup": 1,
         "ingredients": [
@@ -53,6 +54,7 @@ Permet de retrouver tous les produits par groupe. Les produits sont classés en 
     {
         "code": 3760198720391,
         "name": "Olive noire à la grecque ",
+        "score": 75,
         "nutrigrade": "D",
         "novaGroup": 3,
         "ingredients": [
@@ -82,6 +84,7 @@ Permet de retrouver un produit à partir de son code (code barre). L'objet retou
 {
     "code": 1.1324361009736515e+28,
     "name": "madeleine coquille",
+    "score": 58,
     "nutrigrade": "",
     "novaGroup": 4,
     "ingredients": [
