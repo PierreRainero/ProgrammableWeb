@@ -15,8 +15,11 @@ config.express = {
 };
 
 config.mongodb = {
-  port: process.env.MONGODB_PORT || 27017,
-  host: process.env.MONGODB_HOST || 'localhost'
+  port: process.env.MONGODB_PORT || 11455,
+  host: process.env.MONGODB_HOST || 'ds111455.mlab.com',
+  username: process.env.MONGODB_USERNAME || 'root',
+  password: process.env.MONGODB_PASSWORD || 'mich06',
+  database: process.env.MONGODB_DATABASE || 'progweb'
 };
 if (PRODUCTION) {
   // for example
