@@ -48,6 +48,7 @@ module.exports = class Product {
     constructor(code, name, nutrigrade, novaGroup) {
         this.code = code;
         this.name = !name ? "" : name;
+        this.score = -1;
         this.nutrigrade = !nutrigrade ? "" : nutrigrade.toUpperCase();
         this.novaGroup = !novaGroup ? -1 : parseInt(novaGroup);
         this.ingredients = new Array();
@@ -84,5 +85,38 @@ module.exports = class Product {
         if (this.additives.indexOf(formatAdditive) === -1) {
             this.additives.push(formatAdditive);
         }
+    }
+
+    /**
+     * Calculate product score
+     */
+    calculateScore(){
+        let scoreCalcul = this.novaGroup!==-1? (this.novaGroup-1)*5 : 20;
+        switch(this.nutrigrade.toLocaleUpperCase()){
+            case 'A':
+                scoreCalcul += 0;
+                break;
+
+            case 'B':
+                scoreCalcul += 5;
+                break;
+
+            case 'C':
+                scoreCalcul += 10;
+                break;
+            
+            case 'D':
+                scoreCalcul += 15;
+                break;   
+            
+            default:
+                scoreCalcul += 15;
+                break;
+        }
+
+        scoreCalcul += this.additives.length*3;
+        scoreCalcul = 100-scoreCalcul;
+
+        this.score = scoreCalcul>0 ? scoreCalcul : 0;
     }
 }
