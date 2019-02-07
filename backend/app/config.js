@@ -7,7 +7,7 @@
  */
 
 let config = module.exports;
-let PRODUCTION = process.env.NODE_ENV === 'production';
+let PRODUCTION = true;//process.env.NODE_ENV === 'production';
 
 config.express = {
   port: process.env.EXPRESS_PORT || 3000,
@@ -23,8 +23,8 @@ config.mongodb = {
 };
 if (PRODUCTION) {
   // for example
-  config.express.ip = '0.0.0.0',
-  config.express.port: 3547,
+  config.express.ip = '0.0.0.0';
+  config.express.port = 3547;
 }
 // config.db same deal
 // config.email etc
