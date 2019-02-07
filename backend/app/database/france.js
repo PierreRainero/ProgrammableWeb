@@ -43,6 +43,14 @@ let franceModel = db.model(
   'france'
 );
 
+const findAll = (successCallBack, errorCallback) => {
+  franceModel.find({}).exec((err, result) => {
+    if(err)
+      return errorCallback(err);
+    successCallBack(result);
+  })
+}
+
 const findByCode = (code, successCallBack, errorCallback) => {
   franceModel.find({code: code}).exec((err, result) => {
     if(err)
@@ -59,6 +67,7 @@ const findAllFromCategory = (kw, successCallBack, errorCallback) => {
 
 }
 
+exports.findAll = findAll;
 exports.findByCode = findByCode;
 exports.findByKeyword = findByKeyword;
 exports.findAllFromCategory = findAllFromCategory;
