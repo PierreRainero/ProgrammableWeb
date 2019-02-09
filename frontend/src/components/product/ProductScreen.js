@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 import { Alert } from 'react-bootstrap';
 
@@ -17,7 +17,7 @@ class ProductScreen extends React.Component {
                 <div>
                     <Alert variant='primary'>
                         This is a primary alert with
-                        <Alert.Link href="#">Product</Alert.Link> screen
+                        <Alert.Link href='#'>Product</Alert.Link> screen
                     </Alert>
 
                 </div>

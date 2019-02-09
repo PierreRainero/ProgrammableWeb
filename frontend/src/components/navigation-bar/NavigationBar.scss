@@ -1,0 +1,11 @@
+@import '../../styles/_colors.scss';
+
+.primary-navBar {
+    background-color: $primary-color;
+    color: $primary-color-text;
+}
+
+.primary-brand {
+    margin-left: 6px;
+    color: $primary-color-text;
+}
