@@ -85,8 +85,25 @@ const getAllProductsWithIndex = (res, page, itemsPerPage) => {
         });
 }
 
+/**
+ * Get all products (ordered by id) that match to the given string. 
+ * @param {express.Response} res Express HTTP response containing corresponding products
+ * @param {*} name String to match
+ */
 const getProductsByName = (res, name) => {
-    res.status(200).send(name);
+    franceDb.searchByName(
+        name,
+        (productsFound) => {
+            const products = new Array();
+            for(const product of productsFound){
+                products.push(parseProduct(product.toJSON()));
+            }
+            res.status(200).send(products);
+        },
+    (error) => {
+        console.log("Error: " + error.message);
+        res.status(500).send(error.message);
+    });
 }
 
 const getProductsByIngredient = (res, ingredient, page, itemsPerPage) => {

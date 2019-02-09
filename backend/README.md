@@ -77,6 +77,102 @@ Permet de retrouver tous les produits par groupe. Les produits sont classés en 
 ]
 ```
 
+`/api/products?name=tortellini` : **GET**   
+Permet de retrouver les produits contenant le chaine recherché (non sensible à la casse). Les produits sont classés par leur "id" :
+```json
+[
+  {
+    "code": 1312324,
+    "name": "Tortellini Pesto Basilic & Pignons",
+    "score": 65,
+    "nutrigrade": "",
+    "novaGroup": -1,
+    "ingredients": [],
+    "allergens": [],
+    "additives": []
+  },
+  {
+    "code": 1240278544038,
+    "name": "Tortellini jambon cru",
+    "score": 65,
+    "nutrigrade": "",
+    "novaGroup": -1,
+    "ingredients": [],
+    "allergens": [],
+    "additives": []
+  },
+  {
+    "code": 3256221876055,
+    "name": "Tortellini 3 fromages",
+    "score": 65,
+    "nutrigrade": "",
+    "novaGroup": -1,
+    "ingredients": [],
+    "allergens": [],
+    "additives": []
+  },
+  {
+    "code": 4005722000105,
+    "name": "Tortellini mit Fleisch",
+    "score": 65,
+    "nutrigrade": "",
+    "novaGroup": -1,
+    "ingredients": [],
+    "allergens": [],
+    "additives": []
+  },
+  {
+    "code": 4028856000216,
+    "name": "Camaletti Tortellini",
+    "score": 65,
+    "nutrigrade": "",
+    "novaGroup": -1,
+    "ingredients": [],
+    "allergens": [],
+    "additives": []
+  },
+  {
+    "code": 5060428432277,
+    "name": "EF Tortellini Bolognese",
+    "score": 65,
+    "nutrigrade": "",
+    "novaGroup": -1,
+    "ingredients": [],
+    "allergens": [],
+    "additives": []
+  },
+  {
+    "code": 9002600632316,
+    "name": "Gemüse Tortellini",
+    "score": 65,
+    "nutrigrade": "",
+    "novaGroup": -1,
+    "ingredients": [],
+    "allergens": [],
+    "additives": []
+  }
+]
+```
+
+`/api/products?name=tortellini pesto` : **GET**   
+En ajoutant un second mot lors de la recherche, l'on aura donc des résultats plus précis.
+```json
+[
+  {
+    "code": 1312324,
+    "name": "Tortellini Pesto Basilic & Pignons",
+    "score": 65,
+    "nutrigrade": "",
+    "novaGroup": -1,
+    "ingredients": [],
+    "allergens": [],
+    "additives": []
+  }
+]
+```
+
+**Par défaut :** _page=1, itemsPerPage=20_
+
 `/api/products/{productCode}` : **GET**  
 Permet de retrouver un produit à partir de son code (code barre). L'objet retourné dans le cas d'une recherche réussit (code 200) et où le _productCode_ vaut "011324361009736515181027101704" est le suivant :
 
