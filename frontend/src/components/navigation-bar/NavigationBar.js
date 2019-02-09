@@ -14,7 +14,7 @@ class NavigationBar extends React.Component {
                         src={require('../../assets/imgs/logo.png')}
                         width='30'
                         height='30'
-                        className='d-inline-block align-top'
+                        className='d-inline-block align-bottom'
                     />
                     <span className='primary-brand'>
                         React FrontEnd

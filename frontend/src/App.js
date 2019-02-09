@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 import NavigationBar from './components/navigation-bar/NavigationBar';
 import Home from './components/home/Home';
-import ProductScreen from './components/product/ProductScreen';
+import ProductScreen from './components/product/product-screen/ProductScreen';
 import './App.scss';
 
 class App extends Component {
