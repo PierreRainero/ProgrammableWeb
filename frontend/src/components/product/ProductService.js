@@ -10,8 +10,9 @@ class ProductService {
         console.log(url);
         fetch(url, {method: 'GET'})
             .then(response => {
-                const parsedResponse = response.json();
-                console.log(parsedResponse);
+                response.json().then((parsedResponse) => {
+                    console.log(parsedResponse);
+                });
                 callback();
             })
             .catch(error => {
