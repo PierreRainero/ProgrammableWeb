@@ -165,3 +165,51 @@ Permet de retrouver un produit à partir de son code (code barre). L'objet retou
     ]
 }
 ```
+
+`/api/products?ingredient={one_ingredient}&page=1&itemsPerPage=2` : **GET**  
+Permet de trouver tous les produits qui ont un certain ingredient. Les produits sont classés en fonction de leur "id", on peut définir le nombre de produits par groupe et quel groupe on souhaite chercher :  
+**Par défaut :** _page=1, itemsPerPage=20_
+
+```json
+[
+    {
+        "code": 152116,
+        "name": "rillettes du mans",
+        "score": 65,
+        "nutrigrade": "",
+        "novaGroup": -1,
+        "ingredients": [
+        {
+            "id": "Rillettes-du-mans-ingrédients-viande-de-porc",
+            "name": "RILLETTES DU MANS INGRÉDIENTS Viande de porc"
+        },
+        {
+            "id": "Origine-union-européenne-113-g-de-viande-de-porc-pour100-g",
+            "name": "origine Union Européenne 113 g de viande de porc pour100 g"
+        },
+        {
+            "id": "Gras-de-porc",
+            "name": "gras de porc"
+        },
+        {
+            "id": "Salt",
+            "name": "sel"
+        },
+        {
+            "id": "Pepper",
+            "name": "poivre"
+        },
+        {
+            "id": "Ingrédients-issus-de-l'agriculture-biologique-avec-opercule-de-protection",
+            "name": "ingrédients issus de l'Agriculture Biologique Avec opercule de protection"
+        }
+        ],
+        "allergens": [
+        
+        ],
+        "additives": [
+        
+        ]
+    }
+]
+```

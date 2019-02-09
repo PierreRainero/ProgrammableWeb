@@ -43,8 +43,8 @@ let franceModel = db.model(
   'france'
 );
 
-const findAll = (successCallBack, errorCallback) => {
-  franceModel.find({}).exec((err, result) => {
+const findAll = (page, itemsPerPage, successCallBack, errorCallback) => {
+  franceModel.find({}).skip(itemsPerPage*(page-1)).limit(itemsPerPage).exec((err, result) => {
     if(err)
       return errorCallback(err);
     successCallBack(result);
@@ -60,6 +60,18 @@ const findByCode = (code, successCallBack, errorCallback) => {
   })
 }
 
+const findAllByIngredient = (ingredient, page, itemsPerPage, successCallBack, errorCallback) => {
+	console.log('TCL: findAllByIngredient -> ingredient', ingredient)
+  
+  franceModel.find({ ingredients: { $elemMatch: {text: ingredient}} }).skip(itemsPerPage*(page-1)).limit(itemsPerPage).exec((err, result) => {
+    if (err){
+      return errorCallback(err);
+    }
+    successCallBack(result);
+		console.log('TCL: findAllByIngredient -> result', result)
+  })
+}
+
 const findByKeyword = (kw, successCallBack, errorCallback) => {
 
 }
@@ -72,3 +84,4 @@ exports.findAll = findAll;
 exports.findByCode = findByCode;
 exports.findByKeyword = findByKeyword;
 exports.findAllFromCategory = findAllFromCategory;
+exports.findAllByIngredient = findAllByIngredient;
