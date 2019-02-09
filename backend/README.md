@@ -77,6 +77,102 @@ Permet de retrouver tous les produits par groupe. Les produits sont classés en 
 ]
 ```
 
+`/api/products?name=tortellini` : **GET**   
+Permet de retrouver les produits contenant le chaine recherché (non sensible à la casse). Les produits sont classés par leur "id" :
+```json
+[
+  {
+    "code": 1312324,
+    "name": "Tortellini Pesto Basilic & Pignons",
+    "score": 65,
+    "nutrigrade": "",
+    "novaGroup": -1,
+    "ingredients": [],
+    "allergens": [],
+    "additives": []
+  },
+  {
+    "code": 1240278544038,
+    "name": "Tortellini jambon cru",
+    "score": 65,
+    "nutrigrade": "",
+    "novaGroup": -1,
+    "ingredients": [],
+    "allergens": [],
+    "additives": []
+  },
+  {
+    "code": 3256221876055,
+    "name": "Tortellini 3 fromages",
+    "score": 65,
+    "nutrigrade": "",
+    "novaGroup": -1,
+    "ingredients": [],
+    "allergens": [],
+    "additives": []
+  },
+  {
+    "code": 4005722000105,
+    "name": "Tortellini mit Fleisch",
+    "score": 65,
+    "nutrigrade": "",
+    "novaGroup": -1,
+    "ingredients": [],
+    "allergens": [],
+    "additives": []
+  },
+  {
+    "code": 4028856000216,
+    "name": "Camaletti Tortellini",
+    "score": 65,
+    "nutrigrade": "",
+    "novaGroup": -1,
+    "ingredients": [],
+    "allergens": [],
+    "additives": []
+  },
+  {
+    "code": 5060428432277,
+    "name": "EF Tortellini Bolognese",
+    "score": 65,
+    "nutrigrade": "",
+    "novaGroup": -1,
+    "ingredients": [],
+    "allergens": [],
+    "additives": []
+  },
+  {
+    "code": 9002600632316,
+    "name": "Gemüse Tortellini",
+    "score": 65,
+    "nutrigrade": "",
+    "novaGroup": -1,
+    "ingredients": [],
+    "allergens": [],
+    "additives": []
+  }
+]
+```
+
+`/api/products?name=tortellini pesto` : **GET**   
+En ajoutant un second mot lors de la recherche, l'on aura donc des résultats plus précis.
+```json
+[
+  {
+    "code": 1312324,
+    "name": "Tortellini Pesto Basilic & Pignons",
+    "score": 65,
+    "nutrigrade": "",
+    "novaGroup": -1,
+    "ingredients": [],
+    "allergens": [],
+    "additives": []
+  }
+]
+```
+
+**Par défaut :** _page=1, itemsPerPage=20_
+
 `/api/products/{productCode}` : **GET**  
 Permet de retrouver un produit à partir de son code (code barre). L'objet retourné dans le cas d'une recherche réussit (code 200) et où le _productCode_ vaut "011324361009736515181027101704" est le suivant :
 
@@ -164,4 +260,52 @@ Permet de retrouver un produit à partir de son code (code barre). L'objet retou
         "E330"
     ]
 }
+```
+
+`/api/products?ingredient={one_ingredient}&page=1&itemsPerPage=2` : **GET**  
+Permet de trouver tous les produits qui ont un certain ingredient. Les produits sont classés en fonction de leur "id", on peut définir le nombre de produits par groupe et quel groupe on souhaite chercher :  
+**Par défaut :** _page=1, itemsPerPage=20_
+
+```json
+[
+    {
+        "code": 152116,
+        "name": "rillettes du mans",
+        "score": 65,
+        "nutrigrade": "",
+        "novaGroup": -1,
+        "ingredients": [
+        {
+            "id": "Rillettes-du-mans-ingrédients-viande-de-porc",
+            "name": "RILLETTES DU MANS INGRÉDIENTS Viande de porc"
+        },
+        {
+            "id": "Origine-union-européenne-113-g-de-viande-de-porc-pour100-g",
+            "name": "origine Union Européenne 113 g de viande de porc pour100 g"
+        },
+        {
+            "id": "Gras-de-porc",
+            "name": "gras de porc"
+        },
+        {
+            "id": "Salt",
+            "name": "sel"
+        },
+        {
+            "id": "Pepper",
+            "name": "poivre"
+        },
+        {
+            "id": "Ingrédients-issus-de-l'agriculture-biologique-avec-opercule-de-protection",
+            "name": "ingrédients issus de l'Agriculture Biologique Avec opercule de protection"
+        }
+        ],
+        "allergens": [
+        
+        ],
+        "additives": [
+        
+        ]
+    }
+]
 ```
