@@ -1,1 +1,34 @@
 @import './styles/_colors.scss';
+
+// BUTTONS
+.btn-primary {
+    color: $primary-color-text;
+    background-color: $primary-color
+}
+
+.btn-primary:hover,
+.btn-primary:active,
+.btn-primary:focus {
+    color: $primary-color-text;
+    background-color: $primary-color-dark
+}
+
+.btn-secondary {
+    color: $secondary-color-text;
+    background-color: $secondary-color
+}
+
+.btn-secondary:hover,
+.btn-secondary:active,
+.btn-secondary:focus {
+    color: $secondary-color-text;
+    background-color: $secondary-color-dark;
+}
+
+// TEXT
+.text-primary {
+    color: $primary-color-text;
+}
+.text-secondary {
+    color: $secondary-color-text;
+}

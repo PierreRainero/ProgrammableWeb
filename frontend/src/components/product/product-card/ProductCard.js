@@ -76,7 +76,7 @@ class ProductCard extends React.Component {
                     </span>
                 </Card.Text>
             </Card.Body>
-        </Card>
+        </Card>;
     }
 }
 

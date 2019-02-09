@@ -12,8 +12,7 @@ class App extends Component {
         <NavigationBar />
 
         <Route exact path='/' component={ Home } />
-
-        <Route exact={true} path='/product/:id' component={ ProductScreen } />
+        <Route exact={true} path='/products/:id' component={ ProductScreen } />
       </div>
     );
   }

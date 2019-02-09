@@ -1,11 +1,11 @@
-@import '../../styles/_colors.scss';
+@import '../../_shared.scss';
 
-.primary-navBar {
+.navBar-primary {
     background-color: $primary-color;
     color: $primary-color-text;
 }
 
-.primary-brand {
+.brand-primary {
     margin-left: 6px;
     color: $primary-color-text;
 }

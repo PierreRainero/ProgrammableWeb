@@ -24,7 +24,7 @@
 
 ### Environnement de test
 
-`npm start` : Permet de lancer l'application dans un environnement de test (port 3000). Le déploiement n'est pas optimisé mais le projet recompile dynamiquement.
+`npm start` : Permet de lancer l'application dans un environnement de test (port 3006). Le déploiement n'est pas optimisé mais le projet recompile dynamiquement.
 
 ### Production
 
