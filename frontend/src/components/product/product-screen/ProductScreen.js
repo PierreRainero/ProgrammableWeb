@@ -13,11 +13,11 @@ class ProductScreen extends React.Component {
         product: null
     }
 
-    componentWillMount(){
+    componentDidMount(){
         if(this.props.location.data){
-            this.setState({ product: this.props.location.data.product });
+            this.setState({ loading: false, product: this.props.location.data.product });
         } else {
-            ProductService.getProductInfos(this.props.match.params.id).then(product => {
+            ProductService.searchProductByCode(this.props.match.params.id).then(product => {
                 console.log(product);
                 this.setState({loading: false, product: product});
             }).catch(error => {

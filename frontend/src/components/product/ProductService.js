@@ -12,25 +12,19 @@ class ProductService {
     /**
      * Find one product using his scan code
      * @param {string} code scan code to search
-     * @param {function} callback function to execute once the product has beend found
      */
-    static searchProductByCode(code, callback) {
+    static searchProductByCode(code) {
         const url = `${this.getBaseUrl()}/api/products/${code}`;
-        fetch(url, { method: 'GET' })
-            .then(response => {
-                response.json().then((parsedResponse) => {
-                    callback(new Product(parsedResponse.code,
-                        parsedResponse.name,
-                        parsedResponse.score,
-                        parsedResponse.nutrigrade,
-                        parsedResponse.novaGroup,
-                        parsedResponse.ingredients,
-                        parsedResponse.allergens,
-                        parsedResponse.additives));
+        return new Promise(function(resolve, reject) {
+            fetch(url, {method: 'GET'})
+                .then(response => {
+                    response.json().then((parsedResponse) => {
+                        resolve(new Product(parsedResponse.code, parsedResponse.name, parsedResponse.score, parsedResponse.nutrigrade, parsedResponse.novaGroup, parsedResponse.ingredients, parsedResponse.allergens, parsedResponse.additives));
+                    });
+                })
+                .catch(error => {
+                    reject(error.message);
                 });
-            })
-            .catch(error => {
-                console.log(error.message);
         });
     }
 
@@ -53,21 +47,6 @@ class ProductService {
             })
             .catch(error => {
                 console.log(error.message);
-        });
-    }
-
-    static getProductInfos(code){
-        const url = `${this.getBaseUrl()}/api/products/${code}`;
-        return new Promise(function(resolve, reject) {
-            fetch(url, {method: 'GET'})
-                .then(response => {
-                    response.json().then((parsedResponse) => {
-                        resolve(new Product(parsedResponse.code, parsedResponse.name, parsedResponse.score, parsedResponse.nutrigrade, parsedResponse.novaGroup, parsedResponse.ingredients, parsedResponse.allergens, parsedResponse.additives));
-                    });
-                })
-                .catch(error => {
-                    reject(error.message);
-                });
         });
     }
 }
