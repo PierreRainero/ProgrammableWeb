@@ -10,13 +10,13 @@ class ProductService {
     }
 
     /**
-     * Find one product using his scan code
-     * @param {string} code scan code to search
+     * Find one product using his barcode
+     * @param {string} code barcode to search
      */
     static searchProductByCode(code) {
         const url = `${this.getBaseUrl()}/api/products/${code}`;
-        return new Promise(function(resolve, reject) {
-            fetch(url, {method: 'GET'})
+        return new Promise(function (resolve, reject) {
+            fetch(url, { method: 'GET' })
                 .then(response => {
                     response.json().then((parsedResponse) => {
                         resolve(new Product(parsedResponse.code, parsedResponse.name, parsedResponse.score, parsedResponse.nutrigrade, parsedResponse.novaGroup, parsedResponse.ingredients, parsedResponse.allergens, parsedResponse.additives));
@@ -47,7 +47,28 @@ class ProductService {
             })
             .catch(error => {
                 console.log(error.message);
-        });
+            });
+    }
+
+    /**
+     * Get image for a specific product using OpenFoodFacts API
+     * @param {number} code barcode to find the product
+     * @param {function} callback function to execute once the image product has been found
+     */
+    static getProductImage(code, callback) {
+        fetch(`https://fr.openfoodfacts.org/api/v0/produit/${code}.json`, { method: 'GET' })
+            .then(response => {
+                response.json().then((parsedResponse) => {
+                    if (parsedResponse.status === 1 && parsedResponse.product.image_url) {
+                        callback(parsedResponse.product.image_url);
+                    } else {
+                        callback('');
+                    }
+                });
+            })
+            .catch(error => {
+                console.log(error.message);
+            });
     }
 }
 

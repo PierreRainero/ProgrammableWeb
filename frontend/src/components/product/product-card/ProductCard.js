@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Card, Badge, OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 import Product from '../Product';
+import ProductService from '../ProductService';
 
 import './ProductCard.scss';
 
@@ -17,6 +18,9 @@ class ProductCard extends React.Component {
     constructor(props) {
         super(props);
 
+        this.state = {
+            img: require('../../../assets/imgs/placeholder.png')
+        }
         this.product = props.product;
     }
 
@@ -64,6 +68,18 @@ class ProductCard extends React.Component {
     }
 
     /**
+     * Call after fully finishing to build this component
+     */
+    componentDidMount() {
+        ProductService.getProductImage(this.product.code, (imgURL) => {
+            if(imgURL!==''){
+                this.product.img = imgURL;
+                this.setState({ img: imgURL });
+            }
+        });
+    }
+
+    /**
      * Render the component
      */
     render() {
@@ -87,7 +103,7 @@ class ProductCard extends React.Component {
                 <Card.Text>
                     <img
                         alt='product_img'
-                        src={require('../../../assets/imgs/placeholder.png')}
+                        src={this.state.img}
                         width='150'
                         height='150'
                         className='d-inline-block align-bottom'

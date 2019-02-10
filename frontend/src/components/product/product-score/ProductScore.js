@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import './ProductScore.scss';
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 /**
  * Component to group all rates of a product.
@@ -57,7 +57,7 @@ class ProductScore extends React.Component {
     render() {
         const novaGroup = this.props.novaGroup > 0 ? this.props.novaGroup : undefined;
         return (
-            <div className="productScoreContainer shadow">
+            <div className='productScoreContainer shadow'>
                 <div className={`productScore ${this.getScoreValue()}-score`}>
                     <OverlayTrigger
                         key={'top'}
@@ -68,10 +68,10 @@ class ProductScore extends React.Component {
                             </Tooltip>
                         }
                     >
-                        <div className="productScoreContent">{this.props.score}%</div>
+                        <div className='productScoreContent'>{this.props.score}%</div>
                     </OverlayTrigger>
                 </div>
-                <div className="productScoreBottom">
+                <div className='productScoreBottom'>
                     <div className={`productNutrigrade ${this.getNutriscoreValue()}`}>
                         <OverlayTrigger
                             key={'top'}
@@ -82,7 +82,7 @@ class ProductScore extends React.Component {
                                 </Tooltip>
                             }
                         >
-                            <div className="productNutrigradeContent">{this.props.nutrigrade || ""}</div>
+                            <div className='productNutrigradeContent'>{this.props.nutrigrade || ''}</div>
                         </OverlayTrigger>
                     </div>
                     <div className={`productNovaGroup ${this.getNovaValue()}`}>
@@ -95,7 +95,7 @@ class ProductScore extends React.Component {
                                 </Tooltip>
                             }
                         >
-                            <div className="productNovaGroupContent">{novaGroup}</div>
+                            <div className='productNovaGroupContent'>{novaGroup}</div>
                         </OverlayTrigger>
                     </div>
                 </div>

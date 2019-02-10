@@ -22,6 +22,15 @@ class Product {
         this.ingredients = ingredients;
         this.allergens = allergens;
         this.additives = additives;
+        this.img = '';
+    }
+
+    /**
+     * Add an image to a product
+     * @param {string} url address of the product image
+     */
+    addImg(url){
+        this.img = url;
     }
 }
 

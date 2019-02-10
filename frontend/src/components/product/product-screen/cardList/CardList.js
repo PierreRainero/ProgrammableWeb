@@ -1,7 +1,7 @@
 import React from 'react';
 
 import './CardList.scss';
-import {Card, ListGroup} from "react-bootstrap";
+import {Card, ListGroup} from 'react-bootstrap';
 
 /**
  * Component to present a list using cards.
@@ -12,10 +12,10 @@ class CardList extends React.Component {
      */
     render() {
         return (
-            <Card className="shadow" style={{ width: '18rem' }}>
+            <Card className='shadow' style={{ width: '18rem' }}>
                 <Card.Body>
                     <Card.Title>{this.props.title}</Card.Title>
-                    <ListGroup variant="flush">
+                    <ListGroup variant='flush'>
                         {
                             this.props.data.map(item => {
                                 return (

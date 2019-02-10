@@ -45,7 +45,8 @@ class SearchScreen extends React.Component {
      * @param {object} prevProps old values to build this component
      */
     componentDidUpdate(prevProps) {
-        if(this.props.location.data && this.props.location.data.searchingValue !== prevProps.location.data.searchingValue){
+        if(this.props.location.data && prevProps.location.data &&
+            this.props.location.data.searchingValue !== prevProps.location.data.searchingValue){
             this.setState({ loading: true });
             this.searchProducts();
         }
