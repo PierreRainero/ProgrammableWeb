@@ -3,7 +3,13 @@ import React from 'react';
 import './CardList.scss';
 import {Card, ListGroup} from "react-bootstrap";
 
+/**
+ * Component to present a list using cards.
+ */
 class CardList extends React.Component {
+    /**
+     * Render the component
+     */
     render() {
         return (
             <Card className="shadow" style={{ width: '18rem' }}>

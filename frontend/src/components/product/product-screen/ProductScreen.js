@@ -6,6 +6,9 @@ import ProductService from "../ProductService";
 import ProductScore from "../product-score/ProductScore";
 import CardList from "./cardList/CardList";
 
+/**
+ * Component to fully present a product.
+ */
 class ProductScreen extends React.Component {
 
     state = {
@@ -13,6 +16,9 @@ class ProductScreen extends React.Component {
         product: null
     }
 
+    /**
+     * Call after fully finishing to build this component
+     */
     componentDidMount(){
         if(this.props.location.data){
             this.setState({ loading: false, product: this.props.location.data.product });
@@ -25,6 +31,9 @@ class ProductScreen extends React.Component {
         }
     }
 
+    /**
+     * Render the component
+     */
     render() {
         return (
             <div>

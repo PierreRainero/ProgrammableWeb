@@ -6,13 +6,23 @@ import Product from '../Product';
 
 import './ProductCard.scss';
 
+/**
+ * Component to quickly present a product.
+ */
 class ProductCard extends React.Component {
+    /**
+     * Normal constructor
+     * @param {object} props
+     */
     constructor(props) {
         super(props);
 
         this.product = props.product;
     }
 
+    /**
+     * Get CSS class according to the score of the product
+     */
     getScoreValue() {
         if (this.product.score < 30) {
             return 'bad';
@@ -23,6 +33,9 @@ class ProductCard extends React.Component {
         }
     }
 
+    /**
+     * Get CSS class according to the nutrigrade of the product
+     */
     getNutriscoreValue() {
         if (this.product.nutrigrade === '') {
             return 'e-value';
@@ -30,6 +43,9 @@ class ProductCard extends React.Component {
         return `${this.product.nutrigrade.toLowerCase()}-value`;
     }
 
+    /**
+     * Get CSS class according to the nova group of the product
+     */
     getNovaValue() {
         switch (this.product.novaGroup) {
             case 1:
@@ -47,6 +63,9 @@ class ProductCard extends React.Component {
         }
     }
 
+    /**
+     * Render the component
+     */
     render() {
         const novaGroup = this.product.novaGroup > 0 ? this.product.novaGroup : undefined;
 
