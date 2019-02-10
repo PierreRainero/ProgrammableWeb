@@ -1,10 +1,16 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import './ProductScore.scss';
-import {OverlayTrigger, Tooltip} from "react-bootstrap";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
+/**
+ * Component to group all rates of a product.
+ */
 class ProductScore extends React.Component {
-
+    /**
+     * Get CSS class according to the score of the product
+     */
     getScoreValue() {
         if (this.props.score < 30) {
             return 'bad';
@@ -15,6 +21,9 @@ class ProductScore extends React.Component {
         }
     }
 
+    /**
+     * Get CSS class according to the nutrigrade of the product
+     */
     getNutriscoreValue() {
         if (this.props.nutrigrade === '') {
             return 'e-value';
@@ -22,8 +31,11 @@ class ProductScore extends React.Component {
         return `${this.props.nutrigrade.toLowerCase()}-value`;
     }
 
+    /**
+     * Get CSS class according to the nova group of the product
+     */
     getNovaValue() {
-        switch(this.props.novaGroup){
+        switch (this.props.novaGroup) {
             case 1:
                 return 'a-value';
 
@@ -39,6 +51,9 @@ class ProductScore extends React.Component {
         }
     }
 
+    /**
+     * Render the component
+     */
     render() {
         const novaGroup = this.props.novaGroup > 0 ? this.props.novaGroup : undefined;
         return (
@@ -88,5 +103,18 @@ class ProductScore extends React.Component {
         );
     }
 }
+
+ProductScore.defaultProps = {
+    score: 0,
+    nutrigrade: '',
+    novaGroup: -1
+
+};
+
+ProductScore.propTypes = {
+    score: PropTypes.number,
+    nutrigrade: PropTypes.string,
+    novaGroup: PropTypes.number
+};
 
 export default ProductScore;

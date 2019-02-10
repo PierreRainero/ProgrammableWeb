@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { Navbar, Nav, Form, FormControl, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
@@ -7,7 +7,14 @@ import history from '../../history';
 
 import './NavigationBar.scss';
 
+/**
+ * Component to navigate easily between the different pages.
+ */
 class NavigationBar extends React.Component {
+    /**
+     * Normal constructor
+     * @param {object} props
+     */
     constructor(props) {
         super(props);
 
@@ -18,18 +25,28 @@ class NavigationBar extends React.Component {
         this.handleSearchingInputChange = this.handleSearchingInputChange.bind(this);
     }
 
-    handleSearchingInputChange= (event) => {
+    /**
+     * Handle and update the name to use for searching products
+     */
+    handleSearchingInputChange = (event) => {
         this.setState({ searchingValue: event.target.value });
     }
 
-    search= (event) => {
+    /**
+     * Navigate to the result view of the search
+     */
+    search = (event) => {
         history.push({
             pathname: '/products',
             data: { searchingValue: this.state.searchingValue }
         });
+
         event.preventDefault();
     }
 
+    /**
+     * Render the component
+     */
     render() {
         return <Navbar expand='lg' className='navBar-primary'>
             <Navbar.Brand>
@@ -46,13 +63,13 @@ class NavigationBar extends React.Component {
                     </span>
                 </Link>
             </Navbar.Brand>
-            <Navbar.Toggle aria-controls='basic-navbar-nav'/>
+            <Navbar.Toggle aria-controls='basic-navbar-nav' />
             <Navbar.Collapse id='basic-navbar-nav'>
                 <Nav className='mr-auto'>
                 </Nav>
                 <Form inline>
                     <FormControl type='text' placeholder='Rechercher' className='mr-sm-2'
-                    value={this.state.searchingValue} onChange={this.handleSearchingInputChange} />
+                        value={this.state.searchingValue} onChange={this.handleSearchingInputChange} />
                     <Button className='btn-secondary' onClick={this.search}>
                         <FontAwesomeIcon icon={faSearch} />
                     </Button>
@@ -62,4 +79,4 @@ class NavigationBar extends React.Component {
     }
 }
 
-export default NavigationBar;
+export default withRouter(NavigationBar);
