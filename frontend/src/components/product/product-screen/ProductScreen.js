@@ -4,6 +4,7 @@ import './ProductScreen.scss';
 import Loading from "../../loading/Loading";
 import ProductService from "../ProductService";
 import ProductScore from "../product-score/ProductScore";
+import CardList from "./cardList/CardList";
 
 class ProductScreen extends React.Component {
 
@@ -43,7 +44,9 @@ class ProductScreen extends React.Component {
                             </div>
                         </div>
                         <div className="productDetails">
-                            details
+                            <CardList title="Ingrédients" data={this.state.product.ingredients}/>
+                            <CardList title="Additifs" data={this.state.product.additives}/>
+                            <CardList title="Allergènes" data={this.state.product.allergens}/>
                         </div>
                     </div>
                 }
