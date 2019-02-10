@@ -75,7 +75,7 @@ class ProductCard extends React.Component {
                     />
                     <span className='row'>
                         <span className='col'>
-                            <span className='big-text'>
+                            <span className='big-text definition'>
                                 <OverlayTrigger
                                     placement='bottom'
                                     overlay={
@@ -89,7 +89,7 @@ class ProductCard extends React.Component {
                             </span>
                         </span>
                         <span className='col'>
-                            <span className='big-text'>
+                            <span className='big-text definition'>
                                 <OverlayTrigger
                                     placement='bottom'
                                     overlay={

@@ -18,10 +18,9 @@ class ProductScreen extends React.Component {
             this.setState({ loading: false, product: this.props.location.data.product });
         } else {
             ProductService.searchProductByCode(this.props.match.params.id).then(product => {
-                console.log(product);
                 this.setState({loading: false, product: product});
             }).catch(error => {
-                //TODO
+                console.log(error.message);
             });
         }
     }

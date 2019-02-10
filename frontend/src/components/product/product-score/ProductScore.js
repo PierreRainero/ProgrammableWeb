@@ -40,6 +40,7 @@ class ProductScore extends React.Component {
     }
 
     render() {
+        const novaGroup = this.props.novaGroup > 0 ? this.props.novaGroup : undefined;
         return (
             <div className="productScoreContainer shadow">
                 <div className={`productScore ${this.getScoreValue()}-score`}>
@@ -62,7 +63,7 @@ class ProductScore extends React.Component {
                             placement={'top'}
                             overlay={
                                 <Tooltip id={`tooltip-top`}>
-                                    Nutrigrade du produit
+                                    Nutrigrade
                                 </Tooltip>
                             }
                         >
@@ -75,11 +76,11 @@ class ProductScore extends React.Component {
                             placement={'top'}
                             overlay={
                                 <Tooltip id={`tooltip-top`}>
-                                    NovaGroup du produit
+                                    NovaGroup
                                 </Tooltip>
                             }
                         >
-                            <div className="productNovaGroupContent">{this.props.novaGroup || ""}</div>
+                            <div className="productNovaGroupContent">{novaGroup}</div>
                         </OverlayTrigger>
                     </div>
                 </div>

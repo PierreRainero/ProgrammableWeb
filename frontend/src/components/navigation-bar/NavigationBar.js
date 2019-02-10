@@ -5,8 +5,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import history from '../../history';
 
-import ProductService from '../product/ProductService';
-
 import './NavigationBar.scss';
 
 class NavigationBar extends React.Component {
@@ -25,11 +23,9 @@ class NavigationBar extends React.Component {
     }
 
     search= (event) => {
-        ProductService.searchProductsByName(this.state.searchingValue, (data)=> {
-            history.push({
-                pathname: '/products',
-                data: { products: data }
-              })
+        history.push({
+            pathname: '/products',
+            data: { searchingValue: this.state.searchingValue }
         });
         event.preventDefault();
     }
