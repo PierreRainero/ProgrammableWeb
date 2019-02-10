@@ -2,19 +2,23 @@ import React from 'react';
 
 import './ProductScreen.scss';
 import Loading from "../../loading/Loading";
+import ProductService from "../ProductService";
+import ProductScore from "../product-score/ProductScore";
 
 class ProductScreen extends React.Component {
 
     state = {
         loading: true,
-        name: ""
+        product: null
     }
 
     componentWillMount(){
-        console.log(this.props.match.params.id);
-        setTimeout(() => {
-            this.setState({loading: false, name: "Product Test"});
-        }, 1000);
+        ProductService.getProductInfos(this.props.match.params.id).then(product => {
+            console.log(product);
+            this.setState({loading: false, product: product});
+        }).catch(error => {
+            //TODO
+        });
     }
 
     render() {
@@ -29,11 +33,17 @@ class ProductScreen extends React.Component {
                         <div className="productHeader">
                             <img src="http://lorempixel.com/1920/300/food" />
                         </div>
-                        <div className="productContent">
+                        <div className="productGeneralInfos">
                             <div className="productImage">
-                                <img src="http://lorempixel.com/400/400/food" alt={this.state.name} className={'shadow'} />
+                                <img src="http://lorempixel.com/400/400/food" alt={this.state.product.name} className={'shadow'} />
                             </div>
-                            <div className="productName textShadow">{this.state.name}</div>
+                            <div className="productName textShadow">{this.state.product.name}</div>
+                            <div className="productScorePart">
+                                <ProductScore score={this.state.product.score} nutrigrade={this.state.product.nutrigrade} novaGroup={this.state.product.novaGroup}/>
+                            </div>
+                        </div>
+                        <div className="productDetails">
+                            details
                         </div>
                     </div>
                 }

@@ -22,6 +22,21 @@ class ProductService {
                 console.log(error.message);
             });
     }
+
+    static getProductInfos(code){
+        const url = `${this.getBaseUrl()}/api/products/${code}`;
+        return new Promise(function(resolve, reject) {
+            fetch(url, {method: 'GET'})
+                .then(response => {
+                    response.json().then((parsedResponse) => {
+                        resolve(new Product(parsedResponse.code, parsedResponse.name, parsedResponse.score, parsedResponse.nutrigrade, parsedResponse.novaGroup, parsedResponse.ingredients, parsedResponse.allergens, parsedResponse.additives));
+                    });
+                })
+                .catch(error => {
+                    reject(error.message);
+                });
+        });
+    }
 }
 
 export default ProductService;  
