@@ -44,7 +44,7 @@ class ProductScreen extends React.Component {
                     :
                     <div>
                         <div className="productHeader">
-                            <img src="http://lorempixel.com/1920/300/food" />
+                            <img src="http://lorempixel.com/1920/300/food" alt="header" />
                         </div>
                         <div className="productGeneralInfos">
                             <div className="productImage">

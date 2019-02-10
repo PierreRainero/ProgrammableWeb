@@ -1,49 +1,15 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import { Navbar, Nav, Form, FormControl, Button } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { Navbar, Nav } from 'react-bootstrap';
 import history from '../../history';
 
 import './NavigationBar.scss';
+import SearchBar from "../search/searchBar/SearchBar";
 
 /**
  * Component to navigate easily between the different pages.
  */
 class NavigationBar extends React.Component {
-    /**
-     * Normal constructor
-     * @param {object} props
-     */
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            searchingValue: ''
-        };
-
-        this.handleSearchingInputChange = this.handleSearchingInputChange.bind(this);
-    }
-
-    /**
-     * Handle and update the name to use for searching products
-     */
-    handleSearchingInputChange = (event) => {
-        this.setState({ searchingValue: event.target.value });
-    }
-
-    /**
-     * Navigate to the result view of the search
-     */
-    search = (event) => {
-        history.push({
-            pathname: '/products',
-            data: { searchingValue: this.state.searchingValue }
-        });
-
-        event.preventDefault();
-    }
-
     /**
      * Render the component
      */
@@ -67,13 +33,10 @@ class NavigationBar extends React.Component {
             <Navbar.Collapse id='basic-navbar-nav'>
                 <Nav className='mr-auto'>
                 </Nav>
-                <Form inline>
-                    <FormControl type='text' placeholder='Rechercher' className='mr-sm-2'
-                        value={this.state.searchingValue} onChange={this.handleSearchingInputChange} />
-                    <Button className='btn-secondary' onClick={this.search}>
-                        <FontAwesomeIcon icon={faSearch} />
-                    </Button>
-                </Form>
+                { history.location.pathname !== '/' ?
+                    <SearchBar/>
+                    : null
+                }
             </Navbar.Collapse>
         </Navbar>;
     }
