@@ -1,3 +1,4 @@
+import Product from './Product';
 
 class ProductService {
 
@@ -7,13 +8,15 @@ class ProductService {
 
     static searchProductsByName(name, callback){
         const url = `${this.getBaseUrl()}/api/products?name=${name}`;
-        console.log(url);
         fetch(url, {method: 'GET'})
             .then(response => {
                 response.json().then((parsedResponse) => {
-                    console.log(parsedResponse);
+                    const data = [];
+                    for(const prod of parsedResponse){
+                        data.push(new Product(prod.code, prod.name, prod.score, prod.nutrigrade, prod.novaGroup, prod.ingredients, prod.allergens, prod.additives));
+                    }
+                    callback(data);
                 });
-                callback();
             })
             .catch(error => {
                 console.log(error.message);

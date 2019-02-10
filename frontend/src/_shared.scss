@@ -1,5 +1,14 @@
 @import './styles/_colors.scss';
 
+// GENERAL
+.no-decoration {
+    text-decoration: none;
+}
+
+.clickable {
+    cursor: pointer;
+}
+
 // BUTTONS
 .btn-primary {
     color: $primary-color-text;
