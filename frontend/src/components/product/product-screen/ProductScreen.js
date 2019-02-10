@@ -14,12 +14,16 @@ class ProductScreen extends React.Component {
     }
 
     componentWillMount(){
-        ProductService.getProductInfos(this.props.match.params.id).then(product => {
-            console.log(product);
-            this.setState({loading: false, product: product});
-        }).catch(error => {
-            //TODO
-        });
+        if(this.props.location.data){
+            this.setState({ product: this.props.location.data.product });
+        } else {
+            ProductService.getProductInfos(this.props.match.params.id).then(product => {
+                console.log(product);
+                this.setState({loading: false, product: product});
+            }).catch(error => {
+                //TODO
+            });
+        }
     }
 
     render() {

@@ -25,6 +25,13 @@
     font-size: 200%;
 }
 
+.one-line-title {
+    width: 190px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .a-value {
     background-color: $a-value;
     color: $primary-color-text; 

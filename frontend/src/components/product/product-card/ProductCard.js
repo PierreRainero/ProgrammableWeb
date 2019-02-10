@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Card, Badge } from 'react-bootstrap';
+import { Card, Badge, OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 import Product from '../Product';
 
@@ -31,10 +31,10 @@ class ProductCard extends React.Component {
     }
 
     getNovaValue() {
-        switch(this.product.novaGroup){
+        switch (this.product.novaGroup) {
             case 1:
                 return 'a-value';
-            
+
             case 2:
                 return 'c-value';
 
@@ -48,9 +48,20 @@ class ProductCard extends React.Component {
     }
 
     render() {
-        return <Card style={{ width: '200px', display: 'inline-block' }} className='card-container'>
+        const novaGroup = this.product.novaGroup > 0 ? this.product.novaGroup : undefined;
+
+        return <Card style={{ width: '200px', display: 'inline-block' }} className='card-container clickable'>
             <Card.Body className='card-content'>
-                <Card.Title>{this.product.name}</Card.Title>
+                <OverlayTrigger
+                    placement='top'
+                    overlay={
+                        <Tooltip>
+                            {this.product.name}
+                        </Tooltip>
+                    }
+                >
+                    <Card.Title className='one-line-title'>{this.product.name}</Card.Title>
+                </OverlayTrigger>
                 <Card.Subtitle className={`mb-2 ${this.getScoreValue()}-score`}>
                     {this.product.score}%
                 </Card.Subtitle>
@@ -65,12 +76,32 @@ class ProductCard extends React.Component {
                     <span className='row'>
                         <span className='col'>
                             <span className='big-text'>
-                                <Badge className={`${this.getNutriscoreValue()}`}>{this.product.nutrigrade}</Badge>
+                                <OverlayTrigger
+                                    placement='bottom'
+                                    overlay={
+                                        <Tooltip>
+                                            Nutriscore
+                                        </Tooltip>
+                                    }
+                                >
+                                    <Badge className={`${this.getNutriscoreValue()}`}>{this.product.nutrigrade}</Badge>
+                                </OverlayTrigger>
                             </span>
                         </span>
                         <span className='col'>
                             <span className='big-text'>
-                                <Badge className={`${this.getNovaValue()}`}>{this.product.novaGroup}</Badge>
+                                <OverlayTrigger
+                                    placement='bottom'
+                                    overlay={
+                                        <Tooltip>
+                                            Classification NOVA
+                                        </Tooltip>
+                                    }
+                                >
+                                    <Badge className={`${this.getNovaValue()}`}>
+                                        {novaGroup}
+                                    </Badge>
+                                </OverlayTrigger>
                             </span>
                         </span>
                     </span>
