@@ -1,5 +1,6 @@
 import React from 'react';
 import ProductCard from '../product/product-card/ProductCard';
+import history from '../../history';
 
 import './SearchScreen.scss';
 
@@ -14,12 +15,19 @@ class SearchScreen extends React.Component {
         }
     }
 
+    goToProductPage= (product) => {
+		history.push({
+            pathname: `/products/${product.code}`,
+            data: { product: product }
+        });
+    }
+
 
     render() {
         return (
             <div>
                 {
-					this.products.map(product => <ProductCard product={product} key={product.code} className="clickable"/>)
+					this.products.map(product => <span key={product.code} onClick={() => this.goToProductPage(product)}><ProductCard product={product}/></span>)
                 }
             </div>
         );
