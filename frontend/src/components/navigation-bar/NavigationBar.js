@@ -59,7 +59,7 @@ class NavigationBar extends React.Component {
                         className='d-inline-block align-bottom'
                     />
                     <span className='brand-primary'>
-                        React FrontEnd
+                        Elfy
                     </span>
                 </Link>
             </Navbar.Brand>
