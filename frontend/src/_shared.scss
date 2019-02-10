@@ -1,6 +1,11 @@
 @import './styles/_colors.scss';
 
 // GENERAL
+html, body, #root {
+    width: 100%;
+    height: 100%;
+}
+
 .no-decoration:hover {
     text-decoration: none;
 }
