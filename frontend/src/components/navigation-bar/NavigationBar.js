@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import history from '../../history'
 import { Navbar, Nav, Form, FormControl, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
@@ -24,8 +25,11 @@ class NavigationBar extends React.Component {
     }
 
     search= (event) => {
-        ProductService.searchProductsByName(this.state.searchingValue, ()=> {
-            this.props.history.push('/products/1');
+        ProductService.searchProductsByName(this.state.searchingValue, (data)=> {
+            history.push({
+                pathname: '/products',
+                data: { products: data }
+              })
         });
         event.preventDefault();
     }
@@ -33,7 +37,7 @@ class NavigationBar extends React.Component {
     render() {
         return <Navbar expand='lg' className='navBar-primary'>
             <Navbar.Brand>
-                <Link to='/'>
+                <Link to='/' className='no-decoration'>
                     <img
                         alt='logo'
                         src={require('../../assets/imgs/logo.png')}

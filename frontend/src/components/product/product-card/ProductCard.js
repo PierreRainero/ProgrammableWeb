@@ -48,7 +48,7 @@ class ProductCard extends React.Component {
     }
 
     render() {
-        return <Card style={{ width: '200px' }} className='card-container'>
+        return <Card style={{ width: '200px', display: 'inline-block' }} className='card-container'>
             <Card.Body className='card-content'>
                 <Card.Title>{this.product.name}</Card.Title>
                 <Card.Subtitle className={`mb-2 ${this.getScoreValue()}-score`}>
