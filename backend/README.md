@@ -26,6 +26,7 @@ Une fois le serveur du "backend" lancé l'api suivante est exposée (port 3000) 
   ├── /api
        └── /products
              └── /{productCode}
+       └── /recipes
 ```
 
 ## Fonctionnalités
@@ -307,5 +308,51 @@ Permet de trouver tous les produits qui ont un certain ingredient. Les produits 
         
         ]
     }
+]
+```
+
+`/api/recipes` : **POST**  
+Permet de créer une nouvelle recette. Par exemple, création de la recette "Cheese & Macaroni" :  
+```json
+{
+    "name": "Cheese & Macaroni",
+    "ingredients": [ "20291174", "0064200116473" ],
+    "author": "Fabien"
+}
+```
+* **name** : requis
+* **ingredients** : requis (contenant au moins deux ingrédients)
+* **author** : optionnel
+
+`/api/recipes` : **GET**  
+Permet de retrouver tous les recettes contenues dans la base de données. Les produits sont classés en fonction de leur "id":  
+```json
+[
+  {
+    "ingredients": [
+      "20291174",
+      "0064200116473"
+    ],
+    "comments": [],
+    "_id": "5c60055c6196b85bfba02cdd",
+    "name": "Cheese & Macaroni",
+    "author": "Fabien",
+    "createdAt": "2019-02-10T11:05:00.151Z",
+    "updatedAt": "2019-02-10T11:05:00.151Z",
+    "__v": 0
+  },
+  {
+    "ingredients": [
+      "01732344",
+      "0064200116473"
+    ],
+    "comments": [],
+    "_id": "5c6005c06196b85bfba02cde",
+    "name": "Roquefort & Macaroni",
+    "author": "Fabien",
+    "createdAt": "2019-02-10T11:06:40.917Z",
+    "updatedAt": "2019-02-10T11:06:40.917Z",
+    "__v": 0
+  }
 ]
 ```
