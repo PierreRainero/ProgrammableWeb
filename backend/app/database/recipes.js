@@ -3,7 +3,7 @@ const db = require('./database').db;
 
 const recipesSchema = mongoose.Schema({
     name: { type: String, required: true },
-    ingredients: [],
+    ingredients: [ { type: mongoose.Schema.Types.ObjectId, ref:'france' } ],
     comments: [{ body: { type: String, required: true }, author: { type: String }, created_at: { type: Date, required: true } }],
     author: { type: String, required: false }
 }, {
@@ -18,7 +18,7 @@ let recipesModel = db.model(
 );
 
 const findAll = (successCallBack, errorCallback) => {
-    recipesModel.find({}).exec((err, result) => {
+    recipesModel.find({}).populate({path: 'ingredients', model: 'france'}).exec((err, result) => {
         if (err) {
             return errorCallback(err);
         }
