@@ -33,8 +33,8 @@ const franceSchema = mongoose.Schema({
   states_hierarchy: [],
   states_tags: [],
 }, {
-    strict: true
-  });
+  strict: true
+});
 
 let franceModel = db.model(
   'france',
@@ -42,7 +42,7 @@ let franceModel = db.model(
   'france'
 );
 
-const findAll = (page, itemsPerPage, successCallBack, errorCallback) => {
+const findAll = async (page, itemsPerPage, successCallBack, errorCallback) => {
   franceModel.find({}).skip(itemsPerPage*(page-1)).limit(itemsPerPage).exec((err, result) => {
     if (err) {
       return errorCallback(err);
@@ -51,7 +51,7 @@ const findAll = (page, itemsPerPage, successCallBack, errorCallback) => {
   })
 }
 
-const findByCode = (code, successCallBack, errorCallback) => {
+const findByCode = async (code, successCallBack, errorCallback) => {
   franceModel.find({ code: code }).exec((err, result) => {
     if (err) {
       return errorCallback(err);
@@ -60,7 +60,7 @@ const findByCode = (code, successCallBack, errorCallback) => {
   })
 }
 
-const searchByName = (productName, successCallBack, errorCallback) => {
+const searchByName = async (productName, successCallBack, errorCallback) => {
   franceModel.find({ product_name: { "$regex": productName, "$options": "is" } }).exec((err, result) => {
     if (err) {
       return errorCallback(err);
@@ -69,7 +69,7 @@ const searchByName = (productName, successCallBack, errorCallback) => {
   })
 }
 
-const findAllByIngredient = (ingredient, page, itemsPerPage, successCallBack, errorCallback) => {
+const findAllByIngredient = async (ingredient, page, itemsPerPage, successCallBack, errorCallback) => {
   franceModel.find({ ingredients: { $elemMatch: {text: ingredient}} }).skip(itemsPerPage*(page-1)).limit(itemsPerPage).exec((err, result) => {
     if (err){
       return errorCallback(err);
@@ -78,17 +78,17 @@ const findAllByIngredient = (ingredient, page, itemsPerPage, successCallBack, er
   })
 }
 
-const findByKeyword = (kw, successCallBack, errorCallback) => {
+const findByKeyword = async (kw, successCallBack, errorCallback) => {
 
 }
 
-const findAllFromCategory = (kw, successCallBack, errorCallback) => {
+const findAllFromCategory = async (kw, successCallBack, errorCallback) => {
 
 }
 
 exports.findAll = findAll;
 exports.findByCode = findByCode;
 exports.searchByName = searchByName;
+exports.findAllByIngredient = findAllByIngredient;
 exports.findByKeyword = findByKeyword;
 exports.findAllFromCategory = findAllFromCategory;
-exports.findAllByIngredient = findAllByIngredient;

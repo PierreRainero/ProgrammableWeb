@@ -9,10 +9,7 @@ let join = require('path').join;
 
 let router = new express.Router();
 
-function home(req, res) {
-  res.send('Home')
-}
-
-router.get('/', home);
+router.use('/products', require('../products/router'));
+router.use('/prices', require('../prices/router'));
 
 module.exports = router;
