@@ -20,10 +20,10 @@ class ProductService {
                 .then(response => {
                     response.json().then((parsedResponse) => {
                         resolve(new Product(parsedResponse.code, parsedResponse.name, parsedResponse.score, parsedResponse.nutrigrade, parsedResponse.novaGroup, parsedResponse.ingredients, parsedResponse.allergens, parsedResponse.additives));
-                    });
+                    }).catch(error => reject(error));
                 })
                 .catch(error => {
-                    reject(error.message);
+                    reject(error);
                 });
         });
     }
@@ -43,7 +43,7 @@ class ProductService {
                         data.push(new Product(prod.code, prod.name, prod.score, prod.nutrigrade, prod.novaGroup, prod.ingredients, prod.allergens, prod.additives));
                     }
                     callback(data);
-                });
+                }).catch(error => console.log(error.message));
             })
             .catch(error => {
                 console.log(error.message);
