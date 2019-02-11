@@ -40,7 +40,11 @@ const getAllProducts = async (req, res) => {
     const queryParameters = req.query;
     if (queryParameters !== undefined) {
         if (queryParameters.name) {
-            getProductsByName(res, queryParameters.name);
+            if (queryParameters.page && !isNaN(queryParameters.page) && queryParameters.itemsPerPage && !isNaN(queryParameters.itemsPerPage)) {
+                getProductsByName(res, queryParameters.name, parseInt(queryParameters.page), parseInt(queryParameters.itemsPerPage));
+            } else {
+                getProductsByName(res, queryParameters.name, 1, 20);
+            }
         } else if (queryParameters.ingredient) {
             if (queryParameters.page && !isNaN(queryParameters.page) && queryParameters.itemsPerPage && !isNaN(queryParameters.itemsPerPage)) {
                 getProductsByIngredient(res, queryParameters.ingredient, parseInt(queryParameters.page), parseInt(queryParameters.itemsPerPage));
@@ -81,9 +85,9 @@ const getAllProductsWithIndex = (res, page, itemsPerPage) => {
  * @param {express.Response} res Express HTTP response containing corresponding products
  * @param {*} name String to match
  */
-const getProductsByName = (res, name) => {
+const getProductsByName = (res, name, page, itemsPerPage) => {
     franceDb.searchByName(
-        name,
+        name, page, itemsPerPage,
         (productsFound) => {
             res.status(200).send(productsFound);
         },
