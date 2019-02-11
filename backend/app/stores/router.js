@@ -36,7 +36,7 @@ const getStoreById = async (req, res) => {
 
 /**
  * Get all stores (ordered by id)
- * @param {express.Request} req Express HTTP request 
+ * @param {express.Request} req Express HTTP request
  * @param {express.Response} res Express HTTP response
  */
 const getAllStores = async (req, res) => {
@@ -90,8 +90,8 @@ const createStore = async (req, res) => {
  * Get all stores (ordered by id) by group. Each group can be defined using query parameters.
  * By default the page is "1" (first group) for "20" items per page (20 products by group).
  * @param {express.Response} res Express HTTP response containing corresponding products
- * @param {Number} page 
- * @param {Number} itemsPerPage 
+ * @param {Number} page
+ * @param {Number} itemsPerPage
  */
 const getAllStoresWithIndex = (res, page, itemsPerPage) => {
     storeDb.findAll(
@@ -108,7 +108,7 @@ const getAllStoresWithIndex = (res, page, itemsPerPage) => {
 /**
  * Get all stores by location and range.
  * @param {express.Response} res Express HTTP response containing corresponding products
- * @param {Number} locationX 
+ * @param {Number} locationX
  * @param {Number} locationY
  */
 const getAllStoresByLocation = (res, lat, long, range) => {
@@ -135,8 +135,8 @@ const getAllStoresByLocation = (res, lat, long, range) => {
 }
 
 // ROUTES :
-router.get('/stores', getAllStores);
-router.get('/stores/:storeId', getStoreById);
-router.post('/stores', createStore);
+router.get('/', getAllStores);
+router.get('/:storeId', getStoreById);
+router.post('/', createStore);
 
 module.exports = router;

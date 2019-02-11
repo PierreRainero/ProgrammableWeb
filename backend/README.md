@@ -306,16 +306,31 @@ Permet de trouver tous les produits qui ont un certain ingredient. Les produits 
         }
         ],
         "allergens": [
-        
+
         ],
         "additives": [
-        
+
         ]
     }
 ]
+
 ```
 
+
 ### Recettes
+
+`/api/prices` : **POST**
+Permet d'ajouter une information de prix pour un produit dans un point de vente. La requête doit avoir un corps avec les champs et leurs contraintes suivantes :
+
+* `productCode` doit être une chaîne de caractères correspondant à un code de produit existant
+* `storeId` doit être une chaîne de caractères correspondant à la valeur ObjectID de point de vente existant
+* `price` doit être un nombre strictement positif
+
+`/api/prices?productCode={product_code}&storeId={store_id}` : **GET**
+
+Permet de trouver les informations de prix correspondant aux produit et/ou au point de vente spécifié. Ces deux paramètres sont optionnels, si ils sont tous les deux absents, tous les prix seront retournés.
+
+
 `/api/recipes` : **GET**  
 Permet de retrouver tous les recettes contenues dans la base de données. Les produits sont classés en fonction de leur "id":  
 ```json
