@@ -1,10 +1,11 @@
 import React from 'react';
 
-import './SearchBar.scss';
 import { Button, Form, FormControl } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import history from '../../../history';
+
+import './SearchBar.scss';
 
 /**
  * Composent used to search products.
@@ -48,7 +49,7 @@ class SearchBar extends React.Component {
             <Form inline>
                 <FormControl type='text' placeholder='Rechercher' className='mr-sm-2'
                     value={this.state.searchingValue} onChange={this.handleSearchingInputChange} />
-                <Button className='btn-secondary' onClick={this.search}>
+                <Button variant='' className='button-secondary' onClick={this.search}>
                     <FontAwesomeIcon icon={faSearch} />
                 </Button>
             </Form>
