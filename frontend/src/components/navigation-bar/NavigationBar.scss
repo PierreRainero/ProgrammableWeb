@@ -3,7 +3,9 @@
 .navBar-primary {
     background-color: $primary-color-dark;
     color: $primary-color-text;
-    height: 6%;
+    position: absolute!important;
+    width: 100%;
+    z-index: 999;
 }
 
 .brand-primary {

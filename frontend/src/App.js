@@ -11,10 +11,11 @@ class App extends Component {
     return (
       <div className='App'>
         <NavigationBar />
-
-        <Route exact path='/' component={ Home } />
-        <Route exact={true} path='/products' component={ SearchScreen } />
-        <Route exact={true} path='/products/:id' component={ ProductScreen } />
+        <div className='AppContent'>
+            <Route exact path='/' component={ Home } />
+            <Route exact={true} path='/products' component={ SearchScreen } />
+            <Route exact={true} path='/products/:id' component={ ProductScreen } />
+        </div>
       </div>
     );
   }
