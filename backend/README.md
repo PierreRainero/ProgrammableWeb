@@ -27,9 +27,13 @@ Une fois le serveur du "backend" lancé l'api suivante est exposée (port 3000) 
        └── /products
              └── /{productCode}
        └── /recipes
+       └── /stores
+            └── /{storeId}
 ```
 
 ## Fonctionnalités
+
+### Produits
 
 `/api/products?page=13984&itemsPerPage=2` : **GET**  
 Permet de retrouver tous les produits par groupe. Les produits sont classés en fonction de leur "id", on peut définir le nombre de produits par groupe et quel groupe on souhaite chercher :  
@@ -311,6 +315,7 @@ Permet de trouver tous les produits qui ont un certain ingredient. Les produits 
 ]
 ```
 
+### Recettes
 `/api/recipes` : **GET**  
 Permet de retrouver tous les recettes contenues dans la base de données. Les produits sont classés en fonction de leur "id":  
 ```json
@@ -388,3 +393,86 @@ Permet de créer un nouveau commentaire par rapport à une recette.
 ```
 * **body** : comment
 * **author** : optionnel
+
+### Magasins
+
+`/api/stores` : **POST**  
+Permet de créer un nouveau magasin.   
+**Exemple d'utilisation :** création du magasin "Carrefour - Antibes" :  
+```json
+{
+    "name": "Carrefour - Antibes",
+    "location": {
+        "lat": 43.615575,
+        "long":7.071389,
+    },
+}
+```
+* **name** : requis
+* **location** : requis
+
+`/api/stores` : **GET**  
+Permet de retrouver tous les magasins contenues dans la base de données. Les magasins sont classés en fonction de leur "id":  
+```json
+[
+  {
+    "location": {
+      "lat": 43.604087,
+      "long": 7.089491
+    },
+    "_id": "5c617c61193cd709f1603d48",
+    "name": "Carrefour - Antibes",
+    "__v": 0
+  },
+  {
+    "location": {
+      "lat": 43.645932,
+      "long": 7.049446
+    },
+    "_id": "5c617d39193cd709f1603d4a",
+    "name": "Carrefour Market - Valbonne",
+    "__v": 0
+  }
+]
+```
+
+`/api/stores?lat={latitude}&long={longitude}&range={range}` : **GET**  
+Permet de retrouver tous les magasins contenues dans la base de données autour d'une position en définissant un rayon de recherche. Les magasins sont classés en fonction de leur "id":  
+```json
+[
+  {
+    "_id": "5c617c61193cd709f1603d48",
+    "distance": 1.9379962893709548,
+    "location": {
+      "lat": 43.604087,
+      "long": 7.089491
+    }
+  },
+  {
+    "_id": "5c617d7d193cd709f1603d4b",
+    "distance": 0.409252166415119,
+    "location": {
+      "lat": 43.618015,
+      "long": 7.075195
+    }
+  }
+]
+]
+```
+
+`/api/stores/{storeId}` : **GET**  
+Permet de retrouver un promagasin à partir de son id. L'objet retourné dans le cas d'une recherche réussit (code 200) :
+
+```json
+  [
+    {
+    "location": {
+      "lat": 43.604087,
+      "long": 7.089491
+    },
+    "_id": "5c617c61193cd709f1603d48",
+    "name": "Carrefour - Antibes",
+    "__v": 0
+  }
+]
+```
