@@ -4,13 +4,14 @@ const middleware = require('../products/middleware.js');
 
 const recipesSchema = mongoose.Schema({
     name: { type: String, required: true },
-    ingredients: [ { type: mongoose.Schema.Types.ObjectId, ref:'france' } ],
+    ingredients: [{ type: String, ref: 'france' }],
     comments: [{ body: { type: String, required: true }, author: { type: String }, created_at: { type: Date, required: true } }],
     author: { type: String, required: false }
 }, {
         timestamps: true,
         strict: true
-    });
+    }
+);
 
 let recipesModel = db.model(
     'recipes',
@@ -19,11 +20,20 @@ let recipesModel = db.model(
 );
 
 const findAll = (successCallBack, errorCallback) => {
-    recipesModel.find({}).populate({path: 'ingredients', model: 'france'}).exec((err, result) => {
+    recipesModel.find({}).populate({ path: 'ingredients', model: 'france' }).exec((err, result) => {
         if (err) {
             return errorCallback(err);
         }
-        successCallBack(result);
+
+        const recipes = [];
+        for (let recipe of result) {
+            const products = new Array();
+            for (const product of recipe.ingredients) {
+                products.push(middleware.parseProduct(product.toJSON()));
+            }
+            recipes.push({ _id: recipe._id, name: recipe.name, comments: recipe.comments, author: recipe.author, ingredients: products });
+        }
+        successCallBack(recipes);
     })
 }
 
@@ -46,9 +56,16 @@ const create = (name, ingredients, author, successCallBack, errorCallback) => {
         author: author
     })
 
-    recipe.save()
+    recipe
+        .save()
         .then(recipe => {
-            return successCallBack(recipe);
+            recipe.populate({path: 'ingredients', model: 'france'}, function(err) {
+                const products = new Array();
+                for (const product of recipe.ingredients) {
+                    products.push(middleware.parseProduct(product));
+                }
+                return successCallBack({ _id: recipe._id, name: recipe.name, comments: recipe.comments, author: recipe.author, ingredients: products });
+            });
         })
         .catch(err => {
             return errorCallback(err);

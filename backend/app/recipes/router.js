@@ -19,11 +19,7 @@ let router = require('express').Router();
 const getAllRecipes = async (req, res) => {
     recipesDb.findAll(
         (recipesFound) => {
-            const recipes = new Array();
-            for (const recipe of recipesFound) {
-                recipes.push(recipe.toJSON());
-            }
-            res.status(200).send(recipes);
+            res.status(200).send(recipesFound);
         },
         (error) => {
             console.log("Error: " + error.message);
@@ -72,6 +68,7 @@ const createRecipe = async (req, res) => {
             res.status(422).send("Recipe name is missing.");
             return;
         }
+
         if (!bodyParameters.ingredients || bodyParameters.ingredients.length < 2) {
             res.status(422).send("Recipe ingredients are missing (need at least two ingredients).");
             return;
@@ -82,7 +79,7 @@ const createRecipe = async (req, res) => {
             bodyParameters.ingredients,
             bodyParameters.author,
             (recipeCreated) => {
-                res.status(200).send(recipeCreated.toJSON());
+                res.status(200).send(recipeCreated);
             },
             (error) => {
                 console.log("Error: " + error.message);
