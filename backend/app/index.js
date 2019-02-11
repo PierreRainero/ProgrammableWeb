@@ -19,6 +19,8 @@ app.use(bodyParser.urlencoded({
 app.use(cors());
 
 // Load the routes
+// La con de vos race vos routeurs les ajoutez pas la, ils vont dans
+// site/router.js TODO supprimer ce comment avant le rendu
 app.use('/api', require('./site/router'));
 
 // FINALLY, use any error handlers
