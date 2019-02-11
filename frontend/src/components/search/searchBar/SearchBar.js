@@ -47,8 +47,18 @@ class SearchBar extends React.Component {
     render() {
         return (
             <Form inline>
-                <FormControl type='text' placeholder='Rechercher' className='searchInput'
-                    value={this.state.searchingValue} onChange={this.handleSearchingInputChange} />
+                <FormControl
+                    type='text'
+                    placeholder='Rechercher'
+                    className='searchInput'
+                    value={this.state.searchingValue}
+                    onChange={this.handleSearchingInputChange}
+                    onKeyPress={e => {
+                        if (e.key === 'Enter') {
+                            this.search(e);
+                        }
+                    }}
+                />
                 <Button variant='' className='button-secondary searchButton' onClick={this.search}>
                     <FontAwesomeIcon icon={faSearch} />
                 </Button>
