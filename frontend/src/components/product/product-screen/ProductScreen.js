@@ -13,7 +13,8 @@ class ProductScreen extends React.Component {
 
     state = {
         loading: true,
-        product: null
+        product: null,
+        productImage: require('../../../assets/imgs/placeholder.png')
     }
 
     /**
@@ -25,12 +26,12 @@ class ProductScreen extends React.Component {
             if(productReceived.img !==''){
                 this.setState({ loading: false, product: productReceived, productImage: productReceived.img});
             } else {
-                this.setState({ loading: false, product: productReceived, productImage: require('../../../assets/imgs/placeholder.png')});
+                this.setState({ loading: false, product: productReceived});
             }
         } else {
             ProductService.searchProductByCode(this.props.match.params.id).then(product => {
                 this.setState({loading: false, product: product});
-                ProductService.getProductImage(this.product.code, (imgURL) => {
+                ProductService.getProductImage(this.state.product.code, (imgURL) => {
                     if(imgURL!==''){
                         this.setState({ productImage: imgURL });
                     }
