@@ -1,5 +1,6 @@
 const mongoose = require('./database').mongoose;
 const db = require('./database').db;
+const middleware = require('../products/middleware.js');
 
 const recipesSchema = mongoose.Schema({
     name: { type: String, required: true },
