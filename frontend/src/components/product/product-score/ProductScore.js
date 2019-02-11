@@ -9,6 +9,28 @@ import { OverlayTrigger, Tooltip } from 'react-bootstrap';
  */
 class ProductScore extends React.Component {
     /**
+     * Get CSS class according to the nova group of the product
+     */
+    getNovaValue() {
+        switch (this.props.novaGroup) {
+            case 1:
+                return 'a-value';
+
+            case 2:
+                return 'c-value';
+
+            case 3:
+                return 'd-value';
+
+            case 4:
+                return 'e-value';
+
+            default:
+                return 'default-value';
+        }
+    }
+
+    /**
      * Get CSS class according to the score of the product
      */
     getScoreValue() {
@@ -26,29 +48,9 @@ class ProductScore extends React.Component {
      */
     getNutriscoreValue() {
         if (this.props.nutrigrade === '') {
-            return 'e-value';
+            return 'default-value';
         }
         return `${this.props.nutrigrade.toLowerCase()}-value`;
-    }
-
-    /**
-     * Get CSS class according to the nova group of the product
-     */
-    getNovaValue() {
-        switch (this.props.novaGroup) {
-            case 1:
-                return 'a-value';
-
-            case 2:
-                return 'c-value';
-
-            case 3:
-                return 'd-value';
-
-            case 4:
-            default:
-                return 'e-value';
-        }
     }
 
     /**
@@ -57,7 +59,7 @@ class ProductScore extends React.Component {
     render() {
         const novaGroup = this.props.novaGroup > 0 ? this.props.novaGroup : undefined;
         return (
-            <div className='productScoreContainer shadow'>
+            <div className='productScoreContainer shadow' style={{ fontSize: this.props.fontsize }}>
                 <div className={`productScore ${this.getScoreValue()}-score`}>
                     <OverlayTrigger
                         key={'top'}
@@ -107,14 +109,16 @@ class ProductScore extends React.Component {
 ProductScore.defaultProps = {
     score: 0,
     nutrigrade: '',
-    novaGroup: -1
+    novaGroup: -1,
+    fontsize: '15pt'
 
 };
 
 ProductScore.propTypes = {
     score: PropTypes.number,
     nutrigrade: PropTypes.string,
-    novaGroup: PropTypes.number
+    novaGroup: PropTypes.number,
+    fontsize: PropTypes.string
 };
 
 export default ProductScore;
