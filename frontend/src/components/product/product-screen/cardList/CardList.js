@@ -1,7 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { Card, ListGroup } from 'react-bootstrap';
 
 import './CardList.scss';
-import {Card, ListGroup} from 'react-bootstrap';
 
 /**
  * Component to present a list using cards.
@@ -29,5 +30,16 @@ class CardList extends React.Component {
         );
     }
 }
+
+CardList.defaultProps = {
+    title: '',
+    data: []
+};
+
+CardList.propTypes = {
+    title: PropTypes.string,
+    data: PropTypes.array
+};
+
 
 export default CardList;

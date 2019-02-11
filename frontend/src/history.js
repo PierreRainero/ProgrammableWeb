@@ -1,4 +1,4 @@
-import { createBrowserHistory } from 'history'
+import { createBrowserHistory } from 'history';
 /***
  * Create an history to facilitate the navigation
  */

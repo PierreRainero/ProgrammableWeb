@@ -34,7 +34,7 @@ class ProductScore extends React.Component {
      * Get CSS class according to the score of the product
      */
     getScoreValue() {
-        if (this.props.score < 30) {
+        if (this.props.score <= 30) {
             return 'bad';
         } else if (this.props.score < 70) {
             return 'medium';
@@ -62,10 +62,9 @@ class ProductScore extends React.Component {
             <div className='productScoreContainer shadow' style={{ fontSize: this.props.fontsize }}>
                 <div className={`productScore ${this.getScoreValue()}-score`}>
                     <OverlayTrigger
-                        key={'top'}
                         placement={'top'}
                         overlay={
-                            <Tooltip id={`tooltip-top`}>
+                            <Tooltip ref={`tooltip-score`}>
                                 Score du produit
                             </Tooltip>
                         }
@@ -76,10 +75,9 @@ class ProductScore extends React.Component {
                 <div className='productScoreBottom'>
                     <div className={`productNutrigrade ${this.getNutriscoreValue()}`}>
                         <OverlayTrigger
-                            key={'top'}
-                            placement={'top'}
+                            placement={'bottom'}
                             overlay={
-                                <Tooltip id={`tooltip-top`}>
+                                <Tooltip ref={`tooltip-nutriscore`}>
                                     Nutrigrade
                                 </Tooltip>
                             }
@@ -89,10 +87,9 @@ class ProductScore extends React.Component {
                     </div>
                     <div className={`productNovaGroup ${this.getNovaValue()}`}>
                         <OverlayTrigger
-                            key={'top'}
-                            placement={'top'}
+                            placement={'bottom'}
                             overlay={
-                                <Tooltip id={`tooltip-top`}>
+                                <Tooltip ref={`tooltip-novaGroup`}>
                                     NovaGroup
                                 </Tooltip>
                             }

@@ -1,10 +1,10 @@
 import React from 'react';
-
-import './ProductScreen.scss';
 import Loading from '../../loading/Loading';
 import ProductService from '../ProductService';
 import ProductScore from '../product-score/ProductScore';
 import CardList from './cardList/CardList';
+
+import './ProductScreen.scss';
 
 /**
  * Component to fully present a product.

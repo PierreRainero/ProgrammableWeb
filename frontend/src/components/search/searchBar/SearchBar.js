@@ -33,6 +33,10 @@ class SearchBar extends React.Component {
      * Navigate to the result view of the search
      */
     search = (event) => {
+        if(!this.state.searchingValue || this.state.searchingValue === ''){
+            return;
+        }
+        
         history.push({
             pathname: '/products',
             data: { searchingValue: this.state.searchingValue }
@@ -47,9 +51,9 @@ class SearchBar extends React.Component {
     render() {
         return (
             <Form inline>
-                <FormControl type='text' placeholder='Rechercher' className='mr-sm-2'
+                <FormControl type='text' placeholder='Rechercher' className='mr-sm-2' ref='search-input'
                     value={this.state.searchingValue} onChange={this.handleSearchingInputChange} />
-                <Button variant='' className='button-secondary' onClick={this.search}>
+                <Button variant='' className='button-secondary' onClick={this.search} ref='search-submit'>
                     <FontAwesomeIcon icon={faSearch} />
                 </Button>
             </Form>
