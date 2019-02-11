@@ -26,6 +26,7 @@ Une fois le serveur du "backend" lancé l'api suivante est exposée (port 3000) 
   ├── /api
        └── /products
              └── /{productCode}
+       └── /recipes
 ```
 
 ## Fonctionnalités
@@ -308,9 +309,11 @@ Permet de trouver tous les produits qui ont un certain ingredient. Les produits 
         ]
     }
 ]
+
 ```
 
 `/api/prices` : **POST**
+
 Permet d'ajouter une information de prix pour un produit dans un point de vente. La requête doit avoir un corps avec les champs et leurs contraintes suivantes :
 
 * `productCode` doit être une chaîne de caractères correspondant à un code de produit existant
@@ -318,4 +321,84 @@ Permet d'ajouter une information de prix pour un produit dans un point de vente.
 * `price` doit être un nombre strictement positif
 
 `/api/prices?productCode={product_code}&storeId={store_id}` : **GET**
+
 Permet de trouver les informations de prix correspondant aux produit et/ou au point de vente spécifié. Ces deux paramètres sont optionnels, si ils sont tous les deux absents, tous les prix seront retournés.
+
+
+`/api/recipes` : **GET**  
+Permet de retrouver tous les recettes contenues dans la base de données. Les produits sont classés en fonction de leur "id":  
+```json
+[
+  {
+    "ingredients": [
+      "20291174",
+      "0064200116473"
+    ],
+    "comments": [],
+    "_id": "5c60055c6196b85bfba02cdd",
+    "name": "Cheese & Macaroni",
+    "author": "Fabien",
+    "createdAt": "2019-02-10T11:05:00.151Z",
+    "updatedAt": "2019-02-10T11:05:00.151Z",
+    "__v": 0
+  },
+  {
+    "ingredients": [
+      "01732344",
+      "0064200116473"
+    ],
+    "comments": [],
+    "_id": "5c6005c06196b85bfba02cde",
+    "name": "Roquefort & Macaroni",
+    "author": "Fabien",
+    "createdAt": "2019-02-10T11:06:40.917Z",
+    "updatedAt": "2019-02-10T11:06:40.917Z",
+    "__v": 0
+  }
+]
+```
+
+`/api/recipes` : **POST**  
+Permet de créer une nouvelle recette.   
+**Exemple d'utilisation :** création de la recette "Cheese & Macaroni" :  
+```json
+{
+    "name": "Cheese & Macaroni",
+    "ingredients": [ "20291174", "0064200116473" ],
+    "author": "Fabien"
+}
+```
+* **name** : requis
+* **ingredients** : requis (contenant au moins deux ingrédients)
+* **author** : optionnel
+
+`/api/recipes/{recipeId}/comments` : **GET**  
+Permet de retrouver tous les commentaires associés à une recette. Les commentaires sont classés dans leur ordre de soumission (les plus anciens en premiers):  
+```json
+[
+  {
+    "_id": "5c6067a3516101c1efe7f130",
+    "body": "Très bonne recette, je vais surement la proposer dans mon restaurant !",
+    "author": "Philippe Etchebest",
+    "created_at": "2019-02-10T18:04:19.178Z"
+  },
+  {
+    "_id": "5c60685ddf8d1fc3a093e30b",
+    "body": "Wonderful",
+    "author": "Tim Cook",
+    "created_at": "2019-02-10T18:07:25.411Z"
+  }
+]
+```
+
+`/api/recipes/{recipeId}/comments` : **POST**  
+Permet de créer un nouveau commentaire par rapport à une recette.   
+**Exemple d'utilisation :** ajout d'un commentaire pour la recette 5c60055c6196b85bfba02cdd (`/api/recipes/5c60055c6196b85bfba02cdd/comments`) :  
+```json
+{
+	"body": "Très bonne recette, je vais surement la proposer dans mon restaurant !",
+	"author": "Philippe Etchebest"
+}
+```
+* **body** : comment
+* **author** : optionnel

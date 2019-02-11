@@ -40,7 +40,7 @@ module.exports = class Product {
 
     /**
      * Normal constructor
-     * @param {number} code Scan code
+     * @param {string} code Barcode
      * @param {string} name Product name
      * @param {string} nutrigrade Nutrition grade (A, B, C, D, E)
      * @param {string} novaGroup Nova group (1, 2, 3, 4) : -1 for unknow

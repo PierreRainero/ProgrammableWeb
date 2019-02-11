@@ -11,5 +11,7 @@ let router = new express.Router();
 
 router.use('/products', require('../products/router'));
 router.use('/prices', require('../prices/router'));
+router.use('/recipes', require('../recipes/router'));
+router.use('/stores', require('../stores/router'));
 
 module.exports = router;

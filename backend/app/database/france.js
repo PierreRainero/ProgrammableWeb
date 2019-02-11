@@ -1,5 +1,6 @@
 const mongoose = require('./database').mongoose;
 const db = require('./database').db;
+const middleware = require('../products/middleware.js');
 
 const franceSchema = mongoose.Schema({
   _id: String,
@@ -47,7 +48,12 @@ const findAll = async (page, itemsPerPage, successCallBack, errorCallback) => {
     if (err) {
       return errorCallback(err);
     }
-    successCallBack(result);
+
+    const products = new Array();
+    for(const product of result){
+        products.push(middleware.parseProduct(product.toJSON()));
+    }
+    successCallBack(products);
   })
 }
 
@@ -56,7 +62,12 @@ const findByCode = async (code, successCallBack, errorCallback) => {
     if (err) {
       return errorCallback(err);
     }
-    successCallBack(result);
+
+    if (result.length === 1) {
+      successCallBack(middleware.parseProduct(result[0].toJSON()));
+    } else {
+      errorCallback('Invalid code.');
+    }
   })
 }
 
@@ -65,7 +76,12 @@ const searchByName = async (productName, successCallBack, errorCallback) => {
     if (err) {
       return errorCallback(err);
     }
-    successCallBack(result);
+
+    const products = new Array();
+    for(const product of result){
+        products.push(middleware.parseProduct(product.toJSON()));
+    }
+    successCallBack(products);
   })
 }
 
@@ -84,6 +100,12 @@ const findByKeyword = async (kw, successCallBack, errorCallback) => {
 
 const findAllFromCategory = async (kw, successCallBack, errorCallback) => {
 
+    const products = new Array();
+    for(const product of result){
+        products.push(middleware.parseProduct(product.toJSON()));
+    }
+    successCallBack(products);
+  })
 }
 
 exports.findAll = findAll;

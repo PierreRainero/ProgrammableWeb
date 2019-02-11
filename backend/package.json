@@ -3,7 +3,7 @@
   "version": "3.1.0",
   "description": "Scaffolding explaining a method for organizing files in an express.js web application project",
   "scripts": {
-    "test": "./bin/test.sh",
+    "test": "NODE_ENV=test mocha ./test/**/*.js --exit",
     "start": "node ./app/server.js",
     "lint": "standard"
   },
@@ -16,6 +16,7 @@
     "bole": "3.0.2",
     "cors": "^2.8.5",
     "express": "4.16.2",
+    "geopoint": "^1.0.1",
     "mongodb": "^3.1.13",
     "mongoose": "^5.4.8",
     "node-fetch": "^1.7.1"
@@ -25,6 +26,9 @@
     "standard": "10.0.3",
     "supertest": "3.0.0",
     "tap-dot": "1.0.5",
-    "tape": "4.8.0"
+    "tape": "4.8.0",
+    "chai": "4.2.0",
+    "mocha": "5.2.0",
+    "expect": "24.1.0"
   }
 }
