@@ -1,0 +1,38 @@
+@import '../../_shared.scss';
+
+.homeContent{
+  background: url("../../assets/imgs/homeBackground.jpg") no-repeat center;
+  background-size: cover;
+  height: 94%;
+  color: $primary-color-text;
+}
+
+.homeContainer, .homeRow, .homeCol{
+  height: 100%;
+}
+
+.homeContainer{
+  max-width: none!important;
+  width: 100%!important;
+  margin: 0!important;
+  padding: 50px!important;
+}
+
+.homeCol{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.homeCol img{
+  margin-bottom: 25px;
+}
+
+.homeCol p{
+  width: 70%;
+}
+
+.homeCol h1{
+  margin-bottom: 25px;
+}

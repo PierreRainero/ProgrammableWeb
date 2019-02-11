@@ -14,6 +14,9 @@
 * [npm](https://www.npmjs.com/) 6.4.1
 * [React](https://reactjs.org/) 16.7.0
 * [Sass](https://sass-lang.com/guide) 4.11.0
+* [React-Bootstrap](https://react-bootstrap.github.io/) 1.0.0-beta.5
+* [Bootstrap](https://getbootstrap.com/) 4.2.1
+* [FontAwesome](https://www.npmjs.com/package/@fortawesome/react-fontawesome) 0.1.4
 
 ## Deploiement
 
@@ -21,7 +24,7 @@
 
 ### Environnement de test
 
-`npm start` : Permet de lancer l'application dans un environnement de test (port 3000). Le déploiement n'est pas optimisé mais le projet recompile dynamiquement.
+`npm start` : Permet de lancer l'application dans un environnement de test (port 3006). Le déploiement n'est pas optimisé mais le projet recompile dynamiquement.
 
 ### Production
 

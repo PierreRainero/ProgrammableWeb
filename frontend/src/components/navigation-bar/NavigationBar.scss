@@ -1,0 +1,12 @@
+@import '../../_shared.scss';
+
+.navBar-primary {
+    background-color: $primary-color-dark;
+    color: $primary-color-text;
+    height: 6%;
+}
+
+.brand-primary {
+    margin-left: 6px;
+    color: $primary-color-text;
+}
