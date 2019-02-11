@@ -19,6 +19,7 @@ app.use(cors());
 // Load the routes
 app.use(require('./site/router'));
 app.use('/api', require('./products/router'));
+app.use('/api/recipes', require('./recipes/router'));
 app.use('/api', require('./stores/router'));
 
 // FINALLY, use any error handlers
