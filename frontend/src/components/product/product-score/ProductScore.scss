@@ -1,0 +1,88 @@
+@import '../../../_shared.scss';
+
+.productScoreContainer{
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  background: white;
+  font-size: 15pt;
+  font-weight: bold;
+  overflow: hidden;
+}
+
+.productScore, .productScoreBottom{
+  width: 100%;
+  height: 50%;
+  display: inline-flex;
+  align-items: center;
+}
+
+.productScore{
+  border-bottom: 1px solid white;
+}
+
+.productNutrigrade, .productNovaGroup{
+  vertical-align: middle;
+  width: 50%;
+  height: 100%;
+  display: inline-flex;
+  align-items: center;
+  border-top: 1px solid white;
+}
+
+.productNutrigrade{
+  border-right: 1px solid white;
+  border-top-right-radius: 5px;
+}
+
+.productNovaGroup{
+  border-left: 1px solid white;
+  border-top-left-radius: 5px;
+}
+
+.productNutrigradeContent, .productNovaGroupContent, .productScoreContent{
+  width: 100%;
+  text-align: center;
+  cursor: help;
+}
+
+.productNutrigradeContent, .productNovaGroupContent{
+  color: $primary-color-text;
+}
+
+.good-score {
+  color: $success-color;
+}
+
+.medium-score {
+  color: $warning-color;
+}
+
+.bad-score {
+  color: $danger-color;
+}
+
+.a-value {
+  background-color: $a-value;
+  color: $primary-color-text;
+}
+
+.b-value {
+  background-color: $b-value;
+  color: $primary-color-text;
+}
+
+.c-value {
+  background-color: $c-value;
+  color: $primary-color-text;
+}
+
+.d-value {
+  background-color: $d-value;
+  color: $primary-color-text;
+}
+
+.e-value {
+  background-color: $e-value;
+  color: $primary-color-text;
+}

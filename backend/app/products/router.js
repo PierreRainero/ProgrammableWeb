@@ -23,9 +23,9 @@ const getProductByCode = async (req, res) => {
     franceDb.findByCode(
         req.params.productCode,
         (productFound) => {
-            if(productFound.length === 1){
+            if (productFound.length === 1) {
                 res.status(200).send(parseProduct(productFound[0].toJSON()));
-            }else{
+            } else {
                 res.status(422).send("Invalid code.");
             }
         },
@@ -43,13 +43,16 @@ const getProductByCode = async (req, res) => {
  */
 const getAllProducts = async (req, res) => {
     const queryParameters = req.query;
-
-    if(queryParameters!==undefined){
-        if(queryParameters.name){
+    if (queryParameters !== undefined) {
+        if (queryParameters.name) {
             getProductsByName(res, queryParameters.name);
-        } else if(queryParameters.ingredient){
-            getProductsByIngredient(res, queryParameters.ingredient);
-        } else if(queryParameters.page && !isNaN(queryParameters.page) && queryParameters.itemsPerPage && !isNaN(queryParameters.itemsPerPage)){
+        } else if (queryParameters.ingredient) {
+            if (queryParameters.page && !isNaN(queryParameters.page) && queryParameters.itemsPerPage && !isNaN(queryParameters.itemsPerPage)) {
+                getProductsByIngredient(res, queryParameters.ingredient, parseInt(queryParameters.page), parseInt(queryParameters.itemsPerPage));
+            } else {
+                getProductsByIngredient(res, queryParameters.ingredient, 1, 20);
+            }
+        } else if (queryParameters.page && !isNaN(queryParameters.page) && queryParameters.itemsPerPage && !isNaN(queryParameters.itemsPerPage)) {
             getAllProductsWithIndex(res, parseInt(queryParameters.page), parseInt(queryParameters.itemsPerPage));
         } else {
             getAllProductsWithIndex(res, 1, 20);
@@ -63,12 +66,33 @@ const getAllProducts = async (req, res) => {
  * Get all products (ordered by id) by group. Each group can be defined using query parameters.
  * By default the page is "1" (first group) for "20" items per page (20 products by group).
  * @param {express.Response} res Express HTTP response containing corresponding products
- * @param {*} page 
- * @param {*} itemsPerPage 
+ * @param {number} page page number to display (itemsPerPage*page)
+ * @param {number} itemsPerPage number of products per diplayed by page
  */
 const getAllProductsWithIndex = (res, page, itemsPerPage) => {
     franceDb.findAll(
         page, itemsPerPage,
+        (productsFound) => {
+            const products = new Array();
+            for (const product of productsFound) {
+                products.push(parseProduct(product.toJSON()));
+            }
+            res.status(200).send(products);
+        },
+        (error) => {
+            console.log("Error: " + error.message);
+            res.status(500).send(error.message);
+        });
+}
+
+/**
+ * Get all products (ordered by id) that match to the given string. 
+ * @param {express.Response} res Express HTTP response containing corresponding products
+ * @param {*} name String to match
+ */
+const getProductsByName = (res, name) => {
+    franceDb.searchByName(
+        name,
         (productsFound) => {
             const products = new Array();
             for(const product of productsFound){
@@ -82,12 +106,21 @@ const getAllProductsWithIndex = (res, page, itemsPerPage) => {
     });
 }
 
-const getProductsByName = (res, name) => {
-    res.status(200).send(name);
-}
-
-const getProductsByIngredient = (res, ingredient) => {
-    res.status(200).send(ingredient);
+const getProductsByIngredient = (res, ingredient, page, itemsPerPage) => {
+    franceDb.findAllByIngredient(
+        ingredient, page, itemsPerPage,
+        (productsFound) => {
+            const products = new Array();
+            for (const product of productsFound) {
+                products.push(parseProduct(product.toJSON()));
+            }
+            res.status(200).send(products);
+        },
+        (error) => {
+            console.log("Error: " + error.message);
+            res.status(500).send(error.message);
+        }
+    );
 }
 
 /**
@@ -99,24 +132,24 @@ const parseProduct = (productJson) => {
     const product = new Product(parseInt(productJson.code), productJson.product_name, productJson.nutrition_grades, productJson.nova_group);
 
     const ingredients = productJson.ingredients;
-    if(ingredients && ingredients.length>0){
-        for(const ingredient of ingredients){
+    if (ingredients && ingredients.length > 0) {
+        for (const ingredient of ingredients) {
             product.addIngredient(ingredient.id, ingredient.text);
         }
     }
 
-    if(productJson.allergens_from_ingredients){
+    if (productJson.allergens_from_ingredients) {
         const allergens = productJson.allergens_from_ingredients.split(', ');
-        if(allergens.length>0){
-            for(const allergen of allergens){
+        if (allergens.length > 0) {
+            for (const allergen of allergens) {
                 product.addAllergen(allergen);
             }
         }
     }
 
     const additives = productJson.additives_prev_original_tags;
-    if(additives && additives.length>0){
-        for(const additive of additives){
+    if (additives && additives.length > 0) {
+        for (const additive of additives) {
             product.addAdditive(additive);
         }
     }
