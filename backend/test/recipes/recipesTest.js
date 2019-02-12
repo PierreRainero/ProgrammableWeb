@@ -4,6 +4,13 @@ const expect = require('expect')
 
 const mongoose = require('../../app/database/database').mongoose;
 const db = require('../../app/database/database').db;
+const recipesSchema = require('../../app/database/recipes').schema;
+
+var recipes = db.model(
+    'recipes',
+    recipesSchema,
+    'recipes'
+);
 
 describe('API - Recipes', function () {
 
@@ -12,6 +19,12 @@ describe('API - Recipes', function () {
     });
 
     describe('GET /recipes', function () {
+        var data = {
+            name: "Cheese & Macaroni",
+            ingredients: ["20291174", "0064200116473"],
+            author: "Fabien"
+        };
+
         it('should return a json object', function (done) {
             request(app)
                 .get('/api/recipes')
@@ -21,8 +34,6 @@ describe('API - Recipes', function () {
         });
 
         it('should return a list of 20 elements (at most)', function (done) {
-            var recipes = mongoose.model('recipes');
-            const oblRecipesCount = recipes.count();
             request(app)
                 .get('/api/recipes')
                 .set('Accept', 'application/json')
@@ -36,6 +47,96 @@ describe('API - Recipes', function () {
                     return done();
                 });
         });
+
+        it('should return an error : no parameters', function (done) {
+            request(app)
+                .post('/api/recipes')
+                .set('Accept', 'application/json')
+                .send({})
+                .expect('Content-Type', /text/)
+                .expect(422)
+                .end((err, res) => {
+                    if (err) {
+                        return done(err);
+                    }
+                    return done();
+                });
+        });
+
+        it('should return an error : name missing', function (done) {
+            request(app)
+                .post('/api/recipes')
+                .set('Accept', 'application/json')
+                .send({ ingredients: ["20291174", "0064200116473"], author: "Fabien" })
+                .expect('Content-Type', /text/)
+                .expect(422)
+                .end((err, res) => {
+                    if (err) {
+                        return done(err);
+                    }
+                    expect(res.text).toBe("Recipe name is missing.");
+                    return done();
+                });
+        });
+
+        it('should return an error : ingredients missing', function (done) {
+            request(app)
+                .post('/api/recipes')
+                .set('Accept', 'application/json')
+                .send({ name: "Cheese & Macaroni", author: "Fabien" })
+                .expect('Content-Type', /text/)
+                .expect(422)
+                .end((err, res) => {
+                    if (err) {
+                        return done(err);
+                    }
+                    expect(res.text).toBe("Recipe ingredients are missing (need at least two ingredients).");
+                    return done();
+                });
+        });
+
+        it('should create a recipe', function (done) {
+            request(app)
+                .post('/api/recipes')
+                .set('Accept', 'application/json')
+                .send(data)
+                .expect('Content-Type', /json/)
+                .expect(200)
+                .end((err, res) => {
+                    if (err) {
+                        return done(err);
+                    }
+
+                    recipes.findOneAndDelete({ _id: new mongoose.mongo.ObjectId(res.body._id) }).exec((err, res) => {
+                        if (err) {
+                            return done(err);
+                        }
+                    });
+                    return done();
+                });
+        });
+
+        it('should create a recipe with no author', function (done) {
+            request(app)
+                .post('/api/recipes')
+                .set('Accept', 'application/json')
+                .send({ name: "Cheese & Macaroni", ingredients: ["20291174", "0064200116473"] })
+                .expect('Content-Type', /json/)
+                .expect(200)
+                .end((err, res) => {
+                    if (err) {
+                        return done(err);
+                    }
+
+                    recipes.findOneAndDelete({ _id: new mongoose.mongo.ObjectId(res.body._id) }).exec((err, res) => {
+                        if (err) {
+                            return done(err);
+                        }
+                    });
+                    return done();
+                });
+        });
+
     });
 
     describe('GET /recipes/:recipeId/comments', function () {
@@ -51,6 +152,64 @@ describe('API - Recipes', function () {
             request(app)
                 .get('/api/recipes/5c9067a3516101c1efe7f137/comments')
                 .set('Accept', 'application/json')
+                .expect('Content-Type', /text/)
+                .expect(500)
+                .expect('No existing recipe for this id.') // expecting content value
+                .end((err) => {
+                    if (err) return done(err);
+                    done();
+                });
+        });
+    });
+
+    describe('POST /recipes/:recipeId/comments', function () {
+        const data = {
+            "body": "Très bonne recette, je vais surement la proposer dans mon restaurant !",
+            "author": "Philippe Etchebest"
+        }
+
+        /**
+         * TODO: use database (create and delete a receipt for tests)
+         */
+        it('should return an error : no parameters', function (done) {
+
+            request(app)
+                .post('/api/recipes/5c60055c6196b85bfba02cdd/comments')
+                .set('Accept', 'application/json')
+                .send({})
+                .expect('Content-Type', /text/)
+                .expect(422)
+                .end((err, res) => {
+                    if (err) return done(err);
+                    done();
+                });
+        });
+
+        /**
+         * TODO: use database (create and delete a receipt for tests)
+         */
+        it('should return an error : missing body', function (done) {
+
+            request(app)
+                .post('/api/recipes/5c60055c6196b85bfba02cdd/comments')
+                .set('Accept', 'application/json')
+                .send({ "author": "Philippe Etchebest" })
+                .expect('Content-Type', /text/)
+                .expect(422)
+                .end((err, res) => {
+                    if (err) {
+                        return done(err);
+                    }
+                    expect(res.text).toBe('Comment body is missing.');
+                    done();
+                });
+        });
+
+        it('should return an error : not an existing recipe', function (done) {
+            request(app)
+                .post('/api/recipes/5c9067a3516101c1efe7f137/comments')
+                .set('Accept', 'application/json')
+                .send(data)
                 .expect('Content-Type', /text/)
                 .expect(500)
                 .expect('No existing recipe for this id.') // expecting content value

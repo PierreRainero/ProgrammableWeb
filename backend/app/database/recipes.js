@@ -86,6 +86,9 @@ const createComment = (recipeId, body, author, successCallBack, errorCallback) =
             if (err) {
                 return errorCallback(err);
             }
+            if(!recipe || !recipe.comments) {
+                return errorCallback({message: 'No existing recipe for this id.'});
+            }
             return successCallBack(recipe.comments);
         }
     );
@@ -95,3 +98,4 @@ exports.findAll = findAll;
 exports.findAllComments = findAllComments;
 exports.create = create;
 exports.createComment = createComment;
+exports.schema = recipesSchema;
