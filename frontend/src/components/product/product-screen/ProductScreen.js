@@ -5,6 +5,7 @@ import Loading from '../../loading/Loading';
 import ProductService from '../ProductService';
 import ProductScore from '../product-score/ProductScore';
 import CardList from './cardList/CardList';
+import {Col, Container} from "react-bootstrap";
 
 /**
  * Component to fully present a product.
@@ -65,16 +66,22 @@ class ProductScreen extends React.Component {
                                     className={'shadow'}
                                 />
                             </div>
-                            <div className='productName textShadow'>{this.state.product.name}</div>
+                            <div className={`productName ${window.innerWidth > 576 ? 'textShadow' : ''}`}>{this.state.product.name}</div>
                             <div className='productScorePart'>
                                 <ProductScore score={this.state.product.score} nutrigrade={this.state.product.nutrigrade} novaGroup={this.state.product.novaGroup}/>
                             </div>
                         </div>
-                        <div className='productDetails'>
-                            <CardList title='Ingrédients' data={this.state.product.ingredients}/>
-                            <CardList title='Additifs' data={this.state.product.additives}/>
-                            <CardList title='Allergènes' data={this.state.product.allergens}/>
-                        </div>
+                        <Container className='productDetails'>
+                            <Col md={4}>
+                                <CardList title='Ingrédients' data={this.state.product.ingredients}/>
+                            </Col>
+                            <Col md={4}>
+                                <CardList title='Additifs' data={this.state.product.additives}/>
+                            </Col>
+                            <Col md={4}>
+                                <CardList title='Allergènes' data={this.state.product.allergens}/>
+                            </Col>
+                        </Container>
                     </div>
                 }
             </div>
