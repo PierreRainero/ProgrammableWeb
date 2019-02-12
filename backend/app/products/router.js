@@ -26,7 +26,7 @@ const getProductByCode = async (req, res) => {
             res.status(200).send(productFound);
         },
         (error) => {
-          ise(res, error, 'There was an error finding the product.');
+            ise(res, error, 'There was an error finding the product.');
         }
     );
 };
@@ -40,7 +40,9 @@ const getAllProducts = async (req, res) => {
     const queryParameters = req.query;
     if (queryParameters !== undefined) {
         if (queryParameters.name) {
-            if (queryParameters.page && !isNaN(queryParameters.page) && queryParameters.itemsPerPage && !isNaN(queryParameters.itemsPerPage)) {
+            if (queryParameters.count) {
+                getNumberProductsByName(res, queryParameters.name);
+            } else if (queryParameters.page && !isNaN(queryParameters.page) && queryParameters.itemsPerPage && !isNaN(queryParameters.itemsPerPage)) {
                 getProductsByName(res, queryParameters.name, parseInt(queryParameters.page), parseInt(queryParameters.itemsPerPage));
             } else {
                 getProductsByName(res, queryParameters.name, 1, 20);
@@ -75,7 +77,7 @@ const getAllProductsWithIndex = (res, page, itemsPerPage) => {
             res.status(200).send(productsFound);
         },
         (error) => {
-          ise(res, error, 'There was an error finding the products.');
+            ise(res, error, 'There was an error finding the products.');
         });
 }
 
@@ -84,7 +86,7 @@ const getAllProductsWithIndex = (res, page, itemsPerPage) => {
  * @param {express.Response} res Express HTTP response containing corresponding products
  * @param {number} page page number to display (itemsPerPage*page)
  * @param {number} itemsPerPage number of products per diplayed by page
- * @param {*} name String to match
+ * @param {string} name String to match
  */
 const getProductsByName = (res, name, page, itemsPerPage) => {
     franceDb.searchByName(
@@ -92,10 +94,29 @@ const getProductsByName = (res, name, page, itemsPerPage) => {
         (productsFound) => {
             res.status(200).send(productsFound);
         },
-    (error) => {
-      if(config.PRODUCTION)
-        console.log("Error: " + error.message);
-      res.status(500).send(error.message);
+        (error) => {
+            if (config.PRODUCTION){
+                console.log("Error: " + error.message);
+            }
+            res.status(500).send(error.message);
+        });
+}
+
+/**
+ * Get the number of results for specific name
+ * @param {express.Response} res Express HTTP response containing the number of result
+ * @param {string} name String to match
+ */
+const getNumberProductsByName = (res, name) => {
+    franceDb.getNumberOfProductForName(name,
+        (result) => {
+            res.status(200).send({numberOfProducts: result});
+        },
+        (error) => {
+            if (config.PRODUCTION){
+                console.log("Error: " + error.message);
+            }
+            res.status(500).send(error.message);
     });
 }
 
@@ -106,7 +127,7 @@ const getProductsByIngredient = (res, ingredient, page, itemsPerPage) => {
             res.status(200).send(productsFound);
         },
         (error) => {
-          ise(res, error, 'There was an error finding the ingredients.');
+            ise(res, error, 'There was an error finding the ingredients.');
         }
     );
 }
