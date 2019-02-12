@@ -1,4 +1,4 @@
-@import '../../_shared.scss';
+@import '../../../_shared.scss';
 
 .vertical-delay {
     margin-top: 20vh;
@@ -21,4 +21,20 @@ li.page-item.active > span.page-link {
     color: $primary-color-text;
     background-color: $primary-color;
     border-color: $primary-color;
+}
+
+.search-bar {
+    margin: 2em 6em;
+}
+
+@media (max-width: 768px) {
+    .search-bar {
+        margin: 2em 4em;
+    }
+}
+
+@media (max-width: 576px) {
+    .search-bar {
+        margin: 2em 2em;
+    }
 }

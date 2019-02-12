@@ -1,16 +1,18 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Navbar, Nav } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCookieBite, faListAlt, faShoppingBasket } from '@fortawesome/free-solid-svg-icons';
+import ProductsSearchBar from "../search/searchBar/ProductsSearchBar";
 import history from '../../history';
 
 import './NavigationBar.scss';
-import SearchBar from "../search/searchBar/SearchBar";
+
 
 /**
  * Component to navigate easily between the different pages.
  */
 class NavigationBar extends React.Component {
-
     /**
      * Render the component
      */
@@ -33,9 +35,22 @@ class NavigationBar extends React.Component {
             <Navbar.Toggle aria-controls='basic-navbar-nav' />
             <Navbar.Collapse id='basic-navbar-nav'>
                 <Nav className='mr-auto'>
+                <span className='separator-left'></span>
+                <Link to='/products' className='no-decoration nav-item primary-text-link'>
+                    <FontAwesomeIcon icon={faCookieBite} />
+                    <span> Produits</span>
+                </Link>
+                <Link to='/recipes' className='no-decoration nav-item primary-text-link'>
+                    <FontAwesomeIcon icon={faListAlt} />
+                    <span> Recettes</span>
+                </Link>
+                <Link to='/stores' className='no-decoration nav-item primary-text-link'>
+                    <FontAwesomeIcon icon={faShoppingBasket} />
+                    <span> Magasins</span>
+                </Link>
                 </Nav>
                 { history.location.pathname !== '/' ?
-                    <SearchBar/>
+                    <ProductsSearchBar />
                     : null
                 }
             </Navbar.Collapse>

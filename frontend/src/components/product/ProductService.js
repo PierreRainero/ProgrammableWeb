@@ -69,10 +69,15 @@ class ProductService {
     /**
      * Get image for a specific product using OpenFoodFacts API
      * @param {number} code barcode to find the product
+     * @param {AbortController.signal} signal signal controller to interact with the fetch operation
      * @param {function} callback function to execute once the image product has been found
      */
-    static getProductImage(code, callback) {
-        fetch(`https://fr.openfoodfacts.org/api/v0/produit/${code}.json`, { method: 'GET' })
+    static getProductImage(code, signal, callback) {
+        fetch(`https://fr.openfoodfacts.org/api/v0/produit/${code}.json`, 
+            { 
+                method: 'GET',
+                signal: signal
+            })
             .then(response => {
                 response.json().then((parsedResponse) => {
                     if (parsedResponse.status === 1 && parsedResponse.product.image_url) {
@@ -83,7 +88,7 @@ class ProductService {
                 });
             })
             .catch(error => {
-                console.log(error.message);
+                
             });
     }
 }

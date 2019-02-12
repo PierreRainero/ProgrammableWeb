@@ -22,6 +22,8 @@ class ProductCard extends React.Component {
         this.state = {
             img: require('../../../assets/imgs/placeholder.png')
         }
+
+        this.signalController = new AbortController()
         this.product = props.product;
     }
 
@@ -29,12 +31,20 @@ class ProductCard extends React.Component {
      * Call after fully finishing to build this component
      */
     componentDidMount() {
-        ProductService.getProductImage(this.product.code, (imgURL) => {
+        ProductService.getProductImage(this.product.code, this.signalController.signal, (imgURL) => {
             if (imgURL !== '') {
                 this.product.img = imgURL;
                 this.setState({ img: imgURL });
             }
         });
+    }
+
+    /**
+     * Call when this component is destroyed 
+     */
+    componentWillUnmount(){
+        this.signalController.abort();
+        this.mounted = false;
     }
 
     /**

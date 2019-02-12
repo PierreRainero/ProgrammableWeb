@@ -1,17 +1,18 @@
 import React from 'react';
 import { Pagination } from 'react-bootstrap';
-import ProductCard from '../product/product-card/ProductCard';
-import Loading from '../loading/Loading'
-import history from '../../history';
+import ProductCard from '../../product/product-card/ProductCard';
+import ProductsSearchBar from '../searchBar/ProductsSearchBar';
+import Loading from '../../loading/Loading'
+import history from '../../../history';
 
-import ProductService from '../product/ProductService';
+import ProductService from '../../product/ProductService';
 
-import './SearchScreen.scss';
+import './ProductSearchScreen.scss';
 
 /**
  * Component to present a result of a product research.
  */
-class SearchScreen extends React.Component {
+class ProductSearchScreen extends React.Component {
     constructor(props) {
         super(props);
 
@@ -21,25 +22,6 @@ class SearchScreen extends React.Component {
             page: 1,
             numberOfResults: -1,
             products: []
-        }
-
-        if (this.props.location.data){
-            ProductService.getNumberOfProductsForName(this.props.location.data.searchingValue, (result) => {
-                this.setState({ numberOfResults: result });
-            });
-        }
-    }
-
-    /**
-     * Search products using a name
-     */
-    searchProducts() {
-        if (this.props.location.data) {
-            ProductService.searchProductsByName(this.props.location.data.searchingValue, this.state.page, this.itemsPerPage, (data) => {
-                this.setState({ loading: false, products: data });
-            });
-        } else {
-            this.setState({ loading: false });
         }
     }
 
@@ -59,13 +41,30 @@ class SearchScreen extends React.Component {
             this.props.location.data.searchingValue !== prevProps.location.data.searchingValue) {
             this.setState({ loading: true });
             this.searchProducts();
+        } else if (this.props.location.data && !prevProps.location.data){
+            this.setState({ loading: true });
+            this.searchProducts();
+        }
+    }
+
+        /**
+     * Search products using a name
+     */
+    searchProducts() {
+        if (this.props.location.data) {
+            this.getNumberOfElementsToDisplay(this.props.location.data.searchingValue);
+            ProductService.searchProductsByName(this.props.location.data.searchingValue, 1, this.itemsPerPage, (data) => {
+                this.setState({ loading: false, products: data, page: 1 });
+            });
+        } else {
+            this.setState({ loading: false });
         }
     }
 
     /**
      * Navigates to the page of a product
      */
-    goToProductPage = (product) => {
+    goToProductsPage = (product) => {
         history.push({
             pathname: `/products/${product.code}`,
             data: { product: product }
@@ -73,10 +72,19 @@ class SearchScreen extends React.Component {
     }
 
     /**
+     * Update number of results according to the searched value
+     */
+    getNumberOfElementsToDisplay = (valueSearched) => {
+        ProductService.getNumberOfProductsForName(valueSearched, (result) => {
+            this.setState({ numberOfResults: result });
+        });
+    }
+
+    /**
      * Change result page to display
      */
     changePage = (event, pageNumberToGo) => {
-        if(pageNumberToGo===this.state.page){
+        if (pageNumberToGo === this.state.page) {
             return;
         }
 
@@ -94,8 +102,8 @@ class SearchScreen extends React.Component {
     createPaginationItem = (index) => {
         return <Pagination.Item key={index}
             active={index === this.state.page}
-            onClick={(e)=>this.changePage(e,index)}>
-        {index}
+            onClick={(e) => this.changePage(e, index)}>
+            {index}
         </Pagination.Item>;
     }
 
@@ -103,7 +111,7 @@ class SearchScreen extends React.Component {
      * Return the maximum page of results
      */
     getMaximumPage = () => {
-        return Math.ceil(this.state.numberOfResults/this.itemsPerPage);
+        return Math.ceil(this.state.numberOfResults / this.itemsPerPage);
     }
 
     /**
@@ -115,31 +123,34 @@ class SearchScreen extends React.Component {
         if (this.state.loading) {
             content = <Loading />;
         } else if (this.state.products.length === 0) {
-            content = <p className='vertical-delay'>Aucun produit n'a été trouvé</p>;
+            content = <p className='vertical-delay'>Aucun produit à afficher.</p>;
         } else {
-            content = this.state.products.map(product => <span key={product.code} onClick={() => this.goToProductPage(product)}><ProductCard product={product} /></span>);
-            
-            if(this.state.numberOfResults>0){
+            content = this.state.products.map(product => <span key={product.code} onClick={() => this.goToProductsPage(product)}><ProductCard product={product} /></span>);
+
+            if (this.state.numberOfResults > 0) {
                 let paginationContent = [];
                 let pageNumber = 1;
                 for (let numberOfElementsCount = 0;
                     numberOfElementsCount < this.state.numberOfResults;
-                    numberOfElementsCount=numberOfElementsCount+this.itemsPerPage) {
+                    numberOfElementsCount = numberOfElementsCount + this.itemsPerPage) {
                     paginationContent.push(this.createPaginationItem(pageNumber));
                     pageNumber++;
                 }
                 pagination = <Pagination>
-                    <Pagination.First onClick={(e)=>this.changePage(e,1)}/>
-                    <Pagination.Prev onClick={(e)=>this.changePage(e,this.state.page-1)} disabled={this.state.page === 1}/>
+                    <Pagination.First onClick={(e) => this.changePage(e, 1)} />
+                    <Pagination.Prev onClick={(e) => this.changePage(e, this.state.page - 1)} disabled={this.state.page === 1} />
                     {paginationContent}
-                    <Pagination.Next onClick={(e)=>this.changePage(e,this.state.page+1)} disabled={this.state.page === this.getMaximumPage()}/>
-                    <Pagination.Last onClick={(e)=>this.changePage(e,this.getMaximumPage())}/>
+                    <Pagination.Next onClick={(e) => this.changePage(e, this.state.page + 1)} disabled={this.state.page === this.getMaximumPage()} />
+                    <Pagination.Last onClick={(e) => this.changePage(e, this.getMaximumPage())} />
                 </Pagination>;
             }
         }
-            
+
         return (
             <div>
+                <div className='search-bar'>
+                    <ProductsSearchBar />
+                </div>
                 {content}
                 <div className='center'>
                     {pagination}
@@ -149,4 +160,4 @@ class SearchScreen extends React.Component {
     }
 }
 
-export default SearchScreen;
+export default ProductSearchScreen;
