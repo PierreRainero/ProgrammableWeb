@@ -1,20 +1,16 @@
+import HTTPService from '../../HTTPService';
 import Product from './Product';
 
 /**
  * Exposes all needed function to find one or multiple products
  */
 class ProductService {
-
-    static getBaseUrl() {
-        return process.env.NODE_ENV === 'development' ? `${process.env.REACT_APP_DEV_URL}:${process.env.REACT_APP_DEV_PORT}` : process.env.REACT_APP_PROD_URL;
-    }
-
     /**
      * Find one product using his barcode
      * @param {string} code barcode to search
      */
     static searchProductByCode(code) {
-        const url = `${this.getBaseUrl()}/api/products/${code}`;
+        const url = `${HTTPService.getBaseUrl()}/api/products/${code}`;
         return new Promise(function (resolve, reject) {
             fetch(url, { method: 'GET' })
                 .then(response => {
@@ -34,7 +30,7 @@ class ProductService {
      * @param {function} callback function to execute once the products are been found
      */
     static getNumberOfProductsForName(name, callback) {
-        const url = `${this.getBaseUrl()}/api/products?name=${name}&count=true`;
+        const url = `${HTTPService.getBaseUrl()}/api/products?name=${name}&count=true`;
         fetch(url, { method: 'GET' })
             .then(response => {
                 response.json().then((parsedResponse) => {
@@ -54,7 +50,7 @@ class ProductService {
      * @param {function} callback function to execute once the products are been found
      */
     static searchProductsByName(name, page, itemsPerPage, callback) {
-        const url = `${this.getBaseUrl()}/api/products?name=${name}&page=${page}&itemsPerPage=${itemsPerPage}`;
+        const url = `${HTTPService.getBaseUrl()}/api/products?name=${name}&page=${page}&itemsPerPage=${itemsPerPage}`;
         fetch(url, { method: 'GET' })
             .then(response => {
                 response.json().then((parsedResponse) => {
