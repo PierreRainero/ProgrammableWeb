@@ -529,6 +529,85 @@ Permet de créer une nouvelle recette.
 * **ingredients** : requis (contenant au moins deux ingrédients)
 * **author** : optionnel
 
+
+`/api/products/{recipeId}` : **GET**  
+Permet de retrouver une recette à partir de son id. L'objet retourné dans le cas d'une recherche réussit (code 200) et où le _recipeId_ vaut "5c61a630cf721c1447e2c38e" est le suivant :
+
+
+```json
+{
+  "_id": "5c61a630cf721c1447e2c38e",
+  "name": "Le merlet bleu sauce citron",
+  "comments": [
+    {
+      "_id": "5c61a6ebcf721c1447e2c38f",
+      "body": "Un délice, choisissez un merlet bleu bien tendre !!",
+      "author": "Gaulthier Toussaint",
+      "created_at": "2019-02-11T16:46:35.397Z"
+    }
+  ],
+  "ingredients": [
+    {
+      "code": "3760068130121",
+      "name": "Le merle",
+      "score": 65,
+      "nutrigrade": "",
+      "novaGroup": -1,
+      "ingredients": [],
+      "allergens": [],
+      "additives": []
+    },
+    {
+      "code": "4762188803731",
+      "name": "citron bio",
+      "score": 67,
+      "nutrigrade": "",
+      "novaGroup": 4,
+      "ingredients": [
+        {
+          "id": "Ingredient",
+          "name": "ingrédients"
+        },
+        {
+          "id": "Water",
+          "name": "eau"
+        },
+        {
+          "id": "Jus-de-citron-biologique",
+          "name": "jus de citron biologique"
+        },
+        {
+          "id": "Acid",
+          "name": "acidifiant"
+        },
+        {
+          "id": "Citric-acid",
+          "name": "acide citrique"
+        },
+        {
+          "id": "Huile-essentielle-de-citron-biologique",
+          "name": "huile essentielle de citron biologique"
+        },
+        {
+          "id": "Valeurs-nutritionnelles-moyennes-pour-100-ml--energie-112k",
+          "name": "Valeurs nutritionnelles moyennes pour 100 ml \nEnergie 112k"
+        },
+        {
+          "id": "26--matieres-grasses-og-dont-acides-gras-saturés-og-glucides-0‚4-g-dont-sucres-0‚4-g-proteins-01g-sel-og",
+          "name": "26 \nMatieres grasses Og dont acides gras saturés Og\nGlucides 0‚4 g dont sucres 0‚4 g\nProteins 01g\nSel Og"
+        }
+      ],
+      "allergens": [],
+      "additives": [
+        "E330"
+      ]
+    }
+  ],
+  "createdAt": "2019-02-11T16:43:28.659Z",
+  "updatedAt": "2019-02-11T16:46:35.398Z"
+}
+```
+
 `/api/recipes/{recipeId}/comments` : **GET**  
 Permet de retrouver tous les commentaires associés à une recette. Les commentaires sont classés dans leur ordre de soumission (les plus anciens en premiers):  
 

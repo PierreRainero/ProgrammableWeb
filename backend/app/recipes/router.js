@@ -10,6 +10,7 @@
 
 const recipesDb = require('../database/recipes.js');
 let router = require('express').Router();
+const ise = require('../errors/internal-server-error');
 
 /**
  * Get all recipes.
@@ -24,7 +25,7 @@ const getAllRecipes = async (req, res) => {
             if (queryParameters.page && !isNaN(queryParameters.page) && queryParameters.itemsPerPage && !isNaN(queryParameters.itemsPerPage)) {
                 getRecipesByName(res, queryParameters.name, parseInt(queryParameters.page), parseInt(queryParameters.itemsPerPage));
             } else {
-                getRecipesByName(res, queryParameters.name,  1, 20);
+                getRecipesByName(res, queryParameters.name, 1, 20);
             }
         } else {
             if (queryParameters.page && !isNaN(queryParameters.page) && queryParameters.itemsPerPage && !isNaN(queryParameters.itemsPerPage)) {
@@ -35,6 +36,28 @@ const getAllRecipes = async (req, res) => {
         }
     }
 }
+
+/**
+ * Get a specific recipe using his id
+ * @param {express.Request} req Express HTTP request containing recipe id as path parameter
+ * @param {express.Response} res Express HTTP response containing corresponding recipe
+ */
+const getRecipeByCode = async (req, res) => {
+    if (!req.params.recipeId || req.params.recipeId === '') {
+        res.status(400).send("Recipe id is missing.");
+        return;
+    }
+
+    recipesDb.findById(
+        req.params.recipeId,
+        (productFound) => {
+            res.status(200).send(productFound);
+        },
+        (error) => {
+            ise(res, error, 'There was an error finding the recipe.');
+        }
+    );
+};
 
 /**
  * Get all recipes (ordered by id) that match to the given string. 
@@ -50,8 +73,7 @@ const getRecipesByName = (res, name, page, itemsPerPage) => {
             res.status(200).send(recipesFound);
         },
         (error) => {
-            console.log("Error: " + error.message);
-            res.status(500).send(error.message);
+            ise(res, error, error.message);
         }
     );
 }
@@ -69,8 +91,7 @@ const getAllRecipesWithIndex = (res, page, itemsPerPage) => {
             res.status(200).send(recipesFound);
         },
         (error) => {
-            console.log("Error: " + error.message);
-            res.status(500).send(error.message);
+            ise(res, error, error.message);
         }
     );
 }
@@ -96,8 +117,7 @@ const getAllComments = async (req, res) => {
             res.status(200).send(comments);
         },
         (error) => {
-            console.log("Error: " + error.message);
-            res.status(500).send(error.message);
+            ise(res, error, error.message);
         }
     );
 }
@@ -129,8 +149,7 @@ const createRecipe = async (req, res) => {
                 res.status(200).send(recipeCreated);
             },
             (error) => {
-                console.log("Error: " + error.message);
-                res.status(500).send(error.message);
+                ise(res, error, error.message);
             }
         );
 
@@ -159,16 +178,11 @@ const createComment = async (req, res) => {
             req.params.recipeId,
             bodyParameters.body,
             bodyParameters.author,
-            (commentsFound) => {
-                const comments = new Array();
-                for (const comment of commentsFound) {
-                    comments.push(comment.toJSON());
-                }
-                res.status(200).send(comments);
+            (recipeUpdated) => {
+                res.status(200).send(recipeUpdated);
             },
             (error) => {
-                console.log("Error: " + error.message);
-                res.status(500).send(error.message);
+                ise(res, error, error.message);
             }
         );
     }
@@ -177,6 +191,7 @@ const createComment = async (req, res) => {
 // ROUTES :
 router.get('', getAllRecipes);
 router.post('', createRecipe);
+router.get('/:recipeId', getRecipeByCode);
 router.get('/:recipeId/comments', getAllComments);
 router.post('/:recipeId/comments', createComment);
 

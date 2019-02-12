@@ -31,9 +31,29 @@ const findAll = (page, itemsPerPage, successCallBack, errorCallback) => {
             for (const product of recipe.ingredients) {
                 products.push(middleware.parseProduct(product.toJSON()));
             }
-            recipes.push({ _id: recipe._id, name: recipe.name, comments: recipe.comments, author: recipe.author, ingredients: products });
+            recipes.push({ _id: recipe._id, name: recipe.name, comments: recipe.comments, author: recipe.author, ingredients: products, createdAt: recipe.createdAt, updatedAt: recipe.updatedAt});
         }
         return successCallBack(recipes);
+    })
+}
+
+const findById = (recipeId, successCallBack, errorCallback) => {
+    recipesModel.find({ _id: recipeId }).populate({ path: 'ingredients', model: 'france' }).exec((err, result) => {
+        if (err) {
+            return errorCallback(err);
+        }
+        
+        if (result.length === 1) {
+            let recipe = result[0];
+            const products = new Array();
+            for (const product of recipe.ingredients) {
+                products.push(middleware.parseProduct(product.toJSON()));
+            }
+            recipe =  { _id: recipe._id, name: recipe.name, comments: recipe.comments, author: recipe.author, ingredients: products, createdAt: recipe.createdAt, updatedAt: recipe.updatedAt};
+            successCallBack(recipe);
+        } else {
+            errorCallback('Invalid code.');
+        }
     })
 }
 
@@ -49,7 +69,7 @@ const findAllByName = (receiptName, page, itemsPerPage, successCallBack, errorCa
             for (const product of recipe.ingredients) {
                 products.push(middleware.parseProduct(product.toJSON()));
             }
-            recipes.push({ _id: recipe._id, name: recipe.name, comments: recipe.comments, author: recipe.author, ingredients: products });
+            recipes.push({ _id: recipe._id, name: recipe.name, comments: recipe.comments, author: recipe.author, ingredients: products, createdAt: recipe.createdAt, updatedAt: recipe.updatedAt});
         }
         successCallBack(recipes);
     })
@@ -86,7 +106,7 @@ const create = (name, ingredients, author, successCallBack, errorCallback) => {
                 for (const product of recipe.ingredients) {
                     products.push(middleware.parseProduct(product));
                 }
-                return successCallBack({ _id: recipe._id, name: recipe.name, comments: recipe.comments, author: recipe.author, ingredients: products });
+                return successCallBack({ _id: recipe._id, name: recipe.name, comments: recipe.comments, author: recipe.author, ingredients: products, createdAt: recipe.createdAt, updatedAt: recipe.updatedAt});
             });
         })
         .catch(err => {
@@ -108,12 +128,17 @@ const createComment = (recipeId, body, author, successCallBack, errorCallback) =
             if (!recipe || !recipe.comments) {
                 return errorCallback({ message: 'No existing recipe for this id.' });
             }
-            return successCallBack(recipe.comments);
+            const products = new Array();
+            for (const product of recipe.ingredients) {
+                products.push(middleware.parseProduct(product));
+            }
+            return successCallBack({ _id: recipe._id, name: recipe.name, comments: recipe.comments, author: recipe.author, ingredients: products, createdAt: recipe.createdAt, updatedAt: recipe.updatedAt});
         }
     );
 }
 
 exports.findAll = findAll;
+exports.findById = findById;
 exports.findAllByName = findAllByName;
 exports.findAllComments = findAllComments;
 exports.create = create;

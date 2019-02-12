@@ -29,7 +29,7 @@ describe('API - Recipes', function () {
         });
 
         describe('GET /recipes?page={pageNumber}&itemsPerPage={numberItemsPerPage}', function () {
-            
+
             it('should return a list of 1 element', function (done) {
                 request(app)
                     .get('/api/recipes?page=1&itemsPerPage=1')
@@ -56,6 +56,27 @@ describe('API - Recipes', function () {
                             return done(err);
                         }
                         expect(res.body.length).toBeLessThanOrEqual(20);
+                        return done();
+                    });
+            });
+
+        });
+
+        describe('GET /recipes/:recipeId', function () {
+            /**
+             * TODO: use database (create and delete a receipt for tests)
+             */
+            it('should return a json object with right name', function (done) {
+                request(app)
+                    .get('/api/recipes/5c60055c6196b85bfba02cdd')
+                    .set('Accept', 'application/json')
+                    .expect('Content-Type', /json/)
+                    .expect(200)
+                    .end((err, res) => {
+                        if (err) {
+                            return done(err);
+                        }
+                        expect(res.body.name).toBe('Cheese & Macaroni');
                         return done();
                     });
             });
@@ -105,7 +126,7 @@ describe('API - Recipes', function () {
                         return done();
                     });
             });
-            
+
         });
     });
 
@@ -183,7 +204,7 @@ describe('API - Recipes', function () {
                     });
                     return done();
                 });
-                
+
         });
 
         it('should create a recipe with no author', function (done) {
