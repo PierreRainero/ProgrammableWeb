@@ -7,6 +7,7 @@
  */
 const franceDb = require('../database/france.js');
 let router = require('express').Router();
+const ise = require('../errors/internal-server-error');
 
 /**
  * Get a specific product using his code
@@ -15,7 +16,7 @@ let router = require('express').Router();
  */
 const getProductByCode = async (req, res) => {
     if (!req.params.productCode || req.params.productCode === '') {
-        res.status(422).send("Product id is missing.");
+        res.status(400).send("Product id is missing.");
         return;
     }
 
@@ -25,15 +26,14 @@ const getProductByCode = async (req, res) => {
             res.status(200).send(productFound);
         },
         (error) => {
-            console.log("Error: " + error.message);
-            res.status(500).send(error.message);
+          ise(res, error, 'There was an error finding the product.');
         }
     );
 };
 
 /**
  * Get all products (ordered by id) by group. Each group can be defined using query parameters.
- * @param {express.Request} req Express HTTP request 
+ * @param {express.Request} req Express HTTP request
  * @param {express.Response} res Express HTTP response
  */
 const getAllProducts = async (req, res) => {
@@ -71,13 +71,12 @@ const getAllProductsWithIndex = (res, page, itemsPerPage) => {
             res.status(200).send(productsFound);
         },
         (error) => {
-            console.log("Error: " + error.message);
-            res.status(500).send(error.message);
+          ise(res, error, 'There was an error finding the products.');
         });
 }
 
 /**
- * Get all products (ordered by id) that match to the given string. 
+ * Get all products (ordered by id) that match to the given string.
  * @param {express.Response} res Express HTTP response containing corresponding products
  * @param {*} name String to match
  */
@@ -88,8 +87,9 @@ const getProductsByName = (res, name) => {
             res.status(200).send(productsFound);
         },
     (error) => {
+      if(config.PRODUCTION)
         console.log("Error: " + error.message);
-        res.status(500).send(error.message);
+      res.status(500).send(error.message);
     });
 }
 
@@ -100,14 +100,13 @@ const getProductsByIngredient = (res, ingredient, page, itemsPerPage) => {
             res.status(200).send(productsFound);
         },
         (error) => {
-            console.log("Error: " + error.message);
-            res.status(500).send(error.message);
+          ise(res, error, 'There was an error finding the ingredients.');
         }
     );
 }
 
 // ROUTES :
-router.get('/products', getAllProducts);
-router.get('/products/:productCode', getProductByCode);
+router.get('/', getAllProducts);
+router.get('/:productCode', getProductByCode);
 
 module.exports = router;
