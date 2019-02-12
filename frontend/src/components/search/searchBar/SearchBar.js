@@ -1,10 +1,10 @@
 import React from 'react';
-
-import './SearchBar.scss';
 import { Button, Form, FormControl } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import history from '../../../history';
+
+import './SearchBar.scss';
 
 /**
  * Composent used to search products.
@@ -32,6 +32,10 @@ class SearchBar extends React.Component {
      * Navigate to the result view of the search
      */
     search = (event) => {
+        if(!this.state.searchingValue || this.state.searchingValue === ''){
+            return;
+        }
+        
         history.push({
             pathname: '/products',
             data: { searchingValue: this.state.searchingValue }
@@ -46,9 +50,21 @@ class SearchBar extends React.Component {
     render() {
         return (
             <Form inline>
-                <FormControl type='text' placeholder='Rechercher' className='mr-sm-2'
-                    value={this.state.searchingValue} onChange={this.handleSearchingInputChange} />
-                <Button className='btn-secondary' onClick={this.search}>
+                <FormControl
+                    type='text'
+                    placeholder='Rechercher'
+                    className='searchInput'
+                    ref='search-input'
+                    value={this.state.searchingValue}
+                    onChange={this.handleSearchingInputChange}
+                    onKeyPress={e => {
+                        if (e.key === 'Enter') {
+                            this.search(e);
+                        }
+                    }}
+                />
+                <Button variant='' className='button-secondary searchButton' onClick={this.search} ref='search-submit'>
+
                     <FontAwesomeIcon icon={faSearch} />
                 </Button>
             </Form>

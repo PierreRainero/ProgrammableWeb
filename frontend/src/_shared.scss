@@ -15,27 +15,35 @@ html, body, #root {
 }
 
 // BUTTONS
-.btn-primary {
+.btn.button-primary {
     color: $primary-color-text;
+    border-color: $primary-color;
     background-color: $primary-color
 }
 
-.btn-primary:hover,
-.btn-primary:active,
-.btn-primary:focus {
+.btn.button-primary:hover,
+.btn.button-primary:active,
+.btn.button-primary:focus,
+.btn.button-primary:visited,
+.btn.button-primary:target {
     color: $primary-color-text;
+    border-color: $primary-color;
     background-color: $primary-color-dark
 }
 
-.btn-secondary {
+.btn.button-secondary {
     color: $secondary-color-text;
+    border-color: $secondary-color;
     background-color: $secondary-color
 }
 
-.btn-secondary:hover,
-.btn-secondary:active,
-.btn-secondary:focus {
+.btn.button-secondary:hover,
+.btn.button-secondary:active,
+.btn.button-secondary:focus,
+.btn.button-secondary:visited,
+.btn.button-secondary:target  {
     color: $secondary-color-text;
+    border-color: $secondary-color;
     background-color: $secondary-color-dark;
 }
 

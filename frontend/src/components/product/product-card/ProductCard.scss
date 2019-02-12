@@ -9,20 +9,16 @@
     padding: 0.3em;
 }
 
-.card-subtitle.good-score {
-    color: $success-color;
-}
-
-.card-subtitle.medium-score {
-    color: $warning-color;
-}
-
-.card-subtitle.bad-score {
-    color: $danger-color;
-}
-
 .big-text {
     font-size: 200%;
+}
+
+.score-zone {
+    width: 50px;
+    height: 50px;
+    margin-left: 125px;
+    margin-top: -25px;
+    display: inline-block;
 }
 
 .one-line-title {
@@ -32,29 +28,9 @@
     text-overflow: ellipsis;
 }
 
-.a-value {
-    background-color: $a-value;
-    color: $primary-color-text; 
-}
-
-.b-value {
-    background-color: $b-value;
-    color: $primary-color-text; 
-}
-
-.c-value {
-    background-color: $c-value;
-    color: $primary-color-text; 
-}
-
-.d-value {
-    background-color: $d-value;
-    color: $primary-color-text; 
-}
-
-.e-value {
-    background-color: $e-value;
-    color: $primary-color-text; 
+.productImg {
+    width: 150px;
+    height: 150px;
 }
 
 .definition {

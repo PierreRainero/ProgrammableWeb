@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Navbar, Nav } from 'react-bootstrap';
 import history from '../../history';
 
@@ -10,13 +10,14 @@ import SearchBar from "../search/searchBar/SearchBar";
  * Component to navigate easily between the different pages.
  */
 class NavigationBar extends React.Component {
+
     /**
      * Render the component
      */
     render() {
         return <Navbar expand='lg' className='navBar-primary'>
             <Navbar.Brand>
-                <Link to='/' className='no-decoration'>
+                <Link to='/' className='no-decoration' ref='link-brand'>
                     <img
                         alt='logo'
                         src={require('../../assets/imgs/logo.png')}
@@ -42,4 +43,4 @@ class NavigationBar extends React.Component {
     }
 }
 
-export default withRouter(NavigationBar);
+export default NavigationBar;

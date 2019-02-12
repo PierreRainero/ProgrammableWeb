@@ -1,7 +1,7 @@
 import React from 'react';
 
 import './Home.scss';
-import {Col, Container, Row} from "react-bootstrap";
+import {Col, Container, Image, Row} from "react-bootstrap";
 import SearchBar from "../search/searchBar/SearchBar";
 
 /**
@@ -18,7 +18,7 @@ class Home extends React.Component {
                 <Container className="homeContainer">
                     <Row className="homeRow">
                         <Col md={6} className="homeCol">
-                            <img src={require("../../assets/imgs/logo.png")} alt="logo" />
+                            <Image src={require("../../assets/imgs/logo.png")} alt="logo" fluid/>
                             <p className="textShadow">Elfy est une application vous permettant de vous renseigner sur les aliments que vous achetez afin d'améliorer votre consommation.</p>
                         </Col>
                         <Col md={6} className="homeCol">

@@ -1,10 +1,11 @@
 import React from 'react';
-
-import './ProductScreen.scss';
 import Loading from '../../loading/Loading';
 import ProductService from '../ProductService';
 import ProductScore from '../product-score/ProductScore';
 import CardList from './cardList/CardList';
+import { Col, Container } from 'react-bootstrap';
+
+import './ProductScreen.scss';
 
 /**
  * Component to fully present a product.
@@ -13,25 +14,26 @@ class ProductScreen extends React.Component {
 
     state = {
         loading: true,
-        product: null
+        product: null,
+        productImage: require('../../../assets/imgs/placeholder.png')
     }
 
     /**
      * Call after fully finishing to build this component
      */
-    componentDidMount(){
-        if(this.props.location.data){
+    componentDidMount() {
+        if (this.props.location.data) {
             const productReceived = this.props.location.data.product;
-            if(productReceived.img !==''){
-                this.setState({ loading: false, product: productReceived, productImage: productReceived.img});
+            if (productReceived.img !== '') {
+                this.setState({ loading: false, product: productReceived, productImage: productReceived.img });
             } else {
-                this.setState({ loading: false, product: productReceived, productImage: require('../../../assets/imgs/placeholder.png')});
+                this.setState({ loading: false, product: productReceived });
             }
         } else {
             ProductService.searchProductByCode(this.props.match.params.id).then(product => {
-                this.setState({loading: false, product: product});
-                ProductService.getProductImage(this.product.code, (imgURL) => {
-                    if(imgURL!==''){
+                this.setState({ loading: false, product: product });
+                ProductService.getProductImage(this.state.product.code, (imgURL) => {
+                    if (imgURL !== '') {
                         this.setState({ productImage: imgURL });
                     }
                 });
@@ -49,7 +51,7 @@ class ProductScreen extends React.Component {
             <div>
                 {this.state.loading ?
                     <div>
-                        <Loading/>
+                        <Loading />
                     </div>
                     :
                     <div>
@@ -64,16 +66,22 @@ class ProductScreen extends React.Component {
                                     className={'shadow'}
                                 />
                             </div>
-                            <div className='productName textShadow'>{this.state.product.name}</div>
+                            <div className={`productName ${window.innerWidth > 576 ? 'textShadow' : ''}`}>{this.state.product.name}</div>
                             <div className='productScorePart'>
-                                <ProductScore score={this.state.product.score} nutrigrade={this.state.product.nutrigrade} novaGroup={this.state.product.novaGroup}/>
+                                <ProductScore score={this.state.product.score} nutrigrade={this.state.product.nutrigrade} novaGroup={this.state.product.novaGroup} />
                             </div>
                         </div>
-                        <div className='productDetails'>
-                            <CardList title='Ingrédients' data={this.state.product.ingredients}/>
-                            <CardList title='Additifs' data={this.state.product.additives}/>
-                            <CardList title='Allergènes' data={this.state.product.allergens}/>
-                        </div>
+                        <Container className='productDetails'>
+                            <Col md={4}>
+                                <CardList title='Ingrédients' data={this.state.product.ingredients} />
+                            </Col>
+                            <Col md={4}>
+                                <CardList title='Additifs' data={this.state.product.additives} />
+                            </Col>
+                            <Col md={4}>
+                                <CardList title='Allergènes' data={this.state.product.allergens} />
+                            </Col>
+                        </Container>
                     </div>
                 }
             </div>

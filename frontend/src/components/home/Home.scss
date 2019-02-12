@@ -3,8 +3,8 @@
 .homeContent{
   background: url("../../assets/imgs/homeBackground.jpg") no-repeat center;
   background-size: cover;
-  height: 94%;
   color: $primary-color-text;
+  height: 100%;
 }
 
 .homeContainer, .homeRow, .homeCol{
@@ -15,7 +15,8 @@
   max-width: none!important;
   width: 100%!important;
   margin: 0!important;
-  padding: 50px!important;
+  padding-left: 50px;
+  padding-right: 50px;
 }
 
 .homeCol{
@@ -35,4 +36,25 @@
 
 .homeCol h1{
   margin-bottom: 25px;
+}
+
+@media (max-width: 576px) {
+  .homeCol{
+    display: block;
+    height: auto;
+  }
+
+  .homeCol img{
+    margin-top: 50px;
+    width: 150px;
+  }
+
+  .homeCol p{
+    width: 100%;
+  }
+
+  .homeCol h1{
+    margin-bottom: 25px;
+    font-size: 2rem;
+  }
 }

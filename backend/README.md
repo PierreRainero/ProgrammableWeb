@@ -27,9 +27,13 @@ Une fois le serveur du "backend" lancé l'api suivante est exposée (port 3000) 
        └── /products
              └── /{productCode}
        └── /recipes
+       └── /stores
+            └── /{storeId}
 ```
 
 ## Fonctionnalités
+
+### Produits
 
 `/api/products?page=13984&itemsPerPage=2` : **GET**  
 Permet de retrouver tous les produits par groupe. Les produits sont classés en fonction de leur "id", on peut définir le nombre de produits par groupe et quel groupe on souhaite chercher :  
@@ -155,8 +159,9 @@ Permet de retrouver tous les produits contenant le chaine recherché (non sensib
 ]
 ```
 
-`/api/products?name=tortellini pesto` : **GET**   
+`/api/products?name=tortellini pesto` : **GET**  
 En ajoutant un second mot lors de la recherche, l'on aura donc des résultats plus précis.
+
 ```json
 [
   {
@@ -302,18 +307,35 @@ Permet de trouver tous les produits qui ont un certain ingredient. Les produits 
         }
         ],
         "allergens": [
-        
+
         ],
         "additives": [
-        
+
         ]
     }
 ]
+
 ```
+
+### Prix
+
+`/api/prices` : **POST**
+Permet d'ajouter une information de prix pour un produit dans un point de vente. La requête doit avoir un corps avec les champs et leurs contraintes suivantes :
+
+* `productCode` doit être une chaîne de caractères correspondant à un code de produit existant
+* `storeId` doit être une chaîne de caractères correspondant à la valeur ObjectID de point de vente existant
+* `price` doit être un nombre strictement positif
+
+`/api/prices?productCode={product_code}&storeId={store_id}` : **GET**
+
+Permet de trouver les informations de prix correspondant aux produit et/ou au point de vente spécifié. Ces deux paramètres sont optionnels, si ils sont tous les deux absents, tous les prix seront retournés.
+
+### Recettes
 
 `/api/recipes?page=1&itemsPerPage=2` : **GET**  
 Permet de retrouver tous les recettes contenues dans la base de données, par groupe. Les produits sont classés en fonction de leur "id", on peut choisir le nombre de recettes par groupe et quel groupe l'on souhaite chercher :  
 **Par défaut :** _page=1, itemsPerPage=20_
+
 ```json
 [
   {
@@ -492,8 +514,9 @@ Permet de retrouver tous les recettes contenant le chaine recherché (non sensib
 ```
 
 `/api/recipes` : **POST**  
-Permet de créer une nouvelle recette.   
+Permet de créer une nouvelle recette.  
 **Exemple d'utilisation :** création de la recette "Cheese & Macaroni" :  
+
 ```json
 {
     "name": "Cheese & Macaroni",
@@ -501,12 +524,14 @@ Permet de créer une nouvelle recette.
     "author": "Fabien"
 }
 ```
+
 * **name** : requis
 * **ingredients** : requis (contenant au moins deux ingrédients)
 * **author** : optionnel
 
 `/api/recipes/{recipeId}/comments` : **GET**  
 Permet de retrouver tous les commentaires associés à une recette. Les commentaires sont classés dans leur ordre de soumission (les plus anciens en premiers):  
+
 ```json
 [
   {
@@ -525,13 +550,102 @@ Permet de retrouver tous les commentaires associés à une recette. Les commenta
 ```
 
 `/api/recipes/{recipeId}/comments` : **POST**  
-Permet de créer un nouveau commentaire par rapport à une recette.   
+Permet de créer un nouveau commentaire par rapport à une recette.  
 **Exemple d'utilisation :** ajout d'un commentaire pour la recette 5c60055c6196b85bfba02cdd (`/api/recipes/5c60055c6196b85bfba02cdd/comments`) :  
+
 ```json
 {
-	"body": "Très bonne recette, je vais surement la proposer dans mon restaurant !",
-	"author": "Philippe Etchebest"
+  "body": "Très bonne recette, je vais surement la proposer dans mon restaurant !",
+  "author": "Philippe Etchebest"
 }
 ```
+
 * **body** : comment
 * **author** : optionnel
+
+### Magasins
+
+`/api/stores` : **POST**  
+Permet de créer un nouveau magasin.  
+**Exemple d'utilisation :** création du magasin "Carrefour - Antibes" :  
+
+```json
+{
+    "name": "Carrefour - Antibes",
+    "location": {
+        "lat": 43.615575,
+        "long":7.071389,
+    },
+}
+```
+
+* **name** : requis
+* **location** : requis
+
+`/api/stores` : **GET**  
+Permet de retrouver tous les magasins contenues dans la base de données. Les magasins sont classés en fonction de leur "id":  
+
+```json
+[
+  {
+    "location": {
+      "lat": 43.604087,
+      "long": 7.089491
+    },
+    "_id": "5c617c61193cd709f1603d48",
+    "name": "Carrefour - Antibes",
+    "__v": 0
+  },
+  {
+    "location": {
+      "lat": 43.645932,
+      "long": 7.049446
+    },
+    "_id": "5c617d39193cd709f1603d4a",
+    "name": "Carrefour Market - Valbonne",
+    "__v": 0
+  }
+]
+```
+
+`/api/stores?lat={latitude}&long={longitude}&range={range}` : **GET**  
+Permet de retrouver tous les magasins contenues dans la base de données autour d'une position en définissant un rayon de recherche. Les magasins sont classés en fonction de leur "id":  
+
+```json
+[
+  {
+    "_id": "5c617c61193cd709f1603d48",
+    "distance": 1.9379962893709548,
+    "location": {
+      "lat": 43.604087,
+      "long": 7.089491
+    }
+  },
+  {
+    "_id": "5c617d7d193cd709f1603d4b",
+    "distance": 0.409252166415119,
+    "location": {
+      "lat": 43.618015,
+      "long": 7.075195
+    }
+  }
+]
+]
+```
+
+`/api/stores/{storeId}` : **GET**  
+Permet de retrouver un promagasin à partir de son id. L'objet retourné dans le cas d'une recherche réussit (code 200) :
+
+```json
+  [
+    {
+    "location": {
+      "lat": 43.604087,
+      "long": 7.089491
+    },
+    "_id": "5c617c61193cd709f1603d48",
+    "name": "Carrefour - Antibes",
+    "__v": 0
+  }
+]
+```

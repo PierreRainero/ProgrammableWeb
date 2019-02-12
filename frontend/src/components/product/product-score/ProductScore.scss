@@ -5,7 +5,6 @@
   height: 100%;
   border-radius: 10px;
   background: white;
-  font-size: 15pt;
   font-weight: bold;
   overflow: hidden;
 }
@@ -13,12 +12,12 @@
 .productScore, .productScoreBottom{
   width: 100%;
   height: 50%;
-  display: inline-flex;
   align-items: center;
 }
 
 .productScore{
   border-bottom: 1px solid white;
+  display: flex;
 }
 
 .productNutrigrade, .productNovaGroup{
@@ -47,6 +46,7 @@
 }
 
 .productNutrigradeContent, .productNovaGroupContent{
+  margin-top: -2px;
   color: $primary-color-text;
 }
 
@@ -84,5 +84,10 @@
 
 .e-value {
   background-color: $e-value;
+  color: $primary-color-text;
+}
+
+.default-value {
+  background-color: $gray;
   color: $primary-color-text;
 }

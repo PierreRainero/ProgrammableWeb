@@ -71,6 +71,16 @@ const findByCode = (code, successCallBack, errorCallback) => {
   })
 }
 
+const getNumberOfProductForName = (productName, successCallBack, errorCallback) => {
+  franceModel.count({ product_name: { "$regex": productName, "$options": "is" } }).exec((err, result) => {
+    if (err) {
+      return errorCallback(err);
+    }
+
+    successCallBack(result);
+  })
+}
+
 const searchByName = (productName, page, itemsPerPage, successCallBack, errorCallback) => {
   franceModel.find({ product_name: { "$regex": productName, "$options": "is" } }).skip(itemsPerPage*(page-1)).limit(itemsPerPage).exec((err, result) => {
     if (err) {
@@ -103,3 +113,4 @@ exports.findAll = findAll;
 exports.findByCode = findByCode;
 exports.searchByName = searchByName;
 exports.findAllByIngredient = findAllByIngredient;
+exports.getNumberOfProductForName = getNumberOfProductForName;

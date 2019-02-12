@@ -9,29 +9,6 @@ import { OverlayTrigger, Tooltip } from 'react-bootstrap';
  */
 class ProductScore extends React.Component {
     /**
-     * Get CSS class according to the score of the product
-     */
-    getScoreValue() {
-        if (this.props.score < 30) {
-            return 'bad';
-        } else if (this.props.score < 70) {
-            return 'medium';
-        } else {
-            return 'good';
-        }
-    }
-
-    /**
-     * Get CSS class according to the nutrigrade of the product
-     */
-    getNutriscoreValue() {
-        if (this.props.nutrigrade === '') {
-            return 'e-value';
-        }
-        return `${this.props.nutrigrade.toLowerCase()}-value`;
-    }
-
-    /**
      * Get CSS class according to the nova group of the product
      */
     getNovaValue() {
@@ -46,9 +23,34 @@ class ProductScore extends React.Component {
                 return 'd-value';
 
             case 4:
-            default:
                 return 'e-value';
+
+            default:
+                return 'default-value';
         }
+    }
+
+    /**
+     * Get CSS class according to the score of the product
+     */
+    getScoreValue() {
+        if (this.props.score <= 30) {
+            return 'bad';
+        } else if (this.props.score < 70) {
+            return 'medium';
+        } else {
+            return 'good';
+        }
+    }
+
+    /**
+     * Get CSS class according to the nutrigrade of the product
+     */
+    getNutriscoreValue() {
+        if (this.props.nutrigrade === '') {
+            return 'default-value';
+        }
+        return `${this.props.nutrigrade.toLowerCase()}-value`;
     }
 
     /**
@@ -57,13 +59,12 @@ class ProductScore extends React.Component {
     render() {
         const novaGroup = this.props.novaGroup > 0 ? this.props.novaGroup : undefined;
         return (
-            <div className='productScoreContainer shadow'>
+            <div className='productScoreContainer shadow' style={{ fontSize: this.props.fontsize }}>
                 <div className={`productScore ${this.getScoreValue()}-score`}>
                     <OverlayTrigger
-                        key={'top'}
                         placement={'top'}
                         overlay={
-                            <Tooltip id={`tooltip-top`}>
+                            <Tooltip ref={`tooltip-score`}>
                                 Score du produit
                             </Tooltip>
                         }
@@ -74,10 +75,9 @@ class ProductScore extends React.Component {
                 <div className='productScoreBottom'>
                     <div className={`productNutrigrade ${this.getNutriscoreValue()}`}>
                         <OverlayTrigger
-                            key={'top'}
-                            placement={'top'}
+                            placement={'bottom'}
                             overlay={
-                                <Tooltip id={`tooltip-top`}>
+                                <Tooltip ref={`tooltip-nutriscore`}>
                                     Nutrigrade
                                 </Tooltip>
                             }
@@ -87,10 +87,9 @@ class ProductScore extends React.Component {
                     </div>
                     <div className={`productNovaGroup ${this.getNovaValue()}`}>
                         <OverlayTrigger
-                            key={'top'}
-                            placement={'top'}
+                            placement={'bottom'}
                             overlay={
-                                <Tooltip id={`tooltip-top`}>
+                                <Tooltip ref={`tooltip-novaGroup`}>
                                     NovaGroup
                                 </Tooltip>
                             }
@@ -107,14 +106,16 @@ class ProductScore extends React.Component {
 ProductScore.defaultProps = {
     score: 0,
     nutrigrade: '',
-    novaGroup: -1
+    novaGroup: -1,
+    fontsize: '15pt'
 
 };
 
 ProductScore.propTypes = {
     score: PropTypes.number,
     nutrigrade: PropTypes.string,
-    novaGroup: PropTypes.number
+    novaGroup: PropTypes.number,
+    fontsize: PropTypes.string
 };
 
 export default ProductScore;
