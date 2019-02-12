@@ -1,15 +1,16 @@
 /**
  * REST API for Recipes
  * /recipes
- *      - GET : Return "all" recipes
- *      - POST : Create a new recipe
+ *      - GET   : Return "all" recipes
+ *      - POST  : Create a new recipe
  * /recipes/{recipeId}/comments
- *      - GET : Return all comments from one recipe (selected by {recipeId})
- *      - POST : Create a new comment about a recipe (selected by {recipeId})
+ *      - GET   : Return all comments from one recipe (selected by {recipeId})
+ *      - POST  : Create a new comment about a recipe (selected by {recipeId})
  */
 
 const recipesDb = require('../database/recipes.js');
 let router = require('express').Router();
+const ise = require('../errors/internal-server-error');
 
 /**
  * Get all recipes.
@@ -17,13 +18,80 @@ let router = require('express').Router();
  * @param {express.Response} res Express HTTP response
  */
 const getAllRecipes = async (req, res) => {
-    recipesDb.findAll(
+    const queryParameters = req.query;
+
+    if (queryParameters !== undefined) {
+        if (queryParameters.name) {
+            if (queryParameters.page && !isNaN(queryParameters.page) && queryParameters.itemsPerPage && !isNaN(queryParameters.itemsPerPage)) {
+                getRecipesByName(res, queryParameters.name, parseInt(queryParameters.page), parseInt(queryParameters.itemsPerPage));
+            } else {
+                getRecipesByName(res, queryParameters.name, 1, 20);
+            }
+        } else {
+            if (queryParameters.page && !isNaN(queryParameters.page) && queryParameters.itemsPerPage && !isNaN(queryParameters.itemsPerPage)) {
+                getAllRecipesWithIndex(res, parseInt(queryParameters.page), parseInt(queryParameters.itemsPerPage));
+            } else {
+                getAllRecipesWithIndex(res, 1, 20);
+            }
+        }
+    }
+}
+
+/**
+ * Get a specific recipe using his id
+ * @param {express.Request} req Express HTTP request containing recipe id as path parameter
+ * @param {express.Response} res Express HTTP response containing corresponding recipe
+ */
+const getRecipeByCode = async (req, res) => {
+    if (!req.params.recipeId || req.params.recipeId === '') {
+        res.status(400).send("Recipe id is missing.");
+        return;
+    }
+
+    recipesDb.findById(
+        req.params.recipeId,
+        (productFound) => {
+            res.status(200).send(productFound);
+        },
+        (error) => {
+            ise(res, error, 'There was an error finding the recipe.');
+        }
+    );
+};
+
+/**
+ * Get all recipes (ordered by id) that match to the given string. 
+ * @param {express.Response} res Express HTTP response containing corresponding products
+ * @param {number} page page number to display (itemsPerPage*page)
+ * @param {number} itemsPerPage number of products per diplayed by page
+ * @param {*} name String to match
+ */
+const getRecipesByName = (res, name, page, itemsPerPage) => {
+    recipesDb.findAllByName(
+        name, page, itemsPerPage,
         (recipesFound) => {
             res.status(200).send(recipesFound);
         },
         (error) => {
-            console.log("Error: " + error.message);
-            res.status(500).send(error.message);
+            ise(res, error, error.message);
+        }
+    );
+}
+
+/**
+ * Get all recipes (ordered by id) by group. Each group can be defined using query parameters.
+ * @param {express.Response} res Express HTTP response containing corresponding products
+ * @param {number} page page number to display (itemsPerPage*page)
+ * @param {number} itemsPerPage number of products per diplayed by page
+ */
+const getAllRecipesWithIndex = (res, page, itemsPerPage) => {
+    recipesDb.findAll(
+        page, itemsPerPage,
+        (recipesFound) => {
+            res.status(200).send(recipesFound);
+        },
+        (error) => {
+            ise(res, error, error.message);
         }
     );
 }
@@ -49,8 +117,7 @@ const getAllComments = async (req, res) => {
             res.status(200).send(comments);
         },
         (error) => {
-            console.log("Error: " + error.message);
-            res.status(500).send(error.message);
+            ise(res, error, error.message);
         }
     );
 }
@@ -82,8 +149,7 @@ const createRecipe = async (req, res) => {
                 res.status(200).send(recipeCreated);
             },
             (error) => {
-                console.log("Error: " + error.message);
-                res.status(500).send(error.message);
+                ise(res, error, error.message);
             }
         );
 
@@ -112,16 +178,11 @@ const createComment = async (req, res) => {
             req.params.recipeId,
             bodyParameters.body,
             bodyParameters.author,
-            (commentsFound) => {
-                const comments = new Array();
-                for (const comment of commentsFound) {
-                    comments.push(comment.toJSON());
-                }
-                res.status(200).send(comments);
+            (recipeUpdated) => {
+                res.status(200).send(recipeUpdated);
             },
             (error) => {
-                console.log("Error: " + error.message);
-                res.status(500).send(error.message);
+                ise(res, error, error.message);
             }
         );
     }
@@ -130,6 +191,7 @@ const createComment = async (req, res) => {
 // ROUTES :
 router.get('', getAllRecipes);
 router.post('', createRecipe);
+router.get('/:recipeId', getRecipeByCode);
 router.get('/:recipeId/comments', getAllComments);
 router.post('/:recipeId/comments', createComment);
 
