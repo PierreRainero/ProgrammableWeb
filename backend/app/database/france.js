@@ -71,8 +71,8 @@ const findByCode = (code, successCallBack, errorCallback) => {
   })
 }
 
-const searchByName = (productName, successCallBack, errorCallback) => {
-  franceModel.find({ product_name: { "$regex": productName, "$options": "is" } }).exec((err, result) => {
+const searchByName = (productName, page, itemsPerPage, successCallBack, errorCallback) => {
+  franceModel.find({ product_name: { "$regex": productName, "$options": "is" } }).skip(itemsPerPage*(page-1)).limit(itemsPerPage).exec((err, result) => {
     if (err) {
       return errorCallback(err);
     }
