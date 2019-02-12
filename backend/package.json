@@ -23,12 +23,12 @@
   },
   "devDependencies": {
     "bistre": "1.0.1",
+    "chai": "4.2.0",
+    "expect": "^24.1.0",
+    "mocha": "5.2.0",
     "standard": "10.0.3",
     "supertest": "3.0.0",
     "tap-dot": "1.0.5",
-    "tape": "4.8.0",
-    "chai": "4.2.0",
-    "mocha": "5.2.0",
-    "expect": "24.1.0"
+    "tape": "4.8.0"
   }
 }
