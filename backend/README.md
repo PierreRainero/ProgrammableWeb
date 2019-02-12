@@ -311,35 +311,182 @@ Permet de trouver tous les produits qui ont un certain ingredient. Les produits 
 ]
 ```
 
-`/api/recipes` : **GET**  
-Permet de retrouver tous les recettes contenues dans la base de données. Les produits sont classés en fonction de leur "id":  
+`/api/recipes?page=1&itemsPerPage=2` : **GET**  
+Permet de retrouver tous les recettes contenues dans la base de données, par groupe. Les produits sont classés en fonction de leur "id", on peut choisir le nombre de recettes par groupe et quel groupe l'on souhaite chercher :  
+**Par défaut :** _page=1, itemsPerPage=20_
 ```json
 [
   {
-    "ingredients": [
-      "20291174",
-      "0064200116473"
-    ],
-    "comments": [],
     "_id": "5c60055c6196b85bfba02cdd",
     "name": "Cheese & Macaroni",
+    "comments": [
+      {
+        "_id": "5c6067a3516101c1efe7f130",
+        "body": "Très bonne recette, je vais surement la proposer dans mon restaurant !",
+        "author": "Philippe Etchebest",
+        "created_at": "2019-02-10T18:04:19.178Z"
+      },
+      {
+        "_id": "5c60685ddf8d1fc3a093e30b",
+        "body": "Wonderful",
+        "author": "Tim Cook",
+        "created_at": "2019-02-10T18:07:25.411Z"
+      }
+    ],
     "author": "Fabien",
-    "createdAt": "2019-02-10T11:05:00.151Z",
-    "updatedAt": "2019-02-10T11:05:00.151Z",
-    "__v": 0
+    "ingredients": [
+      {
+        "code": 20291174,
+        "name": "Cheese slices",
+        "score": 65,
+        "nutrigrade": "",
+        "novaGroup": -1,
+        "ingredients": [],
+        "allergens": [],
+        "additives": []
+      },
+      {
+        "code": 64200116473,
+        "name": "Macaroni",
+        "score": 65,
+        "nutrigrade": "",
+        "novaGroup": -1,
+        "ingredients": [],
+        "allergens": [],
+        "additives": []
+      }
+    ]
   },
   {
-    "ingredients": [
-      "01732344",
-      "0064200116473"
-    ],
-    "comments": [],
     "_id": "5c6005c06196b85bfba02cde",
     "name": "Roquefort & Macaroni",
+    "comments": [
+      {
+        "_id": "5c606bf16f8bbbc82c22e55a",
+        "body": "Niceee !",
+        "author": "Zizou",
+        "created_at": "2019-02-10T18:22:41.892Z"
+      },
+      {
+        "_id": "5c606bf76f8bbbc82c22e55b",
+        "body": "Niceee !",
+        "author": "Zizou",
+        "created_at": "2019-02-10T18:22:47.403Z"
+      }
+    ],
     "author": "Fabien",
-    "createdAt": "2019-02-10T11:06:40.917Z",
-    "updatedAt": "2019-02-10T11:06:40.917Z",
-    "__v": 0
+    "ingredients": [
+      {
+        "code": 1732344,
+        "name": "Roquefort",
+        "score": 65,
+        "nutrigrade": "",
+        "novaGroup": -1,
+        "ingredients": [],
+        "allergens": [],
+        "additives": []
+      },
+      {
+        "code": 64200116473,
+        "name": "Macaroni",
+        "score": 65,
+        "nutrigrade": "",
+        "novaGroup": -1,
+        "ingredients": [],
+        "allergens": [],
+        "additives": []
+      }
+    ]
+  }
+]
+```
+
+`/api/recipes?name=macaroni&page=1&itemsPerPage=2` : **GET**  
+Permet de retrouver tous les recettes contenant le chaine recherché (non sensible à la casse), par groupe. Les produits sont classés en fonction de leur "id", on peut choisir le nombre de recettes par groupe et quel groupe l'on souhaite chercher :    
+**Par défaut :** _page=1, itemsPerPage=20_
+```json
+[
+  {
+    "_id": "5c60055c6196b85bfba02cdd",
+    "name": "Cheese & Macaroni",
+    "comments": [
+      {
+        "_id": "5c6067a3516101c1efe7f130",
+        "body": "Très bonne recette, je vais surement la proposer dans mon restaurant !",
+        "author": "Philippe Etchebest",
+        "created_at": "2019-02-10T18:04:19.178Z"
+      },
+      {
+        "_id": "5c60685ddf8d1fc3a093e30b",
+        "body": "Wonderful",
+        "author": "Tim Cook",
+        "created_at": "2019-02-10T18:07:25.411Z"
+      }
+    ],
+    "author": "Fabien",
+    "ingredients": [
+      {
+        "code": 20291174,
+        "name": "Cheese slices",
+        "score": 65,
+        "nutrigrade": "",
+        "novaGroup": -1,
+        "ingredients": [],
+        "allergens": [],
+        "additives": []
+      },
+      {
+        "code": 64200116473,
+        "name": "Macaroni",
+        "score": 65,
+        "nutrigrade": "",
+        "novaGroup": -1,
+        "ingredients": [],
+        "allergens": [],
+        "additives": []
+      }
+    ]
+  },
+  {
+    "_id": "5c6005c06196b85bfba02cde",
+    "name": "Roquefort & Macaroni",
+    "comments": [
+      {
+        "_id": "5c606bf16f8bbbc82c22e55a",
+        "body": "Niceee !",
+        "author": "Zizou",
+        "created_at": "2019-02-10T18:22:41.892Z"
+      },
+      {
+        "_id": "5c606bf76f8bbbc82c22e55b",
+        "body": "Niceee !",
+        "author": "Zizou",
+        "created_at": "2019-02-10T18:22:47.403Z"
+      }
+    ],
+    "author": "Fabien",
+    "ingredients": [
+      {
+        "code": 1732344,
+        "name": "Roquefort",
+        "score": 65,
+        "nutrigrade": "",
+        "novaGroup": -1,
+        "ingredients": [],
+        "allergens": [],
+        "additives": []
+      },
+      {
+        "code": 64200116473,
+        "name": "Macaroni",
+        "score": 65,
+        "nutrigrade": "",
+        "novaGroup": -1,
+        "ingredients": [],
+        "allergens": [],
+        "additives": []
+      }
+    ]
   }
 ]
 ```

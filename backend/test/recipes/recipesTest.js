@@ -19,11 +19,6 @@ describe('API - Recipes', function () {
     });
 
     describe('GET /recipes', function () {
-        var data = {
-            name: "Cheese & Macaroni",
-            ingredients: ["20291174", "0064200116473"],
-            author: "Fabien"
-        };
 
         it('should return a json object', function (done) {
             request(app)
@@ -33,20 +28,94 @@ describe('API - Recipes', function () {
                 .expect(200, done);
         });
 
-        it('should return a list of 20 elements (at most)', function (done) {
-            request(app)
-                .get('/api/recipes')
-                .set('Accept', 'application/json')
-                .send()
-                .expect(200)
-                .end((err, res) => {
-                    if (err) {
-                        return done(err);
-                    }
-                    expect(res.body.length).toBeLessThanOrEqual(20);
-                    return done();
-                });
+        describe('GET /recipes?page={pageNumber}&itemsPerPage={numberItemsPerPage}', function () {
+            
+            it('should return a list of 1 element', function (done) {
+                request(app)
+                    .get('/api/recipes?page=1&itemsPerPage=1')
+                    .set('Accept', 'application/json')
+                    .send()
+                    .expect(200)
+                    .end((err, res) => {
+                        if (err) {
+                            return done(err);
+                        }
+                        expect(res.body.length).toBe(1);
+                        return done();
+                    });
+            });
+
+            it('should return a list of 20 elements (at most)', function (done) {
+                request(app)
+                    .get('/api/recipes')
+                    .set('Accept', 'application/json')
+                    .send()
+                    .expect(200)
+                    .end((err, res) => {
+                        if (err) {
+                            return done(err);
+                        }
+                        expect(res.body.length).toBeLessThanOrEqual(20);
+                        return done();
+                    });
+            });
+
         });
+
+        describe('GET /recipes?name={recipetName}', function () {
+
+            it('should return a json object', function (done) {
+                request(app)
+                    .get('/api/recipes?name=macaroni')
+                    .set('Accept', 'application/json')
+                    .expect('Content-Type', /json/)
+                    .expect(200, done);
+            });
+
+        });
+
+        describe('GET /recipes?name={recipetName}', function () {
+
+            it('should return a list of 1 element', function (done) {
+                request(app)
+                    .get('/api/recipes?name=macaroni&page=1&itemsPerPage=1')
+                    .set('Accept', 'application/json')
+                    .send()
+                    .expect(200)
+                    .end((err, res) => {
+                        if (err) {
+                            return done(err);
+                        }
+                        expect(res.body.length).toBe(1);
+                        return done();
+                    });
+            });
+
+            it('should return a list of 20 elements (at most)', function (done) {
+                request(app)
+                    .get('/api/recipes?name=macaroni')
+                    .set('Accept', 'application/json')
+                    .send()
+                    .expect(200)
+                    .end((err, res) => {
+                        if (err) {
+                            return done(err);
+                        }
+                        expect(res.body.length).toBeLessThanOrEqual(20);
+                        return done();
+                    });
+            });
+            
+        });
+    });
+
+    describe('POST /recipes', function () {
+
+        data = {
+            "name": "Cheese & Macaroni",
+            "ingredients": ["20291174", "0064200116473"],
+            "author": "Fabien"
+        };
 
         it('should return an error : no parameters', function (done) {
             request(app)
@@ -114,6 +183,7 @@ describe('API - Recipes', function () {
                     });
                     return done();
                 });
+                
         });
 
         it('should create a recipe with no author', function (done) {
