@@ -20,7 +20,8 @@
 
 ## Deploiement
 
-`npm i` : Permet toutes les dépendances nécessaires au bon fonctionnement de l'application.
+`npm i` : Permet toutes les dépendances nécessaires au bon fonctionnement de l'application.  
+`npm test` : Permet de lancer tous les tests de l'interface utilisateur pour s'assurer de son bon fonctionnement.
 
 ### Environnement de test
 

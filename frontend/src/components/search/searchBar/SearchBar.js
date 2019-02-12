@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { Button, Form, FormControl } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
@@ -33,6 +32,10 @@ class SearchBar extends React.Component {
      * Navigate to the result view of the search
      */
     search = (event) => {
+        if(!this.state.searchingValue || this.state.searchingValue === ''){
+            return;
+        }
+        
         history.push({
             pathname: '/products',
             data: { searchingValue: this.state.searchingValue }
@@ -51,6 +54,7 @@ class SearchBar extends React.Component {
                     type='text'
                     placeholder='Rechercher'
                     className='searchInput'
+                    ref='search-input'
                     value={this.state.searchingValue}
                     onChange={this.handleSearchingInputChange}
                     onKeyPress={e => {
@@ -59,7 +63,8 @@ class SearchBar extends React.Component {
                         }
                     }}
                 />
-                <Button variant='' className='button-secondary searchButton' onClick={this.search}>
+                <Button variant='' className='button-secondary searchButton' onClick={this.search} ref='search-submit'>
+
                     <FontAwesomeIcon icon={faSearch} />
                 </Button>
             </Form>

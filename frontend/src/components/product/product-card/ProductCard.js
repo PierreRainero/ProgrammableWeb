@@ -67,7 +67,7 @@ class ProductCard extends React.Component {
 }
 
 ProductCard.defaultProps = {
-    product: new Product(-1, '', -1, '', -1, [], [], [])
+    product: new Product('', '', -1, '', -1, [], [], [])
 };
 
 ProductCard.propTypes = {

@@ -27,9 +27,13 @@ Une fois le serveur du "backend" lancé l'api suivante est exposée (port 3000) 
        └── /products
              └── /{productCode}
        └── /recipes
+       └── /stores
+            └── /{storeId}
 ```
 
 ## Fonctionnalités
+
+### Produits
 
 `/api/products?page=13984&itemsPerPage=2` : **GET**  
 Permet de retrouver tous les produits par groupe. Les produits sont classés en fonction de leur "id", on peut définir le nombre de produits par groupe et quel groupe on souhaite chercher :  
@@ -78,13 +82,15 @@ Permet de retrouver tous les produits par groupe. Les produits sont classés en 
 ]
 ```
 
-`/api/products?name=tortellini` : **GET**   
-Permet de retrouver les produits contenant le chaine recherché (non sensible à la casse). Les produits sont classés par leur "id" :
+`/api/products?name=tortellini&page=2&itemsPerPage=2` : **GET**  
+Permet de retrouver tous les produits contenant le chaine recherché (non sensible à la casse) par groupe. Les produits sont classés en fonction de leur "id", on peut définir le nombre de produits par groupe et quel groupe on souhaite chercher :  
+**Par défaut :** _page=1, itemsPerPage=20_
+
 ```json
 [
   {
-    "code": 1312324,
-    "name": "Tortellini Pesto Basilic & Pignons",
+    "code": 854918002140,
+    "name": "Olives vertes citron et romarin",
     "score": 65,
     "nutrigrade": "",
     "novaGroup": -1,
@@ -93,63 +99,61 @@ Permet de retrouver les produits contenant le chaine recherché (non sensible à
     "additives": []
   },
   {
-    "code": 1240278544038,
-    "name": "Tortellini jambon cru",
+    "code": 2152220,
+    "name": "farce aux olives",
     "score": 65,
     "nutrigrade": "",
     "novaGroup": -1,
-    "ingredients": [],
-    "allergens": [],
-    "additives": []
-  },
-  {
-    "code": 3256221876055,
-    "name": "Tortellini 3 fromages",
-    "score": 65,
-    "nutrigrade": "",
-    "novaGroup": -1,
-    "ingredients": [],
-    "allergens": [],
-    "additives": []
-  },
-  {
-    "code": 4005722000105,
-    "name": "Tortellini mit Fleisch",
-    "score": 65,
-    "nutrigrade": "",
-    "novaGroup": -1,
-    "ingredients": [],
-    "allergens": [],
-    "additives": []
-  },
-  {
-    "code": 4028856000216,
-    "name": "Camaletti Tortellini",
-    "score": 65,
-    "nutrigrade": "",
-    "novaGroup": -1,
-    "ingredients": [],
-    "allergens": [],
-    "additives": []
-  },
-  {
-    "code": 5060428432277,
-    "name": "EF Tortellini Bolognese",
-    "score": 65,
-    "nutrigrade": "",
-    "novaGroup": -1,
-    "ingredients": [],
-    "allergens": [],
-    "additives": []
-  },
-  {
-    "code": 9002600632316,
-    "name": "Gemüse Tortellini",
-    "score": 65,
-    "nutrigrade": "",
-    "novaGroup": -1,
-    "ingredients": [],
-    "allergens": [],
+    "ingredients": [
+      {
+        "id": "Soja-33.5-%-carottes-oignons",
+        "name": "soja 33.5% carottes oignons"
+      },
+      {
+        "id": "Courgette",
+        "name": "courgettes"
+      },
+      {
+        "id": "Coulis-de-tomates",
+        "name": "coulis de tomate"
+      },
+      {
+        "id": "Blanc-d-oeuf",
+        "name": "blanc d oeufs"
+      },
+      {
+        "id": "Potato-starch",
+        "name": "fécule de pomme de terre"
+      },
+      {
+        "id": "Water",
+        "name": "eau"
+      },
+      {
+        "id": "Olives-noires-2-%-gomme-arabique",
+        "name": "olives noires 2% gomme arabique"
+      },
+      {
+        "id": "Sunflower-oil",
+        "name": "huile de tournesol"
+      },
+      {
+        "id": "Garlic",
+        "name": "ail"
+      },
+      {
+        "id": "Sea-salt",
+        "name": "sel marin"
+      },
+      {
+        "id": "Peut-contenir-des-traces-de-fruits--à--coque-et-de-graines-de-sésame",
+        "name": "peut contenir des traces de fruits  à  coque et de graines de sésame"
+      }
+    ],
+    "allergens": [
+      "Soja",
+      "Blanc-d-oeufs"
+    ],
     "additives": []
   }
 ]
@@ -302,14 +306,31 @@ Permet de trouver tous les produits qui ont un certain ingredient. Les produits 
         }
         ],
         "allergens": [
-        
+
         ],
         "additives": [
-        
+
         ]
     }
 ]
+
 ```
+
+
+
+### Recettes
+
+`/api/prices` : **POST**
+Permet d'ajouter une information de prix pour un produit dans un point de vente. La requête doit avoir un corps avec les champs et leurs contraintes suivantes :
+
+* `productCode` doit être une chaîne de caractères correspondant à un code de produit existant
+* `storeId` doit être une chaîne de caractères correspondant à la valeur ObjectID de point de vente existant
+* `price` doit être un nombre strictement positif
+
+`/api/prices?productCode={product_code}&storeId={store_id}` : **GET**
+
+Permet de trouver les informations de prix correspondant aux produit et/ou au point de vente spécifié. Ces deux paramètres sont optionnels, si ils sont tous les deux absents, tous les prix seront retournés.
+
 
 `/api/recipes` : **GET**  
 Permet de retrouver tous les recettes contenues dans la base de données. Les produits sont classés en fonction de leur "id":  
@@ -388,3 +409,86 @@ Permet de créer un nouveau commentaire par rapport à une recette.
 ```
 * **body** : comment
 * **author** : optionnel
+
+### Magasins
+
+`/api/stores` : **POST**  
+Permet de créer un nouveau magasin.   
+**Exemple d'utilisation :** création du magasin "Carrefour - Antibes" :  
+```json
+{
+    "name": "Carrefour - Antibes",
+    "location": {
+        "lat": 43.615575,
+        "long":7.071389,
+    },
+}
+```
+* **name** : requis
+* **location** : requis
+
+`/api/stores` : **GET**  
+Permet de retrouver tous les magasins contenues dans la base de données. Les magasins sont classés en fonction de leur "id":  
+```json
+[
+  {
+    "location": {
+      "lat": 43.604087,
+      "long": 7.089491
+    },
+    "_id": "5c617c61193cd709f1603d48",
+    "name": "Carrefour - Antibes",
+    "__v": 0
+  },
+  {
+    "location": {
+      "lat": 43.645932,
+      "long": 7.049446
+    },
+    "_id": "5c617d39193cd709f1603d4a",
+    "name": "Carrefour Market - Valbonne",
+    "__v": 0
+  }
+]
+```
+
+`/api/stores?lat={latitude}&long={longitude}&range={range}` : **GET**  
+Permet de retrouver tous les magasins contenues dans la base de données autour d'une position en définissant un rayon de recherche. Les magasins sont classés en fonction de leur "id":  
+```json
+[
+  {
+    "_id": "5c617c61193cd709f1603d48",
+    "distance": 1.9379962893709548,
+    "location": {
+      "lat": 43.604087,
+      "long": 7.089491
+    }
+  },
+  {
+    "_id": "5c617d7d193cd709f1603d4b",
+    "distance": 0.409252166415119,
+    "location": {
+      "lat": 43.618015,
+      "long": 7.075195
+    }
+  }
+]
+]
+```
+
+`/api/stores/{storeId}` : **GET**  
+Permet de retrouver un promagasin à partir de son id. L'objet retourné dans le cas d'une recherche réussit (code 200) :
+
+```json
+  [
+    {
+    "location": {
+      "lat": 43.604087,
+      "long": 7.089491
+    },
+    "_id": "5c617c61193cd709f1603d48",
+    "name": "Carrefour - Antibes",
+    "__v": 0
+  }
+]
+```

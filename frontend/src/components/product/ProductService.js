@@ -29,12 +29,32 @@ class ProductService {
     }
 
     /**
-     * Search products from their names
+     * Get number of result for specific product name
      * @param {string} name name to search
      * @param {function} callback function to execute once the products are been found
      */
-    static searchProductsByName(name, callback) {
-        const url = `${this.getBaseUrl()}/api/products?name=${name}`;
+    static getNumberOfProductsForName(name, callback) {
+        const url = `${this.getBaseUrl()}/api/products?name=${name}&count=true`;
+        fetch(url, { method: 'GET' })
+            .then(response => {
+                response.json().then((parsedResponse) => {
+                    callback(parsedResponse.numberOfProducts);
+                }).catch(error => console.log(error.message));
+            })
+            .catch(error => {
+                console.log(error.message);
+        });
+    }
+
+    /**
+     * Search products from their names
+     * @param {string} name name to search
+     * @param {number} page page to display
+     * @param {number} itemsPerPage number of elements per page
+     * @param {function} callback function to execute once the products are been found
+     */
+    static searchProductsByName(name, page, itemsPerPage, callback) {
+        const url = `${this.getBaseUrl()}/api/products?name=${name}&page=${page}&itemsPerPage=${itemsPerPage}`;
         fetch(url, { method: 'GET' })
             .then(response => {
                 response.json().then((parsedResponse) => {
@@ -47,7 +67,7 @@ class ProductService {
             })
             .catch(error => {
                 console.log(error.message);
-            });
+        });
     }
 
     /**
