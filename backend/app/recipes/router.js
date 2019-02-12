@@ -44,7 +44,7 @@ const getAllComments = async (req, res) => {
         (commentsFound) => {
             const comments = new Array();
             for (const comment of commentsFound) {
-                comments.push(comment.toJSON());
+                comments.push(comment);
             }
             res.status(200).send(comments);
         },

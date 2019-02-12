@@ -33,19 +33,22 @@ const findAll = (successCallBack, errorCallback) => {
             }
             recipes.push({ _id: recipe._id, name: recipe.name, comments: recipe.comments, author: recipe.author, ingredients: products });
         }
-        successCallBack(recipes);
+        return successCallBack(recipes);
     })
 }
 
 const findAllComments = (recipeId, successCallBack, errorCallback) => {
-    recipesModel.findOne({ _id: recipeId }).exec((err, result) => {
+    recipesModel.findById(new mongoose.mongo.ObjectId(recipeId)).exec((err, result) => {
         if (err) {
             return errorCallback(err);
         }
-        if (result === null || result.comments === null || !result.comments.length) {
-            return successCallBack([]);
+        if(result !== null && result.comments) {
+            if(!result.comments.length) {
+                return successCallBack([]);
+            }
+            return successCallBack(result.comments);
         }
-        return successCallBack(result.comments);
+        return errorCallback({message: 'No existing recipe for this id.'});
     });
 }
 
@@ -59,7 +62,7 @@ const create = (name, ingredients, author, successCallBack, errorCallback) => {
     recipe
         .save()
         .then(recipe => {
-            recipe.populate({path: 'ingredients', model: 'france'}, function(err) {
+            recipe.populate({ path: 'ingredients', model: 'france' }, function (err) {
                 const products = new Array();
                 for (const product of recipe.ingredients) {
                     products.push(middleware.parseProduct(product));
