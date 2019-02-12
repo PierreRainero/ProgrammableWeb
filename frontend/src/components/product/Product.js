@@ -4,7 +4,7 @@
 class Product {
     /**
      * Normal constructor
-     * @param {number} code Scan code
+     * @param {string} code Scan code
      * @param {string} name Product name
      * @param {number} score Score qualité (between 0 and 100)
      * @param {string} nutrigrade Nutrition grade (A, B, C, D, E)
