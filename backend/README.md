@@ -530,7 +530,7 @@ Permet de créer une nouvelle recette.
 * **author** : optionnel
 
 
-`/api/products/{recipeId}` : **GET**  
+`/api/recipes/{recipeId}` : **GET**  
 Permet de retrouver une recette à partir de son id. L'objet retourné dans le cas d'une recherche réussit (code 200) et où le _recipeId_ vaut "5c61a630cf721c1447e2c38e" est le suivant :
 
 
