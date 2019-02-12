@@ -72,7 +72,7 @@ const findByCode = (code, successCallBack, errorCallback) => {
 }
 
 const getNumberOfProductForName = (productName, successCallBack, errorCallback) => {
-  franceModel.count({ product_name: { "$regex": productName, "$options": "is" } }).exec((err, result) => {
+  franceModel.countDocuments({ product_name: { "$regex": productName, "$options": "is" } }).exec((err, result) => {
     if (err) {
       return errorCallback(err);
     }
