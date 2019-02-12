@@ -83,6 +83,8 @@ const getAllProductsWithIndex = (res, page, itemsPerPage) => {
 /**
  * Get all products (ordered by id) that match to the given string. 
  * @param {express.Response} res Express HTTP response containing corresponding products
+ * @param {number} page page number to display (itemsPerPage*page)
+ * @param {number} itemsPerPage number of products per diplayed by page
  * @param {*} name String to match
  */
 const getProductsByName = (res, name, page, itemsPerPage) => {
