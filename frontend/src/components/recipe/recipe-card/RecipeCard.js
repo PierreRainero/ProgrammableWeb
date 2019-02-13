@@ -20,6 +20,7 @@ class RecipeCard extends React.Component {
         super(props);
 
         this.recipe = props.recipe;
+        this.recipeImg = this.recipe.img===''? require('../../../assets/imgs/placeholder.png') : this.recipe.img;
     }
 
     /**
@@ -34,7 +35,7 @@ class RecipeCard extends React.Component {
                     <div className='col-md-3 col-lg-2'>
                         <img
                             alt='product_img'
-                            src={require('../../../assets/imgs/placeholder.png')}
+                            src={this.recipeImg}
                             className='d-inline-block align-bottom productImg'
                         />
                     </div>
@@ -88,7 +89,7 @@ class RecipeCard extends React.Component {
 }
 
 RecipeCard.defaultProps = {
-    recipe: new Recipe('', '', '', [], [], undefined, undefined)
+    recipe: new Recipe('', '', '', '', [], [], undefined, undefined)
 };
 
 RecipeCard.propTypes = {

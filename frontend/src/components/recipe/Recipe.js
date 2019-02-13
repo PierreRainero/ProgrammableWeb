@@ -10,15 +10,17 @@ class Recipe {
      * @param {string} id Identifier of the recipe
      * @param {string} name Recipe name
      * @param {string} author Name of the user who posted the recipe
+     * @param {string} img Url of the recipe image
      * @param {string} ingredients List of products code used by the recipe
      * @param {array} comments Array of comments
      * @param {date} createdAt Creation date
      * @param {date} updatedAt Last modification date
      */
-    constructor(id, name, author, ingredients, comments, createdAt, updatedAt) {
+    constructor(id, name, author, img, ingredients, comments, createdAt, updatedAt) {
         this.id = id
         this.name = name;
         this.author = author;
+        this.img = img;
 
         this.ingredients = [];
         for(const ingredient of ingredients){

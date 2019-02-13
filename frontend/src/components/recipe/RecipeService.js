@@ -37,7 +37,7 @@ class RecipeService {
                 response.json().then((parsedResponse) => {
                     const data = [];
                     for (const recipe of parsedResponse) {
-                        data.push(new Recipe(recipe._id, recipe.name, recipe.author, recipe.ingredients, recipe.comments, recipe.createdAt, recipe.updatedAt));
+                        data.push(new Recipe(recipe._id, recipe.name, recipe.author, recipe.pictureUrl, recipe.ingredients, recipe.comments, recipe.createdAt, recipe.updatedAt));
                     }
                     callback(data);
                 }).catch(error => console.log(error.message));
