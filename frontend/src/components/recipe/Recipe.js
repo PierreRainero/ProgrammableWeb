@@ -23,8 +23,8 @@ class Recipe {
         this.img = img;
 
         this.ingredients = [];
-        for(const ingredient of ingredients){
-            this.ingredients.push(new Product(ingredient.code, 
+        for (const ingredient of ingredients) {
+            this.ingredients.push(new Product(ingredient.code,
                 ingredient.name,
                 ingredient.score,
                 ingredient.nutrigrade,
@@ -35,7 +35,7 @@ class Recipe {
         }
 
         this.comments = [];
-        for(const comment of comments){
+        for (const comment of comments) {
             this.comments.push(new Comment(comment._id, comment.author, comment.body, comment.created_at));
         }
 
@@ -46,10 +46,23 @@ class Recipe {
     /**
      * Convert a date to a string as dd/mm/YYYY
      * @param {string} dateToFormat date as string to format
+     * @return {string} format date
      */
-    formatDate(dateToFormat){
+    formatDate(dateToFormat) {
         const date = new Date(dateToFormat);
-        return `${date.getDate()}/${date.getMonth()<10? `0${date.getMonth()}`:date.getMonth()}/${date.getUTCFullYear()}`;
+        return `${date.getDate()}/${date.getMonth() < 10 ? `0${date.getMonth()}` : date.getMonth()}/${date.getUTCFullYear()}`;
+    }
+
+    /**
+     * Convert a recip object to JSON understandable by the backend
+     * @return {string} name, author and ingredients' code in a JSON string
+     */
+    toSupportedJSON() {
+        const ingredients = [];
+        for (const ingredient of ingredients) {
+            ingredients.push(ingredient.code);
+        }
+        return JSON.stringify({ name: this.name, ingredients: ingredients, author: this.author, pictureUrl: this.img });
     }
 }
 

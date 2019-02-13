@@ -29,6 +29,7 @@ class ElfyPagination extends React.Component {
 
     /**
      * Return the maximum page of results
+     * @return {number} maximum page according to the number of elements and the number of elements by page
      */
     getMaximumPage = () => {
         return Math.ceil(this.props.numberOfElements / this.props.itemsPerPage);

@@ -1,7 +1,8 @@
 @import './styles/_colors.scss';
-
 // GENERAL
-html, body, #root {
+html,
+body,
+#root {
     width: 100%;
     height: 100%;
 }
@@ -21,7 +22,7 @@ span>a {
 span>a:hover,
 span>a:active,
 span>a:focus,
-span>a:target{
+span>a:target {
     color: $primary-color-dark;
 }
 
@@ -32,6 +33,12 @@ a.primary-text-link:hover {
 
 a.primary-text-link.active {
     background-color: $primary-color-dark;
+}
+
+@media (max-width: 800px) {
+    .hidden-md {
+        display: none;
+    }    
 }
 
 // BUTTONS
@@ -48,39 +55,58 @@ a.primary-text-link.active {
 .btn.button-primary:target {
     color: $primary-color-text;
     border-color: $primary-color;
-    background-color: $primary-color-dark
+    background-color: $primary-color-dark;
 }
 
 .btn.button-secondary {
     color: $secondary-color-text;
     border-color: $secondary-color;
-    background-color: $secondary-color
+    background-color: $secondary-color;
 }
 
 .btn.button-secondary:hover,
 .btn.button-secondary:active,
 .btn.button-secondary:focus,
 .btn.button-secondary:visited,
-.btn.button-secondary:target  {
+.btn.button-secondary:target {
     color: $secondary-color-text;
-    border-color: $secondary-color;
+    border-color: $secondary-color-dark;
     background-color: $secondary-color-dark;
+    box-shadow: inset 0 0.5px 0.5px rgba(0, 0, 0, 0.075), 0 0 8px $secondary-color-dark;
+}
+
+button.btn.btn-primary.button-success {
+    color: $primary-color-text;
+    border-color: $success-color;
+    background-color: $success-color;
+}
+
+button.btn.btn-primary.button-success:hover,
+button.btn.btn-primary.button-success:active,
+button.btn.btn-primary.button-success:focus,
+button.btn.btn-primary.button-success:visited,
+button.btn.btn-primary.button-success:target {
+    color: $primary-color-text;
+    border-color: $success-color-dark;
+    background-color: $success-color-dark;
+    box-shadow: inset 0 0.5px 0.5px rgba(0, 0, 0, 0.075), 0 0 8px $success-color-dark;
 }
 
 // TEXT
 .text-primary {
     color: $primary-color-text;
 }
+
 .text-secondary {
     color: $secondary-color-text;
 }
 
 .shadow {
-    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 }
 
 .textShadow {
-    text-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+    text-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 }
 
 // BOOTSTRAP OVERRIDE

@@ -3,7 +3,7 @@ import React from 'react';
 import './StoreSearchScreen.scss';
 
 /**
- * Component to present a result of a product research.
+ * Component to present a result of a store research.
  */
 class StoreSearchScreen extends React.Component {
     /**

@@ -2,8 +2,9 @@ import React from 'react';
 import Loading from '../../loading/Loading';
 import NoResult from '../no-result/NoResult';
 import SearchBar from '../searchBar/SearchBar';
-import RecipeCard from '../../recipe/recipe-card/RecipeCard'
+import RecipeCard from '../../recipe/recipe-card/RecipeCard';
 import ElfyPagination from '../../pagination/ElfyPagination';
+import RecipeForm from '../../recipe/recipe-form/RecipeForm';
 import RecipeService from '../../recipe/RecipeService';
 import history from '../../../history';
 
@@ -91,11 +92,11 @@ class RecipeSearchScreen extends React.Component {
     /**
      * Use search bar to find recipes using their name
      */
-    searchRecipesForName= (nameToSearch) => {
-		if(!nameToSearch || nameToSearch === ''){
+    searchRecipesForName = (nameToSearch) => {
+        if (!nameToSearch || nameToSearch === '') {
             return;
         }
-        
+
         history.push({
             pathname: '/recipes',
             data: { searchingValue: nameToSearch }
@@ -123,7 +124,6 @@ class RecipeSearchScreen extends React.Component {
                 />;
             }
         }
-
         return (
             <div>
                 <div className='search-bar'>
@@ -132,6 +132,7 @@ class RecipeSearchScreen extends React.Component {
                         searchToDo={this.searchRecipesForName}
                     />
                 </div>
+                <RecipeForm />
                 {content}
                 {pagination}
             </div>
