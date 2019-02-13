@@ -1,5 +1,6 @@
 import React from 'react';
 import Loading from '../../loading/Loading';
+import NoResult from '../no-result/NoResult';
 import SearchBar from '../searchBar/SearchBar';
 import RecipeCard from '../../recipe/recipe-card/RecipeCard'
 import ElfyPagination from '../../pagination/ElfyPagination';
@@ -110,7 +111,7 @@ class RecipeSearchScreen extends React.Component {
         if (this.state.loading) {
             content = <Loading />;
         } else if (this.state.recipes.length === 0) {
-            content = <p className='vertical-delay'>Aucune recette à afficher.</p>;
+            content = <NoResult text='Aucune recette à afficher.' />;
         } else {
             content = this.state.recipes.map(recipe => <span key={recipe.id}><RecipeCard recipe={recipe} /></span>);
             if (this.state.numberOfResults > 0) {

@@ -9,7 +9,7 @@ import Recipe from '../Recipe';
 import './RecipeCard.scss';
 
 /**
- * Component to quickly present a product.
+ * Component to quickly present a recipe.
  */
 class RecipeCard extends React.Component {
     /**

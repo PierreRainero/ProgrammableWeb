@@ -1,6 +1,7 @@
 import React from 'react';
 import ProductCard from '../../product/product-card/ProductCard';
 import ProductsSearchBar from '../searchBar/ProductsSearchBar';
+import NoResult from '../no-result/NoResult';
 import Loading from '../../loading/Loading';
 import ElfyPagination from '../../pagination/ElfyPagination';
 import history from '../../../history';
@@ -107,7 +108,7 @@ class ProductSearchScreen extends React.Component {
         if (this.state.loading) {
             content = <Loading />;
         } else if (this.state.products.length === 0) {
-            content = <p className='vertical-delay'>Aucun produit à afficher.</p>;
+            content = <NoResult text='Aucun produit à afficher.' />;
         } else {
             content = this.state.products.map(product => <span key={product.code} onClick={() => this.goToProductsPage(product)}><ProductCard product={product} /></span>);
             if (this.state.numberOfResults > 0) {
