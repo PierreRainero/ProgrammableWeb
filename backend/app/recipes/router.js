@@ -24,7 +24,7 @@ const getAllRecipes = async (req, res) => {
         if (queryParameters.name) {
             if (queryParameters.count) {
                 getNumberRecipesByName(res, queryParameters.name);
-            }else if (queryParameters.page && !isNaN(queryParameters.page) && queryParameters.itemsPerPage && !isNaN(queryParameters.itemsPerPage)) {
+            } else if (queryParameters.page && !isNaN(queryParameters.page) && queryParameters.itemsPerPage && !isNaN(queryParameters.itemsPerPage)) {
                 getRecipesByName(res, queryParameters.name, parseInt(queryParameters.page), parseInt(queryParameters.itemsPerPage));
             } else {
                 getRecipesByName(res, queryParameters.name, 1, 20);
@@ -69,14 +69,14 @@ const getRecipeByCode = async (req, res) => {
 const getNumberRecipesByName = (res, name) => {
     recipesDb.getNumberOfRecipesForName(name,
         (result) => {
-            res.status(200).send({numberOfRecipes: result});
+            res.status(200).send({ numberOfRecipes: result });
         },
         (error) => {
-            if (config.PRODUCTION){
+            if (config.PRODUCTION) {
                 console.log("Error: " + error.message);
             }
             res.status(500).send(error.message);
-    });
+        });
 }
 
 /**

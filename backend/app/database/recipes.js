@@ -32,7 +32,7 @@ const findAll = (page, itemsPerPage, successCallBack, errorCallback) => {
             for (const product of recipe.ingredients) {
                 products.push(middleware.parseProduct(product.toJSON()));
             }
-            recipes.push({ _id: recipe._id, name: recipe.name, comments: recipe.comments, author: recipe.author, ingredients: products, pictureUrl: recipe.pictureUrl, createdAt: recipe.createdAt, updatedAt: recipe.updatedAt});
+            recipes.push({ _id: recipe._id, name: recipe.name, comments: recipe.comments, author: recipe.author, ingredients: products, pictureUrl: recipe.pictureUrl, createdAt: recipe.createdAt, updatedAt: recipe.updatedAt });
         }
         return successCallBack(recipes);
     })
@@ -50,7 +50,7 @@ const findById = (recipeId, successCallBack, errorCallback) => {
             for (const product of recipe.ingredients) {
                 products.push(middleware.parseProduct(product.toJSON()));
             }
-            recipe =  { _id: recipe._id, name: recipe.name, comments: recipe.comments, author: recipe.author, ingredients: products, pictureUrl: recipe.pictureUrl, createdAt: recipe.createdAt, updatedAt: recipe.updatedAt};
+            recipe = { _id: recipe._id, name: recipe.name, comments: recipe.comments, author: recipe.author, ingredients: products, pictureUrl: recipe.pictureUrl, createdAt: recipe.createdAt, updatedAt: recipe.updatedAt };
             successCallBack(recipe);
         } else {
             errorCallback('Invalid code.');
@@ -80,7 +80,7 @@ const findAllByName = (receiptName, page, itemsPerPage, successCallBack, errorCa
             for (const product of recipe.ingredients) {
                 products.push(middleware.parseProduct(product.toJSON()));
             }
-            recipes.push({ _id: recipe._id, name: recipe.name, comments: recipe.comments, author: recipe.author, ingredients: products, pictureUrl: recipe.pictureUrl, createdAt: recipe.createdAt, updatedAt: recipe.updatedAt});
+            recipes.push({ _id: recipe._id, name: recipe.name, comments: recipe.comments, author: recipe.author, ingredients: products, pictureUrl: recipe.pictureUrl, createdAt: recipe.createdAt, updatedAt: recipe.updatedAt });
         }
         successCallBack(recipes);
     })
@@ -117,7 +117,7 @@ const create = (name, ingredients, author, pictureUrl, successCallBack, errorCal
                 for (const product of recipe.ingredients) {
                     products.push(middleware.parseProduct(product));
                 }
-                return successCallBack({ _id: recipe._id, name: recipe.name, comments: recipe.comments, author: recipe.author, ingredients: products, pictureUrl: recipe.pictureUrl, createdAt: recipe.createdAt, updatedAt: recipe.updatedAt});
+                return successCallBack({ _id: recipe._id, name: recipe.name, comments: recipe.comments, author: recipe.author, ingredients: products, pictureUrl: recipe.pictureUrl, createdAt: recipe.createdAt, updatedAt: recipe.updatedAt });
             });
         })
         .catch(err => {
@@ -143,7 +143,7 @@ const createComment = (recipeId, body, author, successCallBack, errorCallback) =
             for (const product of recipe.ingredients) {
                 products.push(middleware.parseProduct(product));
             }
-            return successCallBack({ _id: recipe._id, name: recipe.name, comments: recipe.comments, author: recipe.author, ingredients: products, pictureUrl: recipe.pictureUrl, createdAt: recipe.createdAt, updatedAt: recipe.updatedAt});
+            return successCallBack({ _id: recipe._id, name: recipe.name, comments: recipe.comments, author: recipe.author, ingredients: products, pictureUrl: recipe.pictureUrl, createdAt: recipe.createdAt, updatedAt: recipe.updatedAt });
         }
     );
 }
