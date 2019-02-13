@@ -11,7 +11,6 @@ import './ProductScreen.scss';
  * Component to fully present a product.
  */
 class ProductScreen extends React.Component {
-
     /**
      * Normal constructor
      * @param {object} props

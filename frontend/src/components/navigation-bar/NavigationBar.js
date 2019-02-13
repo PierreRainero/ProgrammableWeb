@@ -36,15 +36,18 @@ class NavigationBar extends React.Component {
             <Navbar.Collapse id='basic-navbar-nav'>
                 <Nav className='mr-auto'>
                 <span className='separator-left'></span>
-                <Link to='/products' className='no-decoration nav-item primary-text-link'>
+                <Link to='/products' ref='link-products'
+                    className='no-decoration nav-item primary-text-link'>
                     <FontAwesomeIcon icon={faCookieBite} />
                     <span> Produits</span>
                 </Link>
-                <Link to='/recipes' className='no-decoration nav-item primary-text-link'>
+                <Link to='/recipes' ref='link-recipes'
+                    className='no-decoration nav-item primary-text-link'>
                     <FontAwesomeIcon icon={faListAlt} />
                     <span> Recettes</span>
                 </Link>
-                <Link to='/stores' className='no-decoration nav-item primary-text-link'>
+                <Link to='/stores' ref='link-stores'
+                    className='no-decoration nav-item primary-text-link'>
                     <FontAwesomeIcon icon={faShoppingBasket} />
                     <span> Magasins</span>
                 </Link>

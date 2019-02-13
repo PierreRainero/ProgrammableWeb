@@ -51,8 +51,8 @@ class ProductCard extends React.Component {
      * Render the component
      */
     render() {
-        return <Card style={{ width: '200px', display: 'inline-block' }} className='card-container clickable shadow'>
-            <Card.Body className='card-content'>
+        return <Card style={{ width: '200px', display: 'inline-block' }} className='product-card-container clickable shadow'>
+            <Card.Body className='product-card-content'>
                 <OverlayTrigger
                     placement='top'
                     overlay={

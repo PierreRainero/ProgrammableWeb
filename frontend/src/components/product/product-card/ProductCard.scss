@@ -1,16 +1,12 @@
 @import '../../../_shared.scss';
 
-.card.card-container {
+.card.product-card-container {
     margin: 1em;
     display: inline-block;
 }
 
-.card-body.card-content {
+.card-body.product-card-content {
     padding: 0.3em;
-}
-
-.big-text {
-    font-size: 200%;
 }
 
 .score-zone {
@@ -31,8 +27,4 @@
 .productImg {
     width: 150px;
     height: 150px;
-}
-
-.definition {
-    cursor: help;
 }

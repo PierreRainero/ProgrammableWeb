@@ -22,7 +22,9 @@ const getAllRecipes = async (req, res) => {
 
     if (queryParameters !== undefined) {
         if (queryParameters.name) {
-            if (queryParameters.page && !isNaN(queryParameters.page) && queryParameters.itemsPerPage && !isNaN(queryParameters.itemsPerPage)) {
+            if (queryParameters.count) {
+                getNumberRecipesByName(res, queryParameters.name);
+            }else if (queryParameters.page && !isNaN(queryParameters.page) && queryParameters.itemsPerPage && !isNaN(queryParameters.itemsPerPage)) {
                 getRecipesByName(res, queryParameters.name, parseInt(queryParameters.page), parseInt(queryParameters.itemsPerPage));
             } else {
                 getRecipesByName(res, queryParameters.name, 1, 20);
@@ -60,11 +62,29 @@ const getRecipeByCode = async (req, res) => {
 };
 
 /**
+ * Get the number of results for specific name
+ * @param {express.Response} res Express HTTP response containing the number of result
+ * @param {string} name String to match
+ */
+const getNumberRecipesByName = (res, name) => {
+    recipesDb.getNumberOfRecipesForName(name,
+        (result) => {
+            res.status(200).send({numberOfRecipes: result});
+        },
+        (error) => {
+            if (config.PRODUCTION){
+                console.log("Error: " + error.message);
+            }
+            res.status(500).send(error.message);
+    });
+}
+
+/**
  * Get all recipes (ordered by id) that match to the given string. 
  * @param {express.Response} res Express HTTP response containing corresponding products
  * @param {number} page page number to display (itemsPerPage*page)
  * @param {number} itemsPerPage number of products per diplayed by page
- * @param {*} name String to match
+ * @param {string} name String to match
  */
 const getRecipesByName = (res, name, page, itemsPerPage) => {
     recipesDb.findAllByName(

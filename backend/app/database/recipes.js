@@ -31,7 +31,7 @@ const findAll = (page, itemsPerPage, successCallBack, errorCallback) => {
             for (const product of recipe.ingredients) {
                 products.push(middleware.parseProduct(product.toJSON()));
             }
-            recipes.push({ _id: recipe._id, name: recipe.name, comments: recipe.comments, author: recipe.author, ingredients: products, createdAt: recipe.createdAt, updatedAt: recipe.updatedAt});
+            recipes.push({ _id: recipe._id, name: recipe.name, comments: recipe.comments, author: recipe.author, ingredients: products, createdAt: recipe.createdAt, updatedAt: recipe.updatedAt });
         }
         return successCallBack(recipes);
     })
@@ -42,18 +42,28 @@ const findById = (recipeId, successCallBack, errorCallback) => {
         if (err) {
             return errorCallback(err);
         }
-        
+
         if (result.length === 1) {
             let recipe = result[0];
             const products = new Array();
             for (const product of recipe.ingredients) {
                 products.push(middleware.parseProduct(product.toJSON()));
             }
-            recipe =  { _id: recipe._id, name: recipe.name, comments: recipe.comments, author: recipe.author, ingredients: products, createdAt: recipe.createdAt, updatedAt: recipe.updatedAt};
+            recipe = { _id: recipe._id, name: recipe.name, comments: recipe.comments, author: recipe.author, ingredients: products, createdAt: recipe.createdAt, updatedAt: recipe.updatedAt };
             successCallBack(recipe);
         } else {
             errorCallback('Invalid code.');
         }
+    })
+}
+
+const getNumberOfRecipesForName = (receiptName, successCallBack, errorCallback) => {
+    recipesModel.countDocuments({ name: { "$regex": receiptName, "$options": "is" } }).populate({ path: 'ingredients', model: 'france' }).exec((err, result) => {
+        if (err) {
+            return errorCallback(err);
+        }
+
+        successCallBack(result);
     })
 }
 
@@ -69,11 +79,10 @@ const findAllByName = (receiptName, page, itemsPerPage, successCallBack, errorCa
             for (const product of recipe.ingredients) {
                 products.push(middleware.parseProduct(product.toJSON()));
             }
-            recipes.push({ _id: recipe._id, name: recipe.name, comments: recipe.comments, author: recipe.author, ingredients: products, createdAt: recipe.createdAt, updatedAt: recipe.updatedAt});
+            recipes.push({ _id: recipe._id, name: recipe.name, comments: recipe.comments, author: recipe.author, ingredients: products, createdAt: recipe.createdAt, updatedAt: recipe.updatedAt });
         }
         successCallBack(recipes);
     })
-
 }
 
 const findAllComments = (recipeId, successCallBack, errorCallback) => {
@@ -106,7 +115,7 @@ const create = (name, ingredients, author, successCallBack, errorCallback) => {
                 for (const product of recipe.ingredients) {
                     products.push(middleware.parseProduct(product));
                 }
-                return successCallBack({ _id: recipe._id, name: recipe.name, comments: recipe.comments, author: recipe.author, ingredients: products, createdAt: recipe.createdAt, updatedAt: recipe.updatedAt});
+                return successCallBack({ _id: recipe._id, name: recipe.name, comments: recipe.comments, author: recipe.author, ingredients: products, createdAt: recipe.createdAt, updatedAt: recipe.updatedAt });
             });
         })
         .catch(err => {
@@ -132,13 +141,14 @@ const createComment = (recipeId, body, author, successCallBack, errorCallback) =
             for (const product of recipe.ingredients) {
                 products.push(middleware.parseProduct(product));
             }
-            return successCallBack({ _id: recipe._id, name: recipe.name, comments: recipe.comments, author: recipe.author, ingredients: products, createdAt: recipe.createdAt, updatedAt: recipe.updatedAt});
+            return successCallBack({ _id: recipe._id, name: recipe.name, comments: recipe.comments, author: recipe.author, ingredients: products, createdAt: recipe.createdAt, updatedAt: recipe.updatedAt });
         }
     );
 }
 
 exports.findAll = findAll;
 exports.findById = findById;
+exports.getNumberOfRecipesForName = getNumberOfRecipesForName;
 exports.findAllByName = findAllByName;
 exports.findAllComments = findAllComments;
 exports.create = create;

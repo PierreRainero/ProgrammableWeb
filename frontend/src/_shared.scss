@@ -14,6 +14,17 @@ html, body, #root {
     cursor: pointer;
 }
 
+span>a {
+    color: $primary-color;
+}
+
+span>a:hover,
+span>a:active,
+span>a:focus,
+span>a:target{
+    color: $primary-color-dark;
+}
+
 a.primary-text-link:hover {
     color: $primary-color-text;
     background-color: $primary-color-dark;

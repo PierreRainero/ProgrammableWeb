@@ -1,18 +1,17 @@
 import React from 'react';
-import ProductCard from '../../product/product-card/ProductCard';
-import ProductsSearchBar from '../searchBar/ProductsSearchBar';
 import Loading from '../../loading/Loading';
+import SearchBar from '../searchBar/SearchBar';
+import RecipeCard from '../../recipe/recipe-card/RecipeCard'
 import ElfyPagination from '../../pagination/ElfyPagination';
+import RecipeService from '../../recipe/RecipeService';
 import history from '../../../history';
 
-import ProductService from '../../product/ProductService';
-
-import './ProductSearchScreen.scss';
+import './RecipeSearchScreen.scss';
 
 /**
- * Component to present a result of a products research.
+ * Component to present a result of a recipes research.
  */
-class ProductSearchScreen extends React.Component {
+class RecipeSearchScreen extends React.Component {
     /**
      * Normal constructor
      * @param {object} props
@@ -25,7 +24,7 @@ class ProductSearchScreen extends React.Component {
             loading: true,
             page: 1,
             numberOfResults: -1,
-            products: []
+            recipes: []
         }
     }
 
@@ -33,7 +32,7 @@ class ProductSearchScreen extends React.Component {
      * Call after fully finishing to build this component
      */
     componentDidMount() {
-        this.searchProducts();
+        this.searchRecipes();
     }
 
     /**
@@ -44,21 +43,21 @@ class ProductSearchScreen extends React.Component {
         if (this.props.location.data && prevProps.location.data &&
             this.props.location.data.searchingValue !== prevProps.location.data.searchingValue) {
             this.setState({ loading: true });
-            this.searchProducts();
+            this.searchRecipes();
         } else if (this.props.location.data && !prevProps.location.data) {
             this.setState({ loading: true });
-            this.searchProducts();
+            this.searchRecipes();
         }
     }
 
     /**
-     * Search products using a name
+     * Search recipes using a name
      */
-    searchProducts() {
+    searchRecipes() {
         if (this.props.location.data) {
             this.getNumberOfElementsToDisplay(this.props.location.data.searchingValue);
-            ProductService.searchProductsByName(this.props.location.data.searchingValue, 1, this.itemsPerPage, (data) => {
-                this.setState({ loading: false, products: data, page: 1 });
+            RecipeService.searchRecipesByName(this.props.location.data.searchingValue, 1, this.itemsPerPage, (data) => {
+                this.setState({ loading: false, recipes: data, page: 1 });
             });
         } else {
             this.setState({ loading: false });
@@ -66,20 +65,10 @@ class ProductSearchScreen extends React.Component {
     }
 
     /**
-     * Navigates to the page of a product
-     */
-    goToProductsPage = (product) => {
-        history.push({
-            pathname: `/products/${product.code}`,
-            data: { product: product }
-        });
-    }
-
-    /**
      * Update number of results according to the searched value
      */
     getNumberOfElementsToDisplay = (valueSearched) => {
-        ProductService.getNumberOfProductsForName(valueSearched, (result) => {
+        RecipeService.getNumberOfRecipesForName(valueSearched, (result) => {
             this.setState({ numberOfResults: result });
         });
     }
@@ -93,8 +82,22 @@ class ProductSearchScreen extends React.Component {
         }
 
         this.setState({ loading: true });
-        ProductService.searchProductsByName(this.props.location.data.searchingValue, pageNumberToGo, this.itemsPerPage, (data) => {
-            this.setState({ loading: false, page: pageNumberToGo, products: data });
+        RecipeService.searchRecipesByName(this.props.location.data.searchingValue, pageNumberToGo, this.itemsPerPage, (data) => {
+            this.setState({ loading: false, page: pageNumberToGo, recipes: data });
+        });
+    }
+
+    /**
+     * Use search bar to find recipes using their name
+     */
+    searchRecipesForName= (nameToSearch) => {
+		if(!nameToSearch || nameToSearch === ''){
+            return;
+        }
+        
+        history.push({
+            pathname: '/recipes',
+            data: { searchingValue: nameToSearch }
         });
     }
 
@@ -106,10 +109,10 @@ class ProductSearchScreen extends React.Component {
         let pagination;
         if (this.state.loading) {
             content = <Loading />;
-        } else if (this.state.products.length === 0) {
-            content = <p className='vertical-delay'>Aucun produit à afficher.</p>;
+        } else if (this.state.recipes.length === 0) {
+            content = <p className='vertical-delay'>Aucune recette à afficher.</p>;
         } else {
-            content = this.state.products.map(product => <span key={product.code} onClick={() => this.goToProductsPage(product)}><ProductCard product={product} /></span>);
+            content = this.state.recipes.map(recipe => <span key={recipe.id}><RecipeCard recipe={recipe} /></span>);
             if (this.state.numberOfResults > 0) {
                 pagination = <ElfyPagination
                     activePage={this.state.page}
@@ -123,7 +126,10 @@ class ProductSearchScreen extends React.Component {
         return (
             <div>
                 <div className='search-bar'>
-                    <ProductsSearchBar />
+                    <SearchBar
+                        placeholder='Rechercher une recette'
+                        searchToDo={this.searchRecipesForName}
+                    />
                 </div>
                 {content}
                 {pagination}
@@ -132,4 +138,4 @@ class ProductSearchScreen extends React.Component {
     }
 }
 
-export default ProductSearchScreen;
+export default RecipeSearchScreen;
