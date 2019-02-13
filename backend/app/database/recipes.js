@@ -6,7 +6,8 @@ const recipesSchema = mongoose.Schema({
     name: { type: String, required: true },
     ingredients: [{ type: String, ref: 'france' }],
     comments: [{ body: { type: String, required: true }, author: { type: String }, created_at: { type: Date, required: true } }],
-    author: { type: String, required: false }
+    author: { type: String, required: false },
+    pictureUrl: { type: String, required: false },
 }, {
         timestamps: true,
         strict: true
@@ -31,7 +32,7 @@ const findAll = (page, itemsPerPage, successCallBack, errorCallback) => {
             for (const product of recipe.ingredients) {
                 products.push(middleware.parseProduct(product.toJSON()));
             }
-            recipes.push({ _id: recipe._id, name: recipe.name, comments: recipe.comments, author: recipe.author, ingredients: products, createdAt: recipe.createdAt, updatedAt: recipe.updatedAt});
+            recipes.push({ _id: recipe._id, name: recipe.name, comments: recipe.comments, author: recipe.author, ingredients: products, pictureUrl: recipe.pictureUrl, createdAt: recipe.createdAt, updatedAt: recipe.updatedAt});
         }
         return successCallBack(recipes);
     })
@@ -49,7 +50,7 @@ const findById = (recipeId, successCallBack, errorCallback) => {
             for (const product of recipe.ingredients) {
                 products.push(middleware.parseProduct(product.toJSON()));
             }
-            recipe =  { _id: recipe._id, name: recipe.name, comments: recipe.comments, author: recipe.author, ingredients: products, createdAt: recipe.createdAt, updatedAt: recipe.updatedAt};
+            recipe =  { _id: recipe._id, name: recipe.name, comments: recipe.comments, author: recipe.author, ingredients: products, pictureUrl: recipe.pictureUrl, createdAt: recipe.createdAt, updatedAt: recipe.updatedAt};
             successCallBack(recipe);
         } else {
             errorCallback('Invalid code.');
@@ -69,7 +70,7 @@ const findAllByName = (receiptName, page, itemsPerPage, successCallBack, errorCa
             for (const product of recipe.ingredients) {
                 products.push(middleware.parseProduct(product.toJSON()));
             }
-            recipes.push({ _id: recipe._id, name: recipe.name, comments: recipe.comments, author: recipe.author, ingredients: products, createdAt: recipe.createdAt, updatedAt: recipe.updatedAt});
+            recipes.push({ _id: recipe._id, name: recipe.name, comments: recipe.comments, author: recipe.author, ingredients: products, pictureUrl: recipe.pictureUrl, createdAt: recipe.createdAt, updatedAt: recipe.updatedAt});
         }
         successCallBack(recipes);
     })
@@ -91,11 +92,12 @@ const findAllComments = (recipeId, successCallBack, errorCallback) => {
     });
 }
 
-const create = (name, ingredients, author, successCallBack, errorCallback) => {
+const create = (name, ingredients, author, pictureUrl, successCallBack, errorCallback) => {
     let recipe = new recipesModel({
         name: name,
         ingredients: ingredients,
-        author: author
+        author: author,
+        pictureUrl: pictureUrl
     })
 
     recipe
@@ -106,7 +108,7 @@ const create = (name, ingredients, author, successCallBack, errorCallback) => {
                 for (const product of recipe.ingredients) {
                     products.push(middleware.parseProduct(product));
                 }
-                return successCallBack({ _id: recipe._id, name: recipe.name, comments: recipe.comments, author: recipe.author, ingredients: products, createdAt: recipe.createdAt, updatedAt: recipe.updatedAt});
+                return successCallBack({ _id: recipe._id, name: recipe.name, comments: recipe.comments, author: recipe.author, ingredients: products, pictureUrl: recipe.pictureUrl, createdAt: recipe.createdAt, updatedAt: recipe.updatedAt});
             });
         })
         .catch(err => {
@@ -132,7 +134,7 @@ const createComment = (recipeId, body, author, successCallBack, errorCallback) =
             for (const product of recipe.ingredients) {
                 products.push(middleware.parseProduct(product));
             }
-            return successCallBack({ _id: recipe._id, name: recipe.name, comments: recipe.comments, author: recipe.author, ingredients: products, createdAt: recipe.createdAt, updatedAt: recipe.updatedAt});
+            return successCallBack({ _id: recipe._id, name: recipe.name, comments: recipe.comments, author: recipe.author, ingredients: products, pictureUrl: recipe.pictureUrl, createdAt: recipe.createdAt, updatedAt: recipe.updatedAt});
         }
     );
 }

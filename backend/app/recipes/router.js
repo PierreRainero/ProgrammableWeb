@@ -145,6 +145,7 @@ const createRecipe = async (req, res) => {
             bodyParameters.name,
             bodyParameters.ingredients,
             bodyParameters.author,
+            bodyParameters.pictureUrl,
             (recipeCreated) => {
                 res.status(200).send(recipeCreated);
             },

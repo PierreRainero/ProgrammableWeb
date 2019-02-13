@@ -424,8 +424,9 @@ Permet de retrouver tous les recettes contenues dans la base de données, par gr
 ```
 
 `/api/recipes?name=macaroni&page=1&itemsPerPage=2` : **GET**  
-Permet de retrouver tous les recettes contenant le chaine recherché (non sensible à la casse), par groupe. Les produits sont classés en fonction de leur "id", on peut choisir le nombre de recettes par groupe et quel groupe l'on souhaite chercher :    
+Permet de retrouver tous les recettes contenant le chaine recherché (non sensible à la casse), par groupe. Les produits sont classés en fonction de leur "id", on peut choisir le nombre de recettes par groupe et quel groupe l'on souhaite chercher :  
 **Par défaut :** _page=1, itemsPerPage=20_
+
 ```json
 [
   {
@@ -529,10 +530,8 @@ Permet de créer une nouvelle recette.
 * **ingredients** : requis (contenant au moins deux ingrédients)
 * **author** : optionnel
 
-
 `/api/recipes/{recipeId}` : **GET**  
 Permet de retrouver une recette à partir de son id. L'objet retourné dans le cas d'une recherche réussit (code 200) et où le _recipeId_ vaut "5c61a630cf721c1447e2c38e" est le suivant :
-
 
 ```json
 {
