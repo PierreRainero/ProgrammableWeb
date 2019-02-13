@@ -30,6 +30,10 @@ a.primary-text-link:hover {
     background-color: $primary-color-dark;
 }
 
+a.primary-text-link.active {
+    background-color: $primary-color-dark;
+}
+
 // BUTTONS
 .btn.button-primary {
     color: $primary-color-text;

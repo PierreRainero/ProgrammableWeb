@@ -37,17 +37,17 @@ class NavigationBar extends React.Component {
                 <Nav className='mr-auto'>
                 <span className='separator-left'></span>
                 <Link to='/products' ref='link-products'
-                    className='no-decoration nav-item primary-text-link'>
+                    className={`no-decoration nav-item primary-text-link ${history.location.pathname==='/products'? 'active': ''}`}>
                     <FontAwesomeIcon icon={faCookieBite} />
                     <span> Produits</span>
                 </Link>
                 <Link to='/recipes' ref='link-recipes'
-                    className='no-decoration nav-item primary-text-link'>
+                    className={`no-decoration nav-item primary-text-link ${history.location.pathname==='/recipes'? 'active': ''}`}>
                     <FontAwesomeIcon icon={faListAlt} />
                     <span> Recettes</span>
                 </Link>
                 <Link to='/stores' ref='link-stores'
-                    className='no-decoration nav-item primary-text-link'>
+                    className={`no-decoration nav-item primary-text-link ${history.location.pathname==='/stores'? 'active': ''}`}>
                     <FontAwesomeIcon icon={faShoppingBasket} />
                     <span> Magasins</span>
                 </Link>
