@@ -4,25 +4,6 @@
     margin-top: 20vh;
 }
 
-.center {
-    display: table;
-    margin: 0 auto;
-}
-
-li > a.page-link {
-    color: $primary-color;
-}
-
-li > a.page-link:hover {
-    color: $primary-color-dark;
-}
-
-li.page-item.active > span.page-link {
-    color: $primary-color-text;
-    background-color: $primary-color;
-    border-color: $primary-color;
-}
-
 .search-bar {
     margin: 2em 6em;
 }
