@@ -48,6 +48,25 @@ class RecipeService {
     }
 
     /**
+     * Search recipe from its code
+     * @param {string} code code to search
+     */
+    static searchRecipeByCode(code) {
+        const url = `${HTTPService.getBaseUrl()}/api/recipes/${code}`;
+        return new Promise(function (resolve, reject) {
+            fetch(url, {method: 'GET'})
+                .then(response => {
+                    response.json().then((parsedResponse) => {
+                        resolve(new Recipe(parsedResponse._id, parsedResponse.name, parsedResponse.author, parsedResponse.pictureUrl, parsedResponse.ingredients, parsedResponse.comments, parsedResponse.createdAt, parsedResponse.updatedAt));
+                    }).catch(error => reject(error));
+                })
+                .catch(error => {
+                    reject(error);
+                });
+        });
+    }
+
+    /**
      * Create a new recipe
      * @param {Recipe} recipe recipe to add in the database
      * @param {function} callback function to execute once the recipe was created

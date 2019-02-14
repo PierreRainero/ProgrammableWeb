@@ -2,7 +2,7 @@ import React from 'react';
 import Loading from '../../loading/Loading';
 import ProductService from '../ProductService';
 import ProductScore from '../product-score/ProductScore';
-import CardList from './cardList/CardList';
+import CardList from '../../cardList/CardList';
 import { Col, Container, Row } from 'react-bootstrap';
 
 import './ProductScreen.scss';
