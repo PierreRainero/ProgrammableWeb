@@ -29,6 +29,7 @@ Une fois le serveur du "backend" lancé l'api suivante est exposée (port 3000) 
        └── /recipes
        └── /stores
             └── /{storeId}
+       └── /regions
 ```
 
 ## Fonctionnalités
