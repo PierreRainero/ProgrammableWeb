@@ -15,8 +15,9 @@ class Recipe {
      * @param {array} comments Array of comments
      * @param {date} createdAt Creation date
      * @param {date} updatedAt Last modification date
+     * @param {string} description Description of the recipe
      */
-    constructor(id, name, author, img, ingredients, comments, createdAt, updatedAt) {
+    constructor(id, name, author, img, ingredients, comments, createdAt, updatedAt, description) {
         this.id = id
         this.name = name;
         this.author = author;
@@ -41,6 +42,7 @@ class Recipe {
 
         this.createdAt = this.formatDate(createdAt);
         this.updatedAt = this.formatDate(updatedAt);
+        this.description = description;
     }
 
     /**
@@ -62,7 +64,7 @@ class Recipe {
         for (const ingredient of this.ingredients) {
             ingredients.push(ingredient.code);
         }
-        return JSON.stringify({ name: this.name, ingredients: ingredients, author: this.author, pictureUrl: this.img });
+        return JSON.stringify({ name: this.name, ingredients: ingredients, author: this.author, pictureUrl: this.img, description: this.description });
     }
 }
 

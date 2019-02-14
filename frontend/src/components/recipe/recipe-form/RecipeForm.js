@@ -26,6 +26,7 @@ class RecipeForm extends React.Component {
             recipeName: '',
             recipeAuthor: '',
             recipeImg: '',
+            recipeDescription: '',
             searchingValue: '',
             productsFound: [],
             numberOfProductsResults: 0,
@@ -35,11 +36,12 @@ class RecipeForm extends React.Component {
         }
 
         this.itemsPerPage = 10;
-        this.recipeToCreate = new Recipe('', '', '', '', [], [], undefined, undefined);
+        this.recipeToCreate = new Recipe('', '', '', '', [], [], undefined, undefined, '');
 
         this.handleRecipeNameChange = this.handleRecipeNameChange.bind(this);
         this.handleRecipeAuthorChange = this.handleRecipeAuthorChange.bind(this);
         this.handleRecipeImgChange = this.handleRecipeImgChange.bind(this);
+        this.handleRecipeDescriptionChange = this.handleRecipeDescriptionChange.bind(this);
         this.handleSearchingInputChange = this.handleSearchingInputChange.bind(this);
 
         this.innerWidth = window.innerWidth;
@@ -70,10 +72,21 @@ class RecipeForm extends React.Component {
     }
 
     /**
+     * Handles and updates the description of the recipe to create
+     */
+    handleRecipeDescriptionChange = (event) => {
+        this.recipeToCreate.description = event.target.value;
+        this.setState({ recipeDescription: event.target.value }, () => this.checkFormValidity());
+    }
+
+    /**
      * Check if the form can be send
      */
     checkFormValidity = () => {
-        if(this.state.recipeName!=='' && this.state.recipeAuthor!=='' && this.recipeToCreate.ingredients.length >= 2){
+        if(this.state.recipeName!=='' &&
+            this.state.recipeAuthor!=='' &&
+            this.state.recipeDescription!=='' &&
+            this.recipeToCreate.ingredients.length >= 2){
             this.setState({ validated: true });
         } else {
             this.setState({ validated: false });
@@ -93,7 +106,7 @@ class RecipeForm extends React.Component {
 
         RecipeService.createARecipe(this.recipeToCreate, (result) => {
             if(result){
-                this.recipeToCreate = new Recipe('', '', '', '', [], [], undefined, undefined);
+                this.recipeToCreate = new Recipe('', '', '', '', [], [], undefined, undefined, '');
                 this.setState({ show: true, recipeName: '', recipeAuthor: '', recipeImg: '', open: false, validated: false });
             }
         });
@@ -258,7 +271,7 @@ class RecipeForm extends React.Component {
                         onSubmit={this.createRecipe}
                     >
                         <Form.Group controlId='formRecipeName' className='tight'>
-                            <Form.Label>Nom de la recette</Form.Label>
+                            <Form.Label className='required-input'>Nom de la recette</Form.Label>
                             <Form.Control type='text' placeholder='Nom de la recette'
                                 value={this.state.recipeName} onChange={this.handleRecipeNameChange} required
                                 ref='recipeForm-input-name'
@@ -273,7 +286,7 @@ class RecipeForm extends React.Component {
                         </Form.Group>
 
                         <Form.Group controlId='formRecipeAuthor' className='tight'>
-                            <Form.Label>Nom de l'auteur</Form.Label>
+                            <Form.Label className='required-input'>Nom de l'auteur</Form.Label>
                             <Form.Control type='text' placeholder="Nom de l'auteur"
                                 value={this.state.recipeAuthor} onChange={this.handleRecipeAuthorChange} required
                                 ref='recipeForm-input-author'
@@ -281,8 +294,17 @@ class RecipeForm extends React.Component {
                             <Form.Control.Feedback type="invalid">Veuillez entrer un auteur pour votre recette.</Form.Control.Feedback>
                         </Form.Group>
 
+                        <Form.Group controlId="formRecipeDescription">
+                            <Form.Label className='required-input'>Description</Form.Label>
+                            <Form.Control as="textarea" rows="3"
+                                value={this.state.recipeDescription} onChange={this.handleRecipeDescriptionChange} required
+                                ref='recipeForm-input-description'
+                            />
+                            <Form.Control.Feedback type="invalid">Veuillez entrer une description pour votre recette.</Form.Control.Feedback>
+                        </Form.Group>
+
                         <Form.Group controlId='formRecipeIngredients' className='tight'>
-                            <Form.Label>Ingrédients</Form.Label>
+                            <Form.Label className='required-input'>Ingrédients</Form.Label>
                             <div>
                                 {this.recipeToCreate.ingredients.map(product => {
                                     let punctuation;

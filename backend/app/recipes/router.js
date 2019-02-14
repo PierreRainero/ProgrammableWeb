@@ -53,7 +53,7 @@ const getRecipeByCode = async (req, res) => {
     recipesDb.findById(
         req.params.recipeId,
         (reciteFound) => {
-            res.status(200).send(checkRecipeImg(reciteFound));
+            res.status(200).send(checkRecipeAttributes(reciteFound));
         },
         (error) => {
             ise(res, error, 'There was an error finding the recipe.');
@@ -92,7 +92,7 @@ const getRecipesByName = (res, name, page, itemsPerPage) => {
         (recipesFound) => {
             const result = [];
             for(let recipe of recipesFound){
-                result.push(checkRecipeImg(recipe));
+                result.push(checkRecipeAttributes(recipe));
             }
             res.status(200).send(result);
         },
@@ -114,7 +114,7 @@ const getAllRecipesWithIndex = (res, page, itemsPerPage) => {
         (recipesFound) => {
             const result = [];
             for(let recipe of recipesFound){
-                result.push(checkRecipeImg(recipe));
+                result.push(checkRecipeAttributes(recipe));
             }
             res.status(200).send(result);
         },
@@ -228,7 +228,7 @@ const createComment = async (req, res) => {
     }
 }
 
-const checkRecipeImg = (recipeToCheck) => {
+const checkRecipeAttributes = (recipeToCheck) => {
     let result = recipeToCheck;
     if(!recipeToCheck.pictureUrl){
         result.pictureUrl = '';

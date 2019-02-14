@@ -89,7 +89,7 @@ class RecipeCard extends React.Component {
 }
 
 RecipeCard.defaultProps = {
-    recipe: new Recipe('', '', '', '', [], [], undefined, undefined)
+    recipe: new Recipe('', '', '', '', [], [], undefined, undefined, '')
 };
 
 RecipeCard.propTypes = {

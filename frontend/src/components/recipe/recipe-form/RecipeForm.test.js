@@ -39,6 +39,13 @@ it('Should not validated non valid form', () => {
     inputAuthorNode.value = recipeAuthor;
     ReactTestUtils.Simulate.change(inputAuthorNode);
     expect(component.state.recipeAuthor).toEqual(recipeAuthor);
+    expect(component.state.validated).toEqual(false);
+
+    const inputDescriptionNode = ReactDOM.findDOMNode(component.refs['recipeForm-input-description']);
+    const recipeDescription = 'Just do it !';
+    inputDescriptionNode.value = recipeDescription;
+    ReactTestUtils.Simulate.change(inputDescriptionNode);
+    expect(component.state.recipeDescription).toEqual(recipeDescription);
     expect(component.state.validated).toEqual(true);
 
     ReactDOM.unmountComponentAtNode(div);
