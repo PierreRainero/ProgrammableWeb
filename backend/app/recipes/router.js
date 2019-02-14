@@ -156,6 +156,16 @@ const createRecipe = async (req, res) => {
             return;
         }
 
+        if (!bodyParameters.description || bodyParameters.description.length === '') {
+            res.status(422).send("Recipe description is missing.");
+            return;
+        }
+
+        if (!bodyParameters.author || bodyParameters.author.length === '') {
+            res.status(422).send("Recipe author is missing.");
+            return;
+        }
+
         if (!bodyParameters.ingredients || bodyParameters.ingredients.length < 2) {
             res.status(422).send("Recipe ingredients are missing (need at least two ingredients).");
             return;
@@ -164,6 +174,7 @@ const createRecipe = async (req, res) => {
         recipesDb.create(
             bodyParameters.name,
             bodyParameters.ingredients,
+            bodyParameters.description,
             bodyParameters.author,
             bodyParameters.pictureUrl,
             (recipeCreated) => {

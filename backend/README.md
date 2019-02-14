@@ -535,13 +535,17 @@ Permet de créer une nouvelle recette.
 {
     "name": "Cheese & Macaroni",
     "ingredients": [ "20291174", "0064200116473" ],
-    "author": "Fabien"
+    "author": "Fabien",
+    "pictureUrl": "https://dinnerthendessert.com/wp-content/uploads/2018/05/Baked-Mac-and-Cheese-2.jpg",
+    "description": "Recette très simple."
 }
 ```
 
 * **name** : requis
 * **ingredients** : requis (contenant au moins deux ingrédients)
-* **author** : optionnel
+* **author** : requis
+* **pictureUrl** : optionnel
+* **description** : requis
 
 `/api/recipes/{recipeId}` : **GET**  
 Permet de retrouver une recette à partir de son id. L'objet retourné dans le cas d'une recherche réussit (code 200) et où le _recipeId_ vaut "5c61a630cf721c1447e2c38e" est le suivant :
