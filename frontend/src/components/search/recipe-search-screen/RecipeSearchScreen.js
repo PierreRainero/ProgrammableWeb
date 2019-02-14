@@ -1,8 +1,10 @@
 import React from 'react';
 import Loading from '../../loading/Loading';
+import NoResult from '../no-result/NoResult';
 import SearchBar from '../searchBar/SearchBar';
-import RecipeCard from '../../recipe/recipe-card/RecipeCard'
+import RecipeCard from '../../recipe/recipe-card/RecipeCard';
 import ElfyPagination from '../../pagination/ElfyPagination';
+import RecipeForm from '../../recipe/recipe-form/RecipeForm';
 import RecipeService from '../../recipe/RecipeService';
 import history from '../../../history';
 
@@ -90,14 +92,24 @@ class RecipeSearchScreen extends React.Component {
     /**
      * Use search bar to find recipes using their name
      */
-    searchRecipesForName= (nameToSearch) => {
-		if(!nameToSearch || nameToSearch === ''){
+    searchRecipesForName = (nameToSearch) => {
+        if (!nameToSearch || nameToSearch === '') {
             return;
         }
-        
+
         history.push({
             pathname: '/recipes',
             data: { searchingValue: nameToSearch }
+        });
+    }
+
+    /**
+     * Navigates to the recipe page
+     */
+    goToRecipePage = (recipe) => {
+        history.push({
+            pathname: `/recipes/${recipe.id}`,
+            data: { recipe: recipe }
         });
     }
 
@@ -110,9 +122,9 @@ class RecipeSearchScreen extends React.Component {
         if (this.state.loading) {
             content = <Loading />;
         } else if (this.state.recipes.length === 0) {
-            content = <p className='vertical-delay'>Aucune recette à afficher.</p>;
+            content = <NoResult text='Aucune recette à afficher.' />;
         } else {
-            content = this.state.recipes.map(recipe => <span key={recipe.id}><RecipeCard recipe={recipe} /></span>);
+            content = this.state.recipes.map(recipe => <span key={recipe.id} onClick={() => this.goToRecipePage(recipe)}><RecipeCard recipe={recipe} /></span>);
             if (this.state.numberOfResults > 0) {
                 pagination = <ElfyPagination
                     activePage={this.state.page}
@@ -122,7 +134,6 @@ class RecipeSearchScreen extends React.Component {
                 />;
             }
         }
-
         return (
             <div>
                 <div className='search-bar'>
@@ -131,6 +142,7 @@ class RecipeSearchScreen extends React.Component {
                         searchToDo={this.searchRecipesForName}
                     />
                 </div>
+                <RecipeForm />
                 {content}
                 {pagination}
             </div>

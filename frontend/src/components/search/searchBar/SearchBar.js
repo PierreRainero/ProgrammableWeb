@@ -22,7 +22,7 @@ class SearchBar extends React.Component {
     }
 
     /**
-     * Handle and update the name to use for searching products
+     * Handles and updates the name to use for searching products
      */
     handleSearchingInputChange = (event) => {
         this.setState({ searchingValue: event.target.value });

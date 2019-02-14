@@ -31,6 +31,22 @@ it('Should creates correct number of items', () => {
     ReactDOM.unmountComponentAtNode(div);
 });
 
+it('Should creates correct number of items with custom limit', () => {
+    const div = document.createElement('div');
+    const component = ReactDOM.render(<ElfyPagination
+        activePage={1}
+        numberOfElements={60}
+        itemsPerPage={10}
+        actionToDoOnPageClick={(pageClicked)=> {}}
+        maximumPages={15}
+    />, div);
+
+    const httpCollectionsOFPages = ReactDOM.findDOMNode(component).getElementsByClassName('page-item');
+    expect(httpCollectionsOFPages.length).toEqual(6+4);
+
+    ReactDOM.unmountComponentAtNode(div);
+});
+
 it('Should send correct page clicked', () => {
     const wantedPage = 2;
     const div = document.createElement('div');

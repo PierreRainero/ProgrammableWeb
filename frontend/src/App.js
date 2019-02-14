@@ -7,6 +7,7 @@ import RecipeSearchScreen from './components/search/recipe-search-screen/RecipeS
 import StoreSearchScreen from './components/search/store-search-screen/StoreSearchScreen';
 import ProductScreen from './components/product/product-screen/ProductScreen';
 import './App.scss';
+import RecipeScreen from "./components/recipe/recipe-screen/RecipeScreen";
 
 class App extends Component {
   render() {
@@ -20,6 +21,8 @@ class App extends Component {
             <Route exact={true} path='/products/:id' component={ ProductScreen } />
 
             <Route exact={true} path='/recipes' component={ RecipeSearchScreen } />
+            <Route exact={true} path='/recipes/:id' component={ RecipeScreen } />
+
             <Route exact={true} path='/stores' component={ StoreSearchScreen } />
         </div>
       </div>

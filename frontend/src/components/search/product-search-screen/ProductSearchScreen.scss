@@ -1,21 +1,23 @@
 @import '../../../_shared.scss';
 
-.vertical-delay {
-    margin-top: 20vh;
-}
-
 .search-bar {
-    margin: 2em 6em;
+    margin-left: 6em;
+    margin-right: 6em;
+    margin-top: 2em;
 }
 
 @media (max-width: 768px) {
     .search-bar {
-        margin: 2em 4em;
+        margin-left: 4em;
+        margin-right: 4em;
+        margin-top: 2em;
     }
 }
 
 @media (max-width: 576px) {
     .search-bar {
-        margin: 2em 2em;
+        margin-left: 2em;
+        margin-right: 2em;
+        margin-top: 2em;
     }
 }

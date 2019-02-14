@@ -61,7 +61,7 @@ class ProductCard extends React.Component {
                         </Tooltip>
                     }
                 >
-                    <Card.Title className='one-line-title'>{this.product.name}</Card.Title>
+                    <Card.Title className='one-line-title' ref='product-card-title'>{this.product.name}</Card.Title>
                 </OverlayTrigger>
                 <img
                     alt='product_img'

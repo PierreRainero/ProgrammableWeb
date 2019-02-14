@@ -8,6 +8,7 @@ class ProductService {
     /**
      * Find one product using his barcode
      * @param {string} code barcode to search
+     * @return {Promise} promise
      */
     static searchProductByCode(code) {
         const url = `${HTTPService.getBaseUrl()}/api/products/${code}`;

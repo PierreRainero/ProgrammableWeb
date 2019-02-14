@@ -52,8 +52,8 @@ const getRecipeByCode = async (req, res) => {
 
     recipesDb.findById(
         req.params.recipeId,
-        (productFound) => {
-            res.status(200).send(productFound);
+        (reciteFound) => {
+            res.status(200).send(checkRecipeImg(reciteFound));
         },
         (error) => {
             ise(res, error, 'There was an error finding the recipe.');
@@ -90,7 +90,11 @@ const getRecipesByName = (res, name, page, itemsPerPage) => {
     recipesDb.findAllByName(
         name, page, itemsPerPage,
         (recipesFound) => {
-            res.status(200).send(recipesFound);
+            const result = [];
+            for(let recipe of recipesFound){
+                result.push(checkRecipeImg(recipe));
+            }
+            res.status(200).send(result);
         },
         (error) => {
             ise(res, error, error.message);
@@ -108,7 +112,11 @@ const getAllRecipesWithIndex = (res, page, itemsPerPage) => {
     recipesDb.findAll(
         page, itemsPerPage,
         (recipesFound) => {
-            res.status(200).send(recipesFound);
+            const result = [];
+            for(let recipe of recipesFound){
+                result.push(checkRecipeImg(recipe));
+            }
+            res.status(200).send(result);
         },
         (error) => {
             ise(res, error, error.message);
@@ -218,6 +226,15 @@ const createComment = async (req, res) => {
             }
         );
     }
+}
+
+const checkRecipeImg = (recipeToCheck) => {
+    let result = recipeToCheck;
+    if(!recipeToCheck.pictureUrl){
+        result.pictureUrl = '';
+    }
+
+    return result;
 }
 
 // ROUTES :
