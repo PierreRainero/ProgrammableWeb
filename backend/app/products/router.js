@@ -6,6 +6,7 @@
  *     - GET : Return product corresponding to productCode
  */
 const franceDb = require('../database/france.js');
+const recipesDb = require('../database/recipes.js');
 let router = require('express').Router();
 const ise = require('../errors/internal-server-error');
 
@@ -95,7 +96,7 @@ const getProductsByName = (res, name, page, itemsPerPage) => {
             res.status(200).send(productsFound);
         },
         (error) => {
-            if (config.PRODUCTION){
+            if (config.PRODUCTION) {
                 console.log("Error: " + error.message);
             }
             res.status(500).send(error.message);
@@ -110,14 +111,14 @@ const getProductsByName = (res, name, page, itemsPerPage) => {
 const getNumberProductsByName = (res, name) => {
     franceDb.getNumberOfProductForName(name,
         (result) => {
-            res.status(200).send({numberOfProducts: result});
+            res.status(200).send({ numberOfProducts: result });
         },
         (error) => {
-            if (config.PRODUCTION){
+            if (config.PRODUCTION) {
                 console.log("Error: " + error.message);
             }
             res.status(500).send(error.message);
-    });
+        });
 }
 
 const getProductsByIngredient = (res, ingredient, page, itemsPerPage) => {
@@ -132,8 +133,39 @@ const getProductsByIngredient = (res, ingredient, page, itemsPerPage) => {
     );
 }
 
+/**
+ * Get all the recipes that contains a specific product
+ * @param {express.Response} res Express HTTP response containing the number of result
+ * @param {express.Response} res Express HTTP response
+ */
+const getProductRecipes = (req, res) => {
+    if (!req.params.productCode || req.params.productCode === '') {
+        res.status(400).send("Product id is missing.");
+        return;
+    }
+
+    franceDb.findByCode(
+        req.params.productCode,
+        (productFound) => {
+            recipesDb.getProductRecipes(
+                productFound.code,
+                (recipesFound) => {
+                    res.status(200).send(recipesFound);
+                },
+                (error) => {
+                    ise(res, error, error.message);
+                }
+            );
+        },
+        (error) => {
+            ise(res, error, 'There was an error finding the product.');
+        }
+    );
+}
+
 // ROUTES :
 router.get('/', getAllProducts);
 router.get('/:productCode', getProductByCode);
+router.get('/:productCode/recipes', getProductRecipes);
 
 module.exports = router;

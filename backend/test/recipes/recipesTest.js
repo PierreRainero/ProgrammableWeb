@@ -135,7 +135,9 @@ describe('API - Recipes', function () {
         data = {
             "name": "Cheese & Macaroni",
             "ingredients": ["20291174", "0064200116473"],
-            "author": "Fabien"
+            "author": "Fabien",
+            "pictureUrl": "https://img.20mn.fr/LmjE-hVYSLWSGWKboOwv5A/310x190_petit-sanglier.jpg",
+            "description": "Une recette très simple et très bonne." 
         };
 
         it('should return an error : no parameters', function (done) {
@@ -157,7 +159,7 @@ describe('API - Recipes', function () {
             request(app)
                 .post('/api/recipes')
                 .set('Accept', 'application/json')
-                .send({ ingredients: ["20291174", "0064200116473"], author: "Fabien" })
+                .send({ ingredients: ["20291174", "0064200116473"], author: "Fabien", pictureUrl: "https://img.20mn.fr/LmjE-hVYSLWSGWKboOwv5A/310x190_petit-sanglier.jpg", description: "Une recette très simple et très bonne." })
                 .expect('Content-Type', /text/)
                 .expect(422)
                 .end((err, res) => {
@@ -173,7 +175,7 @@ describe('API - Recipes', function () {
             request(app)
                 .post('/api/recipes')
                 .set('Accept', 'application/json')
-                .send({ name: "Cheese & Macaroni", author: "Fabien" })
+                .send({ name: "Cheese & Macaroni", author: "Fabien", pictureUrl: "https://img.20mn.fr/LmjE-hVYSLWSGWKboOwv5A/310x190_petit-sanglier.jpg", description: "Une recette très simple et très bonne." })
                 .expect('Content-Type', /text/)
                 .expect(422)
                 .end((err, res) => {
@@ -181,6 +183,38 @@ describe('API - Recipes', function () {
                         return done(err);
                     }
                     expect(res.text).toBe("Recipe ingredients are missing (need at least two ingredients).");
+                    return done();
+                });
+        });
+
+        it('should return an error : author missing', function (done) {
+            request(app)
+                .post('/api/recipes')
+                .set('Accept', 'application/json')
+                .send({ name: "Cheese & Macaroni", ingredients: ["20291174", "0064200116473"], pictureUrl: "https://img.20mn.fr/LmjE-hVYSLWSGWKboOwv5A/310x190_petit-sanglier.jpg", description: "Une recette très simple et très bonne." })
+                .expect('Content-Type', /text/)
+                .expect(422)
+                .end((err, res) => {
+                    if (err) {
+                        return done(err);
+                    }
+                    expect(res.text).toBe("Recipe author is missing.");
+                    return done();
+                });
+        });
+
+        it('should return an error : description missing', function (done) {
+            request(app)
+                .post('/api/recipes')
+                .set('Accept', 'application/json')
+                .send({ name: "Cheese & Macaroni", ingredients: ["20291174", "0064200116473"], author: "Fabien", pictureUrl: "https://img.20mn.fr/LmjE-hVYSLWSGWKboOwv5A/310x190_petit-sanglier.jpg" })
+                .expect('Content-Type', /text/)
+                .expect(422)
+                .end((err, res) => {
+                    if (err) {
+                        return done(err);
+                    }
+                    expect(res.text).toBe("Recipe description is missing.");
                     return done();
                 });
         });
@@ -207,11 +241,11 @@ describe('API - Recipes', function () {
 
         });
 
-        it('should create a recipe with no author', function (done) {
+        it('should create a recipe with no pictureUrl', function (done) {
             request(app)
                 .post('/api/recipes')
                 .set('Accept', 'application/json')
-                .send({ name: "Cheese & Macaroni", ingredients: ["20291174", "0064200116473"] })
+                .send({ name: "Cheese & Macaroni", ingredients: ["20291174", "0064200116473"], author: "Fabien", pictureUrl: "https://img.20mn.fr/LmjE-hVYSLWSGWKboOwv5A/310x190_petit-sanglier.jpg", description: "Une recette très simple et très bonne." })
                 .expect('Content-Type', /json/)
                 .expect(200)
                 .end((err, res) => {

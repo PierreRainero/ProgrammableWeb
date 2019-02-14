@@ -1,8 +1,10 @@
+import Product from '../product/Product';
+import Comment from './Comment';
+
 /**
  * Class representing a recipe
  */
 class Recipe {
-
     /**
      * Normal constructor
      * @param {string} id Identifier of the recipe
@@ -17,10 +19,35 @@ class Recipe {
         this.id = id
         this.name = name;
         this.author = author;
-        this.ingredients = ingredients;
-        this.comments = comments;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+
+        this.ingredients = [];
+        for(const ingredient of ingredients){
+            this.ingredients.push(new Product(ingredient.code, 
+                ingredient.name,
+                ingredient.score,
+                ingredient.nutrigrade,
+                ingredient.novaGroup,
+                ingredient.ingredients,
+                ingredient.allergens,
+                ingredient.additives));
+        }
+
+        this.comments = [];
+        for(const comment of comments){
+            this.comments.push(new Comment(comment._id, comment.author, comment.body, comment.created_at));
+        }
+
+        this.createdAt = this.formatDate(createdAt);
+        this.updatedAt = this.formatDate(updatedAt);
+    }
+
+    /**
+     * Convert a date to a string as dd/mm/YYYY
+     * @param {string} dateToFormat date as string to format
+     */
+    formatDate(dateToFormat){
+        const date = new Date(dateToFormat);
+        return `${date.getDate()}/${date.getMonth()<10? `0${date.getMonth()}`:date.getMonth()}/${date.getUTCFullYear()}`;
     }
 }
 

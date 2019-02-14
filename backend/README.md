@@ -177,8 +177,6 @@ En ajoutant un second mot lors de la recherche, l'on aura donc des résultats pl
 ]
 ```
 
-**Par défaut :** _page=1, itemsPerPage=20_
-
 `/api/products/{productCode}` : **GET**  
 Permet de retrouver un produit à partir de son code (code barre). L'objet retourné dans le cas d'une recherche réussit (code 200) et où le _productCode_ vaut "011324361009736515181027101704" est le suivant :
 
@@ -268,6 +266,22 @@ Permet de retrouver un produit à partir de son code (code barre). L'objet retou
 }
 ```
 
+`/api/products/{productCode}/recipes` : **GET**  
+Permet de retrouver toutes les recettes contenant un ingrédients. L'objet retourné dans le cas d'une recherche réussit (code 200) et ou le _productCode_ vaut "0021200002021" (sauce Aïoli) est le suivant :  
+
+```json
+[
+  {
+    "_id": "5c640019b35fb67eec07cbaa",
+    "name": "Le sanglier sauce Aïoli"
+  },
+  {
+    "_id": "5c6401854aac50815e8dbe78",
+    "name": "L'Aïoli"
+  }
+]
+```
+
 `/api/products?ingredient={one_ingredient}&page=1&itemsPerPage=2` : **GET**  
 Permet de trouver tous les produits qui ont un certain ingredient. Les produits sont classés en fonction de leur "id", on peut définir le nombre de produits par groupe et quel groupe on souhaite chercher :  
 **Par défaut :** _page=1, itemsPerPage=20_
@@ -314,7 +328,6 @@ Permet de trouver tous les produits qui ont un certain ingredient. Les produits 
         ]
     }
 ]
-
 ```
 
 ### Prix
@@ -522,13 +535,17 @@ Permet de créer une nouvelle recette.
 {
     "name": "Cheese & Macaroni",
     "ingredients": [ "20291174", "0064200116473" ],
-    "author": "Fabien"
+    "author": "Fabien",
+    "pictureUrl": "https://dinnerthendessert.com/wp-content/uploads/2018/05/Baked-Mac-and-Cheese-2.jpg",
+    "description": "Recette très simple."
 }
 ```
 
 * **name** : requis
 * **ingredients** : requis (contenant au moins deux ingrédients)
-* **author** : optionnel
+* **author** : requis
+* **pictureUrl** : optionnel
+* **description** : requis
 
 `/api/recipes/{recipeId}` : **GET**  
 Permet de retrouver une recette à partir de son id. L'objet retourné dans le cas d'une recherche réussit (code 200) et où le _recipeId_ vaut "5c61a630cf721c1447e2c38e" est le suivant :

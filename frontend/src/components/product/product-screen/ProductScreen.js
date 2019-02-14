@@ -3,7 +3,7 @@ import Loading from '../../loading/Loading';
 import ProductService from '../ProductService';
 import ProductScore from '../product-score/ProductScore';
 import CardList from './cardList/CardList';
-import { Col, Container } from 'react-bootstrap';
+import { Col, Container, Row } from 'react-bootstrap';
 
 import './ProductScreen.scss';
 
@@ -11,12 +11,22 @@ import './ProductScreen.scss';
  * Component to fully present a product.
  */
 class ProductScreen extends React.Component {
+    /**
+     * Normal constructor
+     * @param {object} props
+     */
+    constructor(props) {
+        super(props);
 
-    state = {
-        loading: true,
-        product: null,
-        productImage: require('../../../assets/imgs/placeholder.png')
+        this.state = {
+            loading: true,
+            product: null,
+            productImage: require('../../../assets/imgs/placeholder.png')
+        }
+
+        this.signalController = new AbortController()
     }
+    
 
     /**
      * Call after fully finishing to build this component
@@ -32,7 +42,7 @@ class ProductScreen extends React.Component {
         } else {
             ProductService.searchProductByCode(this.props.match.params.id).then(product => {
                 this.setState({ loading: false, product: product });
-                ProductService.getProductImage(this.state.product.code, (imgURL) => {
+                ProductService.getProductImage(this.state.product.code, this.signalController.signal, (imgURL) => {
                     if (imgURL !== '') {
                         this.setState({ productImage: imgURL });
                     }
@@ -44,19 +54,27 @@ class ProductScreen extends React.Component {
     }
 
     /**
+     * Call when this component is destroyed 
+     */
+    componentWillUnmount(){
+        this.signalController.abort();
+        this.mounted = false;
+    }
+
+    /**
      * Render the component
      */
     render() {
         return (
-            <div>
+            <div style={{ height: '100%' }}>
                 {this.state.loading ?
                     <div>
                         <Loading />
                     </div>
                     :
-                    <div>
+                    <div style={{ height: '100%' }}>
                         <div className='productHeader'>
-                            <img src='http://lorempixel.com/1920/300/food' alt='header' />
+                            <img src='http://lorempixel.com/1920/250/food' alt='header' />
                         </div>
                         <div className='productGeneralInfos'>
                             <div className='productImage'>
@@ -71,16 +89,29 @@ class ProductScreen extends React.Component {
                                 <ProductScore score={this.state.product.score} nutrigrade={this.state.product.nutrigrade} novaGroup={this.state.product.novaGroup} />
                             </div>
                         </div>
+                        <div>
+
+                        </div>
                         <Container className='productDetails'>
-                            <Col md={4}>
-                                <CardList title='Ingrédients' data={this.state.product.ingredients} />
-                            </Col>
-                            <Col md={4}>
-                                <CardList title='Additifs' data={this.state.product.additives} />
-                            </Col>
-                            <Col md={4}>
-                                <CardList title='Allergènes' data={this.state.product.allergens} />
-                            </Col>
+                            <Row className='productDetailsRow'>
+                                <Col md={4}>
+                                    <CardList title='Ingrédients' data={this.state.product.ingredients} />
+                                </Col>
+                                <Col md={4}>
+                                    <CardList title='Additifs' data={this.state.product.additives} />
+                                </Col>
+                                <Col md={4}>
+                                    <CardList title='Allergènes' data={this.state.product.allergens} />
+                                </Col>
+                            </Row>
+                            <Row className='productDetailsRow'>
+                                <Col md={6}>
+                                    <CardList title='Recettes' data={[]} />
+                                </Col>
+                                <Col md={6}>
+                                    <CardList title='Comparaison des prix' data={[]} />
+                                </Col>
+                            </Row>
                         </Container>
                     </div>
                 }

@@ -1,13 +1,14 @@
 const mongoose = require('./database').mongoose;
 const db = require('./database').db;
-const middleware = require('../products/middleware.js');
+const middleware = require('../recipes/middleware.js');
 
 const recipesSchema = mongoose.Schema({
     name: { type: String, required: true },
     ingredients: [{ type: String, ref: 'france' }],
     comments: [{ body: { type: String, required: true }, author: { type: String }, created_at: { type: Date, required: true } }],
-    author: { type: String, required: false },
-    pictureUrl: { type: String, required: false },
+    author: { type: String, required: true },
+    description: { type: String, required: true },
+    pictureUrl: { type: String, required: false }
 }, {
         timestamps: true,
         strict: true
@@ -28,11 +29,7 @@ const findAll = (page, itemsPerPage, successCallBack, errorCallback) => {
 
         const recipes = [];
         for (let recipe of result) {
-            const products = new Array();
-            for (const product of recipe.ingredients) {
-                products.push(middleware.parseProduct(product.toJSON()));
-            }
-            recipes.push({ _id: recipe._id, name: recipe.name, comments: recipe.comments, author: recipe.author, ingredients: products, pictureUrl: recipe.pictureUrl, createdAt: recipe.createdAt, updatedAt: recipe.updatedAt});
+            recipes.push(middleware.parseRecipe(recipe.toJSON()));
         }
         return successCallBack(recipes);
     })
@@ -43,18 +40,23 @@ const findById = (recipeId, successCallBack, errorCallback) => {
         if (err) {
             return errorCallback(err);
         }
-        
+
         if (result.length === 1) {
             let recipe = result[0];
-            const products = new Array();
-            for (const product of recipe.ingredients) {
-                products.push(middleware.parseProduct(product.toJSON()));
-            }
-            recipe =  { _id: recipe._id, name: recipe.name, comments: recipe.comments, author: recipe.author, ingredients: products, pictureUrl: recipe.pictureUrl, createdAt: recipe.createdAt, updatedAt: recipe.updatedAt};
-            successCallBack(recipe);
+            successCallBack(middleware.parseRecipe(recipe.toJSON()));
         } else {
             errorCallback('Invalid code.');
         }
+    })
+}
+
+const getNumberOfRecipesForName = (receiptName, successCallBack, errorCallback) => {
+    recipesModel.countDocuments({ name: { "$regex": receiptName, "$options": "is" } }).populate({ path: 'ingredients', model: 'france' }).exec((err, result) => {
+        if (err) {
+            return errorCallback(err);
+        }
+
+        successCallBack(result);
     })
 }
 
@@ -66,15 +68,10 @@ const findAllByName = (receiptName, page, itemsPerPage, successCallBack, errorCa
 
         const recipes = [];
         for (let recipe of result) {
-            const products = new Array();
-            for (const product of recipe.ingredients) {
-                products.push(middleware.parseProduct(product.toJSON()));
-            }
-            recipes.push({ _id: recipe._id, name: recipe.name, comments: recipe.comments, author: recipe.author, ingredients: products, pictureUrl: recipe.pictureUrl, createdAt: recipe.createdAt, updatedAt: recipe.updatedAt});
+            recipes.push(middleware.parseRecipe(recipe.toJSON()));
         }
         successCallBack(recipes);
     })
-
 }
 
 const findAllComments = (recipeId, successCallBack, errorCallback) => {
@@ -92,10 +89,11 @@ const findAllComments = (recipeId, successCallBack, errorCallback) => {
     });
 }
 
-const create = (name, ingredients, author, pictureUrl, successCallBack, errorCallback) => {
+const create = (name, ingredients, description, author, pictureUrl, successCallBack, errorCallback) => {
     let recipe = new recipesModel({
         name: name,
         ingredients: ingredients,
+        description: description,
         author: author,
         pictureUrl: pictureUrl
     })
@@ -104,11 +102,7 @@ const create = (name, ingredients, author, pictureUrl, successCallBack, errorCal
         .save()
         .then(recipe => {
             recipe.populate({ path: 'ingredients', model: 'france' }, function (err) {
-                const products = new Array();
-                for (const product of recipe.ingredients) {
-                    products.push(middleware.parseProduct(product));
-                }
-                return successCallBack({ _id: recipe._id, name: recipe.name, comments: recipe.comments, author: recipe.author, ingredients: products, pictureUrl: recipe.pictureUrl, createdAt: recipe.createdAt, updatedAt: recipe.updatedAt});
+                return successCallBack(middleware.parseRecipe(recipe.toJSON()));
             });
         })
         .catch(err => {
@@ -130,19 +124,34 @@ const createComment = (recipeId, body, author, successCallBack, errorCallback) =
             if (!recipe || !recipe.comments) {
                 return errorCallback({ message: 'No existing recipe for this id.' });
             }
-            const products = new Array();
-            for (const product of recipe.ingredients) {
-                products.push(middleware.parseProduct(product));
-            }
-            return successCallBack({ _id: recipe._id, name: recipe.name, comments: recipe.comments, author: recipe.author, ingredients: products, pictureUrl: recipe.pictureUrl, createdAt: recipe.createdAt, updatedAt: recipe.updatedAt});
+
+            recipe.populate({ path: 'ingredients', model: 'france' }, function (err) {
+                successCallBack(middleware.parseRecipe(recipe.toJSON()));
+            });
         }
     );
 }
 
+const getProductRecipes = (productId, successCallBack, errorCallback) => {
+    recipesModel.find({ ingredients: productId }).populate({ path: 'ingredients', model: 'france' }).exec((err, result) => {
+        if (err) {
+            return errorCallback(err);
+        }
+
+        const recipes = [];
+        for (let recipe of result) {
+            recipes.push({ _id: recipe._id, name: recipe.name });
+        }
+        return successCallBack(recipes);
+    });
+}
+
 exports.findAll = findAll;
 exports.findById = findById;
+exports.getNumberOfRecipesForName = getNumberOfRecipesForName;
 exports.findAllByName = findAllByName;
 exports.findAllComments = findAllComments;
 exports.create = create;
 exports.createComment = createComment;
+exports.getProductRecipes = getProductRecipes;
 exports.schema = recipesSchema;

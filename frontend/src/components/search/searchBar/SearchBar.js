@@ -1,8 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Button, Form, FormControl } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import history from '../../../history';
 
 import './SearchBar.scss';
 
@@ -32,15 +32,7 @@ class SearchBar extends React.Component {
      * Navigate to the result view of the search
      */
     search = (event) => {
-        if(!this.state.searchingValue || this.state.searchingValue === ''){
-            return;
-        }
-        
-        history.push({
-            pathname: '/products',
-            data: { searchingValue: this.state.searchingValue }
-        });
-
+        this.props.searchToDo(this.state.searchingValue);
         event.preventDefault();
     }
 
@@ -52,7 +44,7 @@ class SearchBar extends React.Component {
             <Form inline>
                 <FormControl
                     type='text'
-                    placeholder='Rechercher'
+                    placeholder={this.props.placeholder}
                     className='searchInput'
                     ref='search-input'
                     value={this.state.searchingValue}
@@ -64,12 +56,21 @@ class SearchBar extends React.Component {
                     }}
                 />
                 <Button variant='' className='button-secondary searchButton' onClick={this.search} ref='search-submit'>
-
                     <FontAwesomeIcon icon={faSearch} />
                 </Button>
             </Form>
         );
     }
 }
+
+SearchBar.defaultProps = {
+    placeholder: '',
+    searchToDo: ()=>{}
+};
+
+SearchBar.propTypes = {
+    placeholder: PropTypes.string,
+    searchToDo: PropTypes.func
+};
 
 export default SearchBar;
