@@ -78,7 +78,7 @@ const findAllByName = (receiptName, page, itemsPerPage, successCallBack, errorCa
         for (let recipe of result) {
             const products = new Array();
             for (const product of recipe.ingredients) {
-                products.push(middleware.parseProduct(product.toJSON()));
+                products.push(middleware.parseProduct(product));
             }
             recipes.push({ _id: recipe._id, name: recipe.name, comments: recipe.comments, author: recipe.author, ingredients: products, pictureUrl: recipe.pictureUrl, createdAt: recipe.createdAt, updatedAt: recipe.updatedAt });
         }
@@ -148,6 +148,20 @@ const createComment = (recipeId, body, author, successCallBack, errorCallback) =
     );
 }
 
+const getProductRecipes = (productId, successCallBack, errorCallback) => {
+    recipesModel.find({ ingredients: productId }).populate({ path: 'ingredients', model: 'france' }).exec((err, result) => {
+        if (err) {
+            return errorCallback(err);
+        }
+
+        const recipes = [];
+        for (let recipe of result) {
+            recipes.push({ _id: recipe._id, name: recipe.name });
+        }
+        return successCallBack(recipes);
+    });
+}
+
 exports.findAll = findAll;
 exports.findById = findById;
 exports.getNumberOfRecipesForName = getNumberOfRecipesForName;
@@ -155,4 +169,5 @@ exports.findAllByName = findAllByName;
 exports.findAllComments = findAllComments;
 exports.create = create;
 exports.createComment = createComment;
+exports.getProductRecipes = getProductRecipes;
 exports.schema = recipesSchema;

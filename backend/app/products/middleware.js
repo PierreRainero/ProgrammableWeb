@@ -7,7 +7,7 @@ const Product = require('./product.js');
  */
 const parseProduct = (productJson) => {
     const product = new Product(productJson.code, productJson.product_name, productJson.nutrition_grades, productJson.nova_group);
-
+    
     const ingredients = productJson.ingredients;
     if (ingredients && ingredients.length > 0) {
         for (const ingredient of ingredients) {
