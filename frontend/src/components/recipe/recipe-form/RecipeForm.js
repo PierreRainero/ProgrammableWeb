@@ -31,7 +31,8 @@ class RecipeForm extends React.Component {
             productsFound: [],
             numberOfProductsResults: 0,
             productPage: 1,
-            productLoading: false
+            productLoading: false,
+            validated: false
         }
 
         this.itemsPerPage = 10;
@@ -51,6 +52,7 @@ class RecipeForm extends React.Component {
     handleRecipeNameChange = (event) => {
         this.recipeToCreate.name = event.target.value;
         this.setState({ recipeName: event.target.value });
+        this.checkFormValidity();
     }
 
     /**
@@ -59,6 +61,7 @@ class RecipeForm extends React.Component {
     handleRecipeAuthorChange = (event) => {
         this.recipeToCreate.author = event.target.value;
         this.setState({ recipeAuthor: event.target.value });
+        this.checkFormValidity();
     }
 
     /**
@@ -69,14 +72,29 @@ class RecipeForm extends React.Component {
         this.setState({ recipeImg: event.target.value });
     }
 
+    checkFormValidity = () => {
+        if(this.state.recipeName!=='' && this.state.recipeAuthor!=='' && this.recipeToCreate.ingredients.length >= 2){
+            this.setState({ validated: true });
+        } else {
+            this.setState({ validated: false });
+        }
+    }
+
     /**
      * Create the recipe
      */
     createRecipe = (event) => {
+        const form = event.currentTarget;
+        if (form.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();
+          return;
+        }
+
         RecipeService.createARecipe(this.recipeToCreate, (result) => {
             if(result){
                 this.recipeToCreate = new Recipe('', '', '', '', [], [], undefined, undefined);
-                this.setState({ show: true, recipeName: '', recipeAuthor: '', recipeImg: '',});
+                this.setState({ show: true, recipeName: '', recipeAuthor: '', recipeImg: '', open: false, validated: false });
             }
         });
         event.preventDefault();
@@ -114,7 +132,7 @@ class RecipeForm extends React.Component {
         } else {
             this.recipeToCreate.ingredients.splice(elementIndex, 1);
         }
-        this.setState({});
+        this.checkFormValidity();
     }
 
     /**
@@ -122,7 +140,9 @@ class RecipeForm extends React.Component {
      */
     createCheckboxIngredient = (product) => {
         return <Form.Check
-            custom type='checkbox'
+            custom
+            className='no-valid-decoration-input'
+            type='checkbox'
             key={product.code}
             id={`checkbock-${product.code}`}
             label={product.name}
@@ -232,11 +252,17 @@ class RecipeForm extends React.Component {
             </Button>
             <Collapse in={this.state.open}>
                 <div id='creation-recipe-form'>
-                    <Form className='text-left form-aerate form-zone'>
+                    <Form className='text-left form-aerate form-zone'
+                        noValidate
+                        validated={this.state}
+                        onSubmit={this.createRecipe}
+                    >
                         <Form.Group controlId='formRecipeName' className='tight'>
                             <Form.Label>Nom de la recette</Form.Label>
                             <Form.Control type='text' placeholder='Nom de la recette'
-                                value={this.state.recipeName} onChange={this.handleRecipeNameChange} />
+                                value={this.state.recipeName} onChange={this.handleRecipeNameChange} required
+                            />
+                                <Form.Control.Feedback type="invalid">Veuillez entrer un nom pour votre recette.</Form.Control.Feedback>
                         </Form.Group>
 
                         <Form.Group controlId='formRecipeImg' className='tight'>
@@ -248,7 +274,9 @@ class RecipeForm extends React.Component {
                         <Form.Group controlId='formRecipeAuthor' className='tight'>
                             <Form.Label>Nom de l'auteur</Form.Label>
                             <Form.Control type='text' placeholder="Nom de l'auteur"
-                                value={this.state.recipeAuthor} onChange={this.handleRecipeAuthorChange} />
+                                value={this.state.recipeAuthor} onChange={this.handleRecipeAuthorChange} required  
+                            />
+                            <Form.Control.Feedback type="invalid">Veuillez entrer un auteur pour votre recette.</Form.Control.Feedback>
                         </Form.Group>
 
                         <Form.Group controlId='formRecipeIngredients' className='tight'>
@@ -270,6 +298,7 @@ class RecipeForm extends React.Component {
                                     <FormControl
                                         type='text'
                                         placeholder='Rechercher un ingrédient'
+                                        className='no-valid-decoration-input'
                                         value={this.state.searchingValue}
                                         onChange={this.handleSearchingInputChange}
                                         onKeyPress={e => {
@@ -295,8 +324,10 @@ class RecipeForm extends React.Component {
                         </Form.Group>
 
                         <div className='text-center'>
-                            <Button variant='primary' type='submit' className='button-success'
-                                onClick={this.createRecipe} >
+                            <Button variant='primary' type='submit'
+                                className={`button-success ${!this.state.validated? 'disabled-cursor' : ''}`}
+                                disabled={!this.state.validated}
+                            >
                                 <FontAwesomeIcon icon={faPaperPlane} /><span> Envoyer</span>
                             </Button>
                         </div>

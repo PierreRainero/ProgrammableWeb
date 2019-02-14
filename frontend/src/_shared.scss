@@ -41,6 +41,10 @@ a.primary-text-link.active {
     }    
 }
 
+.disabled-cursor{
+    cursor: not-allowed;
+}
+
 // BUTTONS
 .btn.button-primary {
     color: $primary-color-text;
@@ -90,6 +94,15 @@ button.btn.btn-primary.button-success:target {
     border-color: $success-color-dark;
     background-color: $success-color-dark;
     box-shadow: inset 0 0.5px 0.5px rgba(0, 0, 0, 0.075), 0 0 8px $success-color-dark;
+}
+
+button.btn.btn-primary.button-success:hover.disabled-cursor,
+button.btn.btn-primary.button-success:active.disabled-cursor,
+button.btn.btn-primary.button-success:focus.disabled-cursor,
+button.btn.btn-primary.button-success:visited.disabled-cursor,
+button.btn.btn-primary.button-success:target.disabled-cursor {
+    box-shadow: none;
+    background-color: $success-color;
 }
 
 // TEXT
