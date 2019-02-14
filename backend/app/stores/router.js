@@ -2,10 +2,13 @@
  * REST API for Stores
  * /stores
  *      - GET : Return "all" stores
+ *      - POST : Create a new store
+ * /stores/{storeId}
+ *      - GET : Return corresponding store
  */
 const storeDb = require('../database/store.js');
+const regionDb = require('../database/region.js');
 let router = require('express').Router();
-const GeoPoint = require('geopoint');
 
 /**
  * Get a specific store using its code
@@ -42,9 +45,9 @@ const getStoreById = async (req, res) => {
 const getAllStores = async (req, res) => {
     const queryParameters = req.query;
     if (queryParameters !== undefined) {
-        if (queryParameters.lat && queryParameters.long && queryParameters.range
-            && !isNaN(queryParameters.lat) && !isNaN(queryParameters.long) && !isNaN(queryParameters.range)) {
-            getAllStoresByLocation(res, queryParameters.lat, queryParameters.long, queryParameters.range);
+        if (queryParameters.lat && queryParameters.lng && queryParameters.range
+            && !isNaN(queryParameters.lat) && !isNaN(queryParameters.lng) && !isNaN(queryParameters.range)) {
+            getAllStoresByLocation(res, queryParameters.lat, queryParameters.lng, queryParameters.range);
         } else {
             getAllStoresWithIndex(res, 1, 20);
         }
@@ -65,14 +68,19 @@ const createStore = async (req, res) => {
             res.status(422).send("Store name is missing.");
             return;
         }
-        if (!bodyParameters.location || !bodyParameters.location.x || !bodyParameters.location.y) {
+        if (!bodyParameters.location || !bodyParameters.location.lat || !bodyParameters.location.lng) {
             res.status(422).send("Store location is missing.");
+            return;
+        }
+        if (!bodyParameters.region) {
+            res.status(422).send("Store region is missing.");
             return;
         }
 
         storeDb.create(
             bodyParameters.name,
             bodyParameters.location,
+            bodyParameters.region,
             (storeCreated) => {
                 res.status(200).send(storeCreated.toJSON());
             },
@@ -111,27 +119,30 @@ const getAllStoresWithIndex = (res, page, itemsPerPage) => {
  * @param {Number} locationX
  * @param {Number} locationY
  */
-const getAllStoresByLocation = (res, lat, long, range) => {
-    storeDb.findAll(
-        1, 20,
-        (storesFound) => {
-            const result = new Array();
-            let storeTmp = {};
-            for (const store of storesFound) {
-                let myLocation = new GeoPoint(parseFloat(lat), parseFloat(long));
-                let storeLocation = new GeoPoint(store.location.lat, store.location.long);
-                let distance = myLocation.distanceTo(storeLocation, true);
-                if (distance <= range) {
-                    storeTmp = { _id: store._id, distance: distance, location: store.location };
-                    result.push(storeTmp);
-                }
+const getAllStoresByLocation = (res, lat, lng, range) => {
+
+    regionDb.getRegionsForLocation(
+        lat, lng,
+        (regions) => {
+            let arrayNameRegions = new Array();
+            for (region of regions) {
+                arrayNameRegions.push(region.name);
             }
-            res.status(200).send(result);
+            storeDb.findAllByLocation(
+                lat, lng, range, arrayNameRegions,
+                (storesFound) => {
+                    res.status(200).send(storesFound);
+                },
+                (error) => {
+                    console.log("Error: " + error.message);
+                    res.status(500).send(error.message);
+                });
         },
         (error) => {
             console.log("Error: " + error.message);
             res.status(500).send(error.message);
-        });
+        }
+    )
 }
 
 // ROUTES :
