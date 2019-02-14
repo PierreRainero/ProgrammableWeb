@@ -1,13 +1,14 @@
 import React from 'react';
 import Loading from '../../loading/Loading';
 import RecipeService from '../RecipeService';
+import { Col, Container, OverlayTrigger, Row, Tooltip } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faClock } from '@fortawesome/free-solid-svg-icons';
+import history from '../../../history';
+import CardList from '../../cardList/CardList';
+import CommentsCard from './commentsCard/CommentsCard';
 
 import './RecipeScreen.scss';
-import {Col, Container, OverlayTrigger, Row, Tooltip} from "react-bootstrap";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faClock} from "@fortawesome/free-solid-svg-icons";
-import CardList from "../../cardList/CardList";
-import CommentsCard from "./commentsCard/CommentsCard";
 
 /**
  * Component to fully present a recipe.
@@ -22,7 +23,8 @@ class RecipeScreen extends React.Component {
 
         this.state = {
             loading: true,
-            recipe: null
+            recipe: null,
+            recipeImage: require('../../../assets/imgs/placeholder.png')
         }
 
         this.signalController = new AbortController()
@@ -34,10 +36,20 @@ class RecipeScreen extends React.Component {
      */
     componentDidMount() {
         if (this.props.location.data) {
-            this.setState({loading: false, recipe: this.props.location.data.recipe});
+            const recipe = this.props.location.data.recipe;
+            if (recipe.img !== '') {
+                this.setState({ loading: false, recipe: recipe, recipeImage: recipe.img });
+            } else {
+                this.setState({ loading: false, recipe: recipe });
+            }
+
         } else {
             RecipeService.searchRecipeByCode(this.props.match.params.id).then(recipe => {
-                this.setState({loading: false, recipe: recipe});
+                if (recipe.img !== '') {
+                    this.setState({ loading: false, recipe: recipe, recipeImage: recipe.img });
+                } else {
+                    this.setState({ loading: false, recipe: recipe });
+                }
             }).catch(error => {
                 console.log(error.message);
             });
@@ -52,26 +64,35 @@ class RecipeScreen extends React.Component {
         this.mounted = false;
     }
 
+
+    /**
+     * Go to product page
+     */
+    goToProductPage = (item) => {
+        history.push({
+            pathname: `/products/${item.code}`
+        });
+    }
+
     /**
      * Render the component
      */
     render() {
-        console.log(this.state.recipe);
         return (
-            <div style={{height: '100%'}}>
+            <div style={{ height: '100%' }}>
                 {this.state.loading ?
                     <div>
-                        <Loading/>
+                        <Loading />
                     </div>
                     :
-                    <div style={{height: '100%'}}>
+                    <div style={{ height: '100%' }}>
                         <div className='recipeHeader'>
-                            <img src='http://lorempixel.com/1920/250/food' alt='header'/>
+                            <img src='http://lorempixel.com/1920/250/food' alt='header' />
                         </div>
                         <div className='recipeGeneralInfos'>
                             <div className='recipeImage'>
                                 <img
-                                    src={this.state.recipe.img}
+                                    src={this.state.recipeImage}
                                     alt={this.state.recipe.name}
                                     className={'shadow'}
                                 />
@@ -88,7 +109,7 @@ class RecipeScreen extends React.Component {
                                     }
                                 >
                                     <div className='recipeDate'>
-                                        <FontAwesomeIcon icon={faClock}/>
+                                        <FontAwesomeIcon icon={faClock} />
                                         <span> {this.state.recipe.createdAt}</span>
                                     </div>
                                 </OverlayTrigger>
@@ -97,7 +118,7 @@ class RecipeScreen extends React.Component {
                         <Container className='recipeDetails'>
                             <Row className='recipeDetailsRow'>
                                 <Col md={6}>
-                                    <CardList title='Ingrédients' data={this.state.recipe.ingredients} />
+                                    <CardList title='Ingrédients' data={this.state.recipe.ingredients} actionOnClick={this.goToProductPage} />
                                 </Col>
                                 <Col md={6}>
                                     <CommentsCard title='Commentaires' data={this.state.recipe.comments} />

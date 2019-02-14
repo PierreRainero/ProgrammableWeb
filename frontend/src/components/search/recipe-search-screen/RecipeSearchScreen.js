@@ -104,6 +104,16 @@ class RecipeSearchScreen extends React.Component {
     }
 
     /**
+     * Navigates to the recipe page
+     */
+    goToRecipePage = (recipe) => {
+        history.push({
+            pathname: `/recipes/${recipe.id}`,
+            data: { recipe: recipe }
+        });
+    }
+
+    /**
      * Render the component
      */
     render() {
@@ -114,7 +124,7 @@ class RecipeSearchScreen extends React.Component {
         } else if (this.state.recipes.length === 0) {
             content = <NoResult text='Aucune recette à afficher.' />;
         } else {
-            content = this.state.recipes.map(recipe => <span key={recipe.id}><RecipeCard recipe={recipe} /></span>);
+            content = this.state.recipes.map(recipe => <span key={recipe.id} onClick={() => this.goToRecipePage(recipe)}><RecipeCard recipe={recipe} /></span>);
             if (this.state.numberOfResults > 0) {
                 pagination = <ElfyPagination
                     activePage={this.state.page}

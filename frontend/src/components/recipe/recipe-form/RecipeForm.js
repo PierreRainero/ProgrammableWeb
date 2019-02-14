@@ -9,7 +9,6 @@ import Recipe from '../Recipe';
 
 import './RecipeForm.scss';
 
-
 /**
  * Component to create a recipe.
  */
@@ -51,8 +50,7 @@ class RecipeForm extends React.Component {
      */
     handleRecipeNameChange = (event) => {
         this.recipeToCreate.name = event.target.value;
-        this.setState({ recipeName: event.target.value });
-        this.checkFormValidity();
+        this.setState({ recipeName: event.target.value }, () => this.checkFormValidity());
     }
 
     /**
@@ -60,8 +58,7 @@ class RecipeForm extends React.Component {
      */
     handleRecipeAuthorChange = (event) => {
         this.recipeToCreate.author = event.target.value;
-        this.setState({ recipeAuthor: event.target.value });
-        this.checkFormValidity();
+        this.setState({ recipeAuthor: event.target.value }, () => this.checkFormValidity());
     }
 
     /**
@@ -72,6 +69,9 @@ class RecipeForm extends React.Component {
         this.setState({ recipeImg: event.target.value });
     }
 
+    /**
+     * Check if the form can be send
+     */
     checkFormValidity = () => {
         if(this.state.recipeName!=='' && this.state.recipeAuthor!=='' && this.recipeToCreate.ingredients.length >= 2){
             this.setState({ validated: true });
@@ -143,7 +143,7 @@ class RecipeForm extends React.Component {
             custom
             className='no-valid-decoration-input'
             type='checkbox'
-            key={product.code}
+            key={`checkbox-${product.code}`}
             id={`checkbock-${product.code}`}
             label={product.name}
             onChange={(e) => this.handleChecked(e, product)}
@@ -261,6 +261,7 @@ class RecipeForm extends React.Component {
                             <Form.Label>Nom de la recette</Form.Label>
                             <Form.Control type='text' placeholder='Nom de la recette'
                                 value={this.state.recipeName} onChange={this.handleRecipeNameChange} required
+                                ref='recipeForm-input-name'
                             />
                                 <Form.Control.Feedback type="invalid">Veuillez entrer un nom pour votre recette.</Form.Control.Feedback>
                         </Form.Group>
@@ -274,7 +275,8 @@ class RecipeForm extends React.Component {
                         <Form.Group controlId='formRecipeAuthor' className='tight'>
                             <Form.Label>Nom de l'auteur</Form.Label>
                             <Form.Control type='text' placeholder="Nom de l'auteur"
-                                value={this.state.recipeAuthor} onChange={this.handleRecipeAuthorChange} required  
+                                value={this.state.recipeAuthor} onChange={this.handleRecipeAuthorChange} required
+                                ref='recipeForm-input-author'
                             />
                             <Form.Control.Feedback type="invalid">Veuillez entrer un auteur pour votre recette.</Form.Control.Feedback>
                         </Form.Group>
@@ -290,7 +292,7 @@ class RecipeForm extends React.Component {
                                         punctuation = ','
                                     }
                                     ingredientIndex++;
-                                    return <span key={product.code}>{product.name}{punctuation} </span>;
+                                    return <span key={`ingredient-${product.code}`}>{product.name}{punctuation} </span>;
                                 })}
                             </div>
                             <Row>

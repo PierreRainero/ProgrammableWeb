@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Card, ListGroup } from 'react-bootstrap';
 
 import './CardList.scss';
-import history from "../../history";
 
 /**
  * Component to present a list using cards.
@@ -20,24 +19,23 @@ class CardList extends React.Component {
                     <ListGroup variant='flush'>
                         {
                             this.props.data.map((item, index) => {
-                                if(!item.code)
+                                if(this.props.actionOnClick.length === 0){
                                     return (
                                         <ListGroup.Item key={index}>{item.name}</ListGroup.Item>
                                     );
-                                return (
-                                    <ListGroup.Item
-                                        key={index}
-                                        className='clickable cardListHovering'
-                                        onClick={() => {
-                                            history.push({
-                                                pathname: `/products/${item.code}`,
-                                                data: { product: item }
-                                            });
-                                        }}
-                                    >
-                                        {item.name}
-                                    </ListGroup.Item>
-                                );
+                                }else{
+                                    return (
+                                        <ListGroup.Item
+                                            key={index}
+                                            className='clickable cardListHovering'
+                                            onClick={() => {
+                                                this.props.actionOnClick(item);
+                                            }}
+                                        >
+                                            {item.name}
+                                        </ListGroup.Item>
+                                    );
+                                }
                             })
                         }
                     </ListGroup>
@@ -49,12 +47,14 @@ class CardList extends React.Component {
 
 CardList.defaultProps = {
     title: '',
-    data: []
+    data: [],
+    actionOnClick: ()=>{}
 };
 
 CardList.propTypes = {
     title: PropTypes.string,
-    data: PropTypes.array
+    data: PropTypes.array,
+    actionOnClick: PropTypes.func
 };
 
 
