@@ -5,6 +5,7 @@
     margin: 0 auto;
 }
 
+// PRIMARY COLOR
 li > a.page-link {
     color: $primary-color;
 }
@@ -17,4 +18,27 @@ li.page-item.active > span.page-link {
     color: $primary-color-text;
     background-color: $primary-color;
     border-color: $primary-color;
+}
+
+li.page-item.secondary > a.page-link:focus {
+    box-shadow: inset 0 0.5px 0.5px rgba(0, 0, 0, 0.075), 0 0 8px $primary-color;
+}
+
+// SECONDARY COLOR
+li.secondary  > a.page-link{
+    color: $secondary-color;
+}
+
+li.secondary  > a.page-link:hover {
+    color: $secondary-color-dark;
+}
+
+li.page-item.secondary.active > span.page-link {
+    color: $primary-color-text;
+    background-color: $secondary-color;
+    border-color: $secondary-color;
+}
+
+li.page-item.secondary > a.page-link:focus {
+    box-shadow: inset 0 0.5px 0.5px rgba(0, 0, 0, 0.075), 0 0 8px $secondary-color;
 }

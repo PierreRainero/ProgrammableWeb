@@ -21,8 +21,10 @@ class ElfyPagination extends React.Component {
      */
     createPaginationItem = (index) => {
         return <Pagination.Item key={index}
-            active={index === this.props.activePage}
-            onClick={(e) => this.clickOnPage(e, index)}>
+                active={index === this.props.activePage}
+                onClick={(e) => this.clickOnPage(e, index)}
+                className={`${this.props.secondary? 'secondary': ''}`}
+            >
             {index}
         </Pagination.Item>;
     }
@@ -42,19 +44,53 @@ class ElfyPagination extends React.Component {
         let pagination;
         if (this.props.numberOfElements > 0) {
             let paginationContent = [];
-            let pageNumber = 1;
-            for (let elementsCounted = 0;
-                elementsCounted < this.props.numberOfElements;
-                elementsCounted = elementsCounted + this.props.itemsPerPage) {
-                paginationContent.push(this.createPaginationItem(pageNumber));
-                pageNumber++;
+            let pageNumber;
+            const maxPageToDisplay = this.props.maximumPages-5;
+
+            if(this.props.activePage < maxPageToDisplay){
+                pageNumber = 1;
+                for (let elementsCounted = 0;
+                    elementsCounted < this.props.numberOfElements;
+                    elementsCounted = elementsCounted + this.props.itemsPerPage) {
+                        if(pageNumber>maxPageToDisplay){
+                            paginationContent.push(<Pagination.Ellipsis key={'ellipsis-pagination'} className={`${this.props.secondary? 'secondary': ''}`}/>);
+                            break;
+                        }
+                    paginationContent.push(this.createPaginationItem(pageNumber));
+                    pageNumber++;
+                }
+            }else{
+                pageNumber = this.props.activePage;
+                paginationContent.push(<Pagination.Ellipsis key={'ellipsis-pagination'} className={`${this.props.secondary? 'secondary': ''}`}/>);
+                for (let elementsCounted = this.props.activePage*this.props.itemsPerPage - this.props.itemsPerPage;
+                    elementsCounted < this.props.numberOfElements;
+                    elementsCounted = elementsCounted + this.props.itemsPerPage) {
+                        if(pageNumber>=this.props.activePage+maxPageToDisplay){
+                            break;
+                        }
+                    paginationContent.push(this.createPaginationItem(pageNumber));
+                    pageNumber++;
+                }
             }
+
+            
             pagination = <Pagination>
-                <Pagination.First onClick={(e) => this.clickOnPage(e, 1)} />
-                <Pagination.Prev onClick={(e) => this.clickOnPage(e, this.props.activePage - 1)} disabled={this.props.activePage === 1} />
+                <Pagination.First
+                    onClick={(e) => this.clickOnPage(e, 1)} className={`${this.props.secondary? 'secondary': ''}`}
+                />
+                <Pagination.Prev
+                    onClick={(e) => this.clickOnPage(e, this.props.activePage - 1)} disabled={this.props.activePage === 1} 
+                    className={`${this.props.secondary? 'secondary': ''}`}
+                />
                 {paginationContent}
-                <Pagination.Next onClick={(e) => this.clickOnPage(e, this.props.activePage + 1)} disabled={this.props.activePage === this.getMaximumPage()} />
-                <Pagination.Last onClick={(e) => this.clickOnPage(e, this.getMaximumPage())} />
+                <Pagination.Next
+                    onClick={(e) => this.clickOnPage(e, this.props.activePage + 1)} disabled={this.props.activePage === this.getMaximumPage()}
+                    className={`${this.props.secondary? 'secondary': ''}`}
+                />
+                <Pagination.Last
+                    onClick={(e) => this.clickOnPage(e, this.getMaximumPage())}
+                    className={`${this.props.secondary? 'secondary': ''}`}
+                />
             </Pagination>;
         }
         return (
@@ -72,14 +108,18 @@ ElfyPagination.defaultProps = {
     activePage: 1,
     numberOfElements: 0,
     itemsPerPage: 20,
-    actionToDoOnPageClick: ()=>{}
+    actionToDoOnPageClick: ()=>{},
+    secondary: false,
+    maximumPages: 14
 };
 
 ElfyPagination.propTypes = {
     activePage: PropTypes.number,
     numberOfElements: PropTypes.number,
     itemsPerPage: PropTypes.number,
-    actionToDoOnPageClick: PropTypes.func
+    actionToDoOnPageClick: PropTypes.func,
+    secondary: PropTypes.bool,
+    maximumPages: PropTypes.number
 };
 
 export default ElfyPagination;

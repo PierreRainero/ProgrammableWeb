@@ -28,6 +28,8 @@ class ProductSearchScreen extends React.Component {
             numberOfResults: -1,
             products: []
         }
+
+        this.innerWidth = window.innerWidth;
     }
 
     /**
@@ -100,6 +102,19 @@ class ProductSearchScreen extends React.Component {
     }
 
     /**
+     * Fixs maximum of pages for the pagination according to the devices
+     */
+    getNumberOfMaximumPages = () => {
+        if(this.innerWidth>=992){
+            return 24;
+        }else if(this.innerWidth>=768){
+            return 14;
+        }else{
+            return 7;
+        }
+    }
+
+    /**
      * Render the component
      */
     render() {
@@ -117,6 +132,7 @@ class ProductSearchScreen extends React.Component {
                     numberOfElements={this.state.numberOfResults}
                     itemsPerPage={this.itemsPerPage}
                     actionToDoOnPageClick={this.changePage}
+                    maximumPages={this.getNumberOfMaximumPages()}
                 />;
             }
         }

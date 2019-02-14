@@ -27,6 +27,21 @@
     margin-bottom: 0.5em;
 }
 
+.loader {
+    width: 75px;
+}
+
+.custom-control-label:before{
+    background-color: $secondary-color;
+}
+.custom-checkbox .custom-control-input:checked~.custom-control-label::before{
+    background-color: $secondary-color;
+    border-color: $secondary-color;
+}
+.custom-checkbox .custom-control-input:focus~.custom-control-label::before{
+    box-shadow: inset 0 0.5px 0.5px rgba(0, 0, 0, 0.075), 0 0 8px $secondary-color;
+}
+
 @media (max-width: 768px) {
     .form-container {
         margin: 0 4em;

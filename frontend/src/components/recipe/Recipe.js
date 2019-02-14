@@ -59,7 +59,7 @@ class Recipe {
      */
     toSupportedJSON() {
         const ingredients = [];
-        for (const ingredient of ingredients) {
+        for (const ingredient of this.ingredients) {
             ingredients.push(ingredient.code);
         }
         return JSON.stringify({ name: this.name, ingredients: ingredients, author: this.author, pictureUrl: this.img });

@@ -64,8 +64,7 @@ class RecipeService {
             })
             .then(response => {
                 response.json().then((parsedResponse) => {
-                    console.log('success');
-                    console.log(parsedResponse);
+                    callback(parsedResponse);
                 }).catch(error => console.log(error.message));
             })
             .catch(error => {
