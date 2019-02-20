@@ -15,6 +15,10 @@ class SearchBar extends React.Component {
         searchingValue: ''
     }
 
+    /**
+     * Normal constructor
+     * @param {object} props
+     */
     constructor(props) {
         super(props);
 
