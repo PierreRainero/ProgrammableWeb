@@ -106,6 +106,36 @@ class RecipeService {
                 console.log(error.message);
         });
     }
+
+    /**
+     * Add a comment to a recipe
+     * @param {string} recipeId id of the recipe
+     * @param {string} author author of the comment
+     * @param {string} body content of the comment
+     * @return {Promise} promise
+     */
+    static addComment(recipeId, author, body) {
+        const url = `${HTTPService.getBaseUrl()}/api/recipes/${recipeId}/comments`;
+        return new Promise(function (resolve, reject) {
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    author: author,
+                    body: body
+                })
+            })
+                .then(response => {
+                    resolve(response);
+                })
+                .catch(error => {
+                    reject(error);
+                });
+        });
+    }
 }
 
 export default RecipeService;  
