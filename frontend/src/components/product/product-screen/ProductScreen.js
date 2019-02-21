@@ -7,11 +7,15 @@ import history from '../../../history';
 import { Col, Container, Row } from 'react-bootstrap';
 
 import './ProductScreen.scss';
+import PricesCard from "../pricesCard/PricesCard";
 
 /**
  * Component to fully present a product.
  */
 class ProductScreen extends React.Component {
+
+    fetchPrices = this.fetchPrices.bind(this);
+
     /**
      * Normal constructor
      * @param {object} props
@@ -56,6 +60,15 @@ class ProductScreen extends React.Component {
         }
         ProductService.getProductRecipes(this.props.match.params.id).then(recipes => {
             this.setState({ recipes: recipes });
+        }).catch(error => {
+            console.log(error.message);
+        });
+        this.fetchPrices();
+    }
+
+    fetchPrices(){
+        ProductService.getProductPrices(this.props.match.params.id).then(prices => {
+            this.setState({ prices: prices });
         }).catch(error => {
             console.log(error.message);
         });
@@ -126,7 +139,7 @@ class ProductScreen extends React.Component {
                                     <CardList title='Recettes' data={this.state.recipes} actionOnClick={this.goToRecipePage}  />
                                 </Col>
                                 <Col md={6}>
-                                    <CardList title='Comparaison des prix' data={[]} />
+                                    <PricesCard title='Comparaison des prix' data={this.state.prices} product={this.state.product} update={this.fetchPrices}/>
                                 </Col>
                             </Row>
                         </Container>
