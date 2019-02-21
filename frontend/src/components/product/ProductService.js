@@ -14,7 +14,7 @@ class ProductService {
     static searchProductByCode(code) {
         const url = `${HTTPService.getBaseUrl()}/api/products/${code}`;
         return new Promise(function (resolve, reject) {
-            fetch(url, { method: 'GET' })
+            fetch(url, { method: 'GET', mode: 'cors' })
                 .then(response => {
                     response.json().then((parsedResponse) => {
                         resolve(new Product(parsedResponse.code, parsedResponse.name, parsedResponse.score, parsedResponse.nutrigrade, parsedResponse.novaGroup, parsedResponse.ingredients, parsedResponse.allergens, parsedResponse.additives));
@@ -33,7 +33,7 @@ class ProductService {
      */
     static getNumberOfProductsForName(name, callback) {
         const url = `${HTTPService.getBaseUrl()}/api/products?name=${name}&count=true`;
-        fetch(url, { method: 'GET' })
+        fetch(url, { method: 'GET', mode: 'cors', })
             .then(response => {
                 response.json().then((parsedResponse) => {
                     callback(parsedResponse.numberOfProducts);
@@ -53,7 +53,7 @@ class ProductService {
      */
     static searchProductsByName(name, page, itemsPerPage, callback) {
         const url = `${HTTPService.getBaseUrl()}/api/products?name=${name}&page=${page}&itemsPerPage=${itemsPerPage}`;
-        fetch(url, { method: 'GET' })
+        fetch(url, { method: 'GET', mode: 'cors' })
             .then(response => {
                 response.json().then((parsedResponse) => {
                     const data = [];
@@ -76,7 +76,7 @@ class ProductService {
     static getProductRecipes(code) {
         const url = `${HTTPService.getBaseUrl()}/api/products/${code}/recipes`;
         return new Promise(function (resolve, reject) {
-            fetch(url, { method: 'GET' })
+            fetch(url, { method: 'GET', mode: 'cors' })
                 .then(response => {
                     response.json().then((parsedResponse) => {
                         resolve(parsedResponse);
@@ -96,7 +96,7 @@ class ProductService {
     static getProductPrices(code) {
         const url = `${HTTPService.getBaseUrl()}/api/prices?productCode=${code}`;
         return new Promise(function (resolve, reject) {
-            fetch(url, { method: 'GET' })
+            fetch(url, { method: 'GET', mode: 'cors' })
                 .then(response => {
                     response.json().then((parsedResponse) => {
                         let prices = [];
@@ -124,6 +124,7 @@ class ProductService {
         return new Promise(function (resolve, reject) {
             fetch(url, {
                 method: 'POST',
+                mode: 'cors',
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
@@ -153,6 +154,7 @@ class ProductService {
         fetch(`https://fr.openfoodfacts.org/api/v0/produit/${code}.json`,
             {
                 method: 'GET',
+                mode: 'cors',
                 signal: signal
             })
             .then(response => {
