@@ -1,13 +1,10 @@
-# Frontend
+# Client side : Frontend
 
 ## Informations sur l'équipe
 
 * Membres :
-  * [Fabien DURANDO](fabien.durando@outlook.com)
-  * [Théo FRASQUET](theo.frasquet@gmail.com)
   * [Gregory MERLET](gregory.merlet@outlook.fr)
   * [Pierre RAINERO](pierre.rainero@hotmail.fr)
-  * [Gaulthier TOUSSAINT](gaulthiertoussaint@gmail.com)
 
 ## Techonologies
 
