@@ -37,7 +37,15 @@ class RecipeService {
                 response.json().then((parsedResponse) => {
                     const data = [];
                     for (const recipe of parsedResponse) {
-                        data.push(new Recipe(recipe._id, recipe.name, recipe.author, recipe.pictureUrl, recipe.ingredients, recipe.comments, recipe.createdAt, recipe.updatedAt));
+                        data.push(new Recipe(recipe._id,
+                            recipe.name,
+                            recipe.author,
+                            recipe.pictureUrl,
+                            recipe.ingredients,
+                            recipe.comments,
+                            recipe.createdAt,
+                            recipe.updatedAt,
+                            recipe.description));
                     }
                     callback(data);
                 }).catch(error => console.log(error.message));
@@ -57,7 +65,15 @@ class RecipeService {
             fetch(url, {method: 'GET'})
                 .then(response => {
                     response.json().then((parsedResponse) => {
-                        resolve(new Recipe(parsedResponse._id, parsedResponse.name, parsedResponse.author, parsedResponse.pictureUrl, parsedResponse.ingredients, parsedResponse.comments, parsedResponse.createdAt, parsedResponse.updatedAt));
+                        resolve(new Recipe(parsedResponse._id,
+                            parsedResponse.name,
+                            parsedResponse.author,
+                            parsedResponse.pictureUrl,
+                            parsedResponse.ingredients,
+                            parsedResponse.comments,
+                            parsedResponse.createdAt,
+                            parsedResponse.updatedAt,
+                            parsedResponse.description));
                     }).catch(error => reject(error));
                 })
                 .catch(error => {
