@@ -11,7 +11,7 @@ class StoreService {
      */
     static getStores(callback) {
         const url = `${HTTPService.getBaseUrl()}/api/stores`;
-        fetch(url, { method: 'GET' })
+        fetch(url, { method: 'GET', mode: 'cors' })
             .then(response => {
                 response.json().then((parsedResponse) => {
                     const data = [];
@@ -38,6 +38,7 @@ class StoreService {
         const url = `${HTTPService.getBaseUrl()}/api/stores`;
         fetch(url, {
                 method: 'POST',
+                mode: 'cors',
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'

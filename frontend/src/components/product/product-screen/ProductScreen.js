@@ -7,7 +7,7 @@ import history from '../../../history';
 import { Col, Container, Row } from 'react-bootstrap';
 
 import './ProductScreen.scss';
-import PricesCard from "../pricesCard/PricesCard";
+import PricesCard from '../pricesCard/PricesCard';
 
 /**
  * Component to fully present a product.
@@ -35,7 +35,7 @@ class ProductScreen extends React.Component {
 
         this.signalController = new AbortController()
     }
-    
+
 
     /**
      * Call after fully finishing to build this component
@@ -44,13 +44,13 @@ class ProductScreen extends React.Component {
         if (this.props.location.data) {
             const productReceived = this.props.location.data.product;
             if (productReceived.img !== '') {
-                this.setState({ id: productReceived.code, loading: false, product: productReceived, productImage: productReceived.img }, () => {this.fetchPrices(); this.fetchRecipes()});
+                this.setState({ id: productReceived.code, loading: false, product: productReceived, productImage: productReceived.img }, () => { this.fetchPrices(); this.fetchRecipes() });
             } else {
-                this.setState({ id: productReceived.code, loading: false, product: productReceived }, () => {this.fetchPrices(); this.fetchRecipes()});
+                this.setState({ id: productReceived.code, loading: false, product: productReceived }, () => { this.fetchPrices(); this.fetchRecipes() });
             }
         } else {
             ProductService.searchProductByCode(this.props.match.params.id).then(product => {
-                this.setState({ id: product.code, loading: false, product: product }, () => {this.fetchPrices(); this.fetchRecipes()});
+                this.setState({ id: product.code, loading: false, product: product }, () => { this.fetchPrices(); this.fetchRecipes() });
                 ProductService.getProductImage(this.state.product.code, this.signalController.signal, (imgURL) => {
                     if (imgURL !== '') {
                         this.setState({ productImage: imgURL });
@@ -62,7 +62,7 @@ class ProductScreen extends React.Component {
         }
     }
 
-    fetchRecipes(){
+    fetchRecipes() {
         ProductService.getProductRecipes(this.state.id).then(recipes => {
             this.setState({ recipes: recipes });
         }).catch(error => {
@@ -70,7 +70,7 @@ class ProductScreen extends React.Component {
         });
     }
 
-    fetchPrices(){
+    fetchPrices() {
         ProductService.getProductPrices(this.state.id).then(prices => {
             this.setState({ prices: prices });
         }).catch(error => {
@@ -81,7 +81,7 @@ class ProductScreen extends React.Component {
     /**
      * Call when this component is destroyed 
      */
-    componentWillUnmount(){
+    componentWillUnmount() {
         this.signalController.abort();
         this.mounted = false;
     }
@@ -140,10 +140,10 @@ class ProductScreen extends React.Component {
                             </Row>
                             <Row className='productDetailsRow'>
                                 <Col md={6}>
-                                    <CardList title='Recettes' data={this.state.recipes} actionOnClick={this.goToRecipePage}  />
+                                    <CardList title='Recettes' data={this.state.recipes} actionOnClick={this.goToRecipePage} />
                                 </Col>
                                 <Col md={6}>
-                                    <PricesCard title='Comparaison des prix' data={this.state.prices} product={this.state.product} update={this.fetchPrices}/>
+                                    <PricesCard title='Comparaison des prix' data={this.state.prices} product={this.state.product} update={this.fetchPrices} />
                                 </Col>
                             </Row>
                         </Container>

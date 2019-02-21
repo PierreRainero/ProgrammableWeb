@@ -12,7 +12,7 @@ class RecipeService {
      */
     static getNumberOfRecipesForName(name, callback) {
         const url = `${HTTPService.getBaseUrl()}/api/recipes?name=${name}&count=true`;
-        fetch(url, { method: 'GET' })
+        fetch(url, { method: 'GET', mode: 'cors' })
             .then(response => {
                 response.json().then((parsedResponse) => {
                     callback(parsedResponse.numberOfRecipes);
@@ -20,7 +20,7 @@ class RecipeService {
             })
             .catch(error => {
                 console.log(error.message);
-        });
+            });
     }
 
     /**
@@ -32,7 +32,7 @@ class RecipeService {
      */
     static searchRecipesByName(name, page, itemsPerPage, callback) {
         const url = `${HTTPService.getBaseUrl()}/api/recipes?name=${name}&page=${page}&itemsPerPage=${itemsPerPage}`;
-        fetch(url, { method: 'GET' })
+        fetch(url, { method: 'GET', mode: 'cors' })
             .then(response => {
                 response.json().then((parsedResponse) => {
                     const data = [];
@@ -52,7 +52,7 @@ class RecipeService {
             })
             .catch(error => {
                 console.log(error.message);
-        });
+            });
     }
 
     /**
@@ -62,7 +62,7 @@ class RecipeService {
     static searchRecipeByCode(code) {
         const url = `${HTTPService.getBaseUrl()}/api/recipes/${code}`;
         return new Promise(function (resolve, reject) {
-            fetch(url, {method: 'GET'})
+            fetch(url, { method: 'GET', mode: 'cors' })
                 .then(response => {
                     response.json().then((parsedResponse) => {
                         resolve(new Recipe(parsedResponse._id,
@@ -87,16 +87,17 @@ class RecipeService {
      * @param {Recipe} recipe recipe to add in the database
      * @param {function} callback function to execute once the recipe was created
      */
-    static createARecipe(recipe, callback){
+    static createARecipe(recipe, callback) {
         const url = `${HTTPService.getBaseUrl()}/api/recipes`;
         fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: recipe.toSupportedJSON()
-            })
+            method: 'POST',
+            mode: 'cors',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: recipe.toSupportedJSON()
+        })
             .then(response => {
                 response.json().then((parsedResponse) => {
                     callback(parsedResponse);
@@ -104,7 +105,7 @@ class RecipeService {
             })
             .catch(error => {
                 console.log(error.message);
-        });
+            });
     }
 
     /**
@@ -119,6 +120,7 @@ class RecipeService {
         return new Promise(function (resolve, reject) {
             fetch(url, {
                 method: 'POST',
+                mode: 'cors',
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
