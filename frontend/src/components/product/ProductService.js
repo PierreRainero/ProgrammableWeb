@@ -1,6 +1,6 @@
 import HTTPService from '../../HTTPService';
 import Product from './Product';
-import Store from "../store/Store";
+import Store from '../store/Store';
 
 /**
  * Exposes all needed function to find one or multiple products
@@ -41,7 +41,7 @@ class ProductService {
             })
             .catch(error => {
                 console.log(error.message);
-        });
+            });
     }
 
     /**
@@ -65,7 +65,7 @@ class ProductService {
             })
             .catch(error => {
                 console.log(error.message);
-        });
+            });
     }
 
     /**
@@ -100,8 +100,8 @@ class ProductService {
                 .then(response => {
                     response.json().then((parsedResponse) => {
                         let prices = [];
-                        for(let price of parsedResponse){
-                            prices.push({store: new Store(price.store_id, price.store_name, price.store_location, price.store_region), price: price.price});
+                        for (let price of parsedResponse) {
+                            prices.push({ store: new Store(price.store_id, price.store_name, price.store_location, price.store_region), price: price.price });
                         }
                         resolve(prices);
                     }).catch(error => reject(error));
@@ -150,8 +150,8 @@ class ProductService {
      * @param {function} callback function to execute once the image product has been found
      */
     static getProductImage(code, signal, callback) {
-        fetch(`https://fr.openfoodfacts.org/api/v0/produit/${code}.json`, 
-            { 
+        fetch(`https://fr.openfoodfacts.org/api/v0/produit/${code}.json`,
+            {
                 method: 'GET',
                 signal: signal
             })
@@ -165,7 +165,7 @@ class ProductService {
                 });
             })
             .catch(error => {
-                
+
             });
     }
 }
