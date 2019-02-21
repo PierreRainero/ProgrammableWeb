@@ -1,11 +1,10 @@
-# Backend
+# Server side : Backend
 
 ## Informations sur l'équipe
 
 * Membres :
   * [Fabien DURANDO](fabien.durando@outlook.com)
   * [Théo FRASQUET](theo.frasquet@gmail.com)
-  * [Gregory MERLET](gregory.merlet@outlook.fr)
   * [Pierre RAINERO](pierre.rainero@hotmail.fr)
   * [Gaulthier TOUSSAINT](gaulthiertoussaint@gmail.com)
 
@@ -29,6 +28,7 @@ Une fois le serveur du "backend" lancé l'api suivante est exposée (port 3000) 
        └── /recipes
        └── /stores
             └── /{storeId}
+       └── /regions
 ```
 
 ## Fonctionnalités
@@ -669,7 +669,7 @@ Permet de créer un nouveau magasin.
     "name": "Carrefour - Antibes",
     "location": {
         "lat": 43.615575,
-        "long":7.071389,
+        "lng":7.071389,
     },
 }
 ```
@@ -685,7 +685,7 @@ Permet de retrouver tous les magasins contenues dans la base de données. Les ma
   {
     "location": {
       "lat": 43.604087,
-      "long": 7.089491
+      "lng": 7.089491
     },
     "_id": "5c617c61193cd709f1603d48",
     "name": "Carrefour - Antibes",
@@ -694,7 +694,7 @@ Permet de retrouver tous les magasins contenues dans la base de données. Les ma
   {
     "location": {
       "lat": 43.645932,
-      "long": 7.049446
+      "lng": 7.049446
     },
     "_id": "5c617d39193cd709f1603d4a",
     "name": "Carrefour Market - Valbonne",
@@ -703,28 +703,31 @@ Permet de retrouver tous les magasins contenues dans la base de données. Les ma
 ]
 ```
 
-`/api/stores?lat={latitude}&long={longitude}&range={range}` : **GET**  
+`/api/stores?lat={latitude}&lng={longitude}&range={range}` : **GET**  
 Permet de retrouver tous les magasins contenues dans la base de données autour d'une position en définissant un rayon de recherche. Les magasins sont classés en fonction de leur "id":  
 
 ```json
 [
   {
-    "_id": "5c617c61193cd709f1603d48",
-    "distance": 1.9379962893709548,
-    "location": {
-      "lat": 43.604087,
-      "long": 7.089491
-    }
-  },
-  {
     "_id": "5c617d7d193cd709f1603d4b",
     "distance": 0.409252166415119,
     "location": {
       "lat": 43.618015,
-      "long": 7.075195
-    }
+      "lng": 7.075195
+    },
+    "region": "Provence-Alpes-Côte d'Azur",
+    "name": "Casino Supermarché - Sophia-Antipolis"
+  },
+  {
+    "_id": "5c617c61193cd709f1603d48",
+    "distance": 1.9379962893709548,
+    "location": {
+      "lat": 43.604087,
+      "lng": 7.089491
+    },
+    "region": "Provence-Alpes-Côte d'Azur",
+    "name": "Carrefour - Antibes"
   }
-]
 ]
 ```
 
@@ -733,14 +736,45 @@ Permet de retrouver un promagasin à partir de son id. L'objet retourné dans le
 
 ```json
   [
-    {
+  {
     "location": {
-      "lat": 43.604087,
-      "long": 7.089491
+      "lat": 43.618015,
+      "lng": 7.075195
     },
-    "_id": "5c617c61193cd709f1603d48",
-    "name": "Carrefour - Antibes",
-    "__v": 0
+    "_id": "5c617d7d193cd709f1603d4b",
+    "name": "Casino Supermarché - Sophia-Antipolis",
+    "__v": 0,
+    "region": "Provence-Alpes-Côte d'Azur"
+  }
+]
+```
+
+### Regions
+
+`/api/regions` : **GET**  
+Permet de récuperer toutes les regions enregistrées en base de données (à utiliser en front pour un select region par exemple) :
+
+```json
+[
+  {
+    "center": {
+      "lat": 45.577133,
+      "lng": 4.516475
+    },
+    "_id": "5c65736e46d29b024be5a5f7",
+    "name": "Auvergne-Rhône-Alpes",
+    "code": "ARH",
+    "radius": 200
+  },
+  {
+    "center": {
+      "lat": 47.220566,
+      "lng": 4.778833
+    },
+    "_id": "5c65736e46d29b024be5a5f8",
+    "name": "Bourgogne-Franche-Comté",
+    "code": "BFC",
+    "radius": 150
   }
 ]
 ```
