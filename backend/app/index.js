@@ -12,13 +12,15 @@ let cors = require('cors');
 let app = express();
 
 // Body parser to be able to read the json in th request
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 app.use(bodyParser.json());
 
 app.use(cors());
 
 // Load the routes
-app.use(require('./site/router'));
-app.use('/api', require('./products/router'));
+app.use('/api', require('./site/router'));
 
 // FINALLY, use any error handlers
 app.use(require('./errors/not-found'));

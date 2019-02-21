@@ -1,12 +1,29 @@
 @import '../../_shared.scss';
 
 .navBar-primary {
-    background-color: $primary-color-dark;
+    background-color: $primary-color;
     color: $primary-color-text;
-    height: 6%;
+    position: absolute !important;
+    width: 100%;
+    z-index: 999;
 }
 
 .brand-primary {
     margin-left: 6px;
     color: $primary-color-text;
+}
+
+.nav-item {
+    color: $primary-color-text;
+    padding: 6px;
+    margin: 2px;
+}
+
+@media only screen and (min-width: 995px) {
+    .separator-left {
+        border-left-style: solid;
+        border-color: white;
+        border-width: 1.5px;
+        padding-left: 2em;
+    }
 }

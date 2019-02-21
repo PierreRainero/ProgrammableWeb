@@ -1,10 +1,10 @@
 import React from 'react';
-
-import './SearchBar.scss';
+import PropTypes from 'prop-types';
 import { Button, Form, FormControl } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import history from '../../../history';
+
+import './SearchBar.scss';
 
 /**
  * Composent used to search products.
@@ -15,6 +15,10 @@ class SearchBar extends React.Component {
         searchingValue: ''
     }
 
+    /**
+     * Normal constructor
+     * @param {object} props
+     */
     constructor(props) {
         super(props);
 
@@ -22,7 +26,7 @@ class SearchBar extends React.Component {
     }
 
     /**
-     * Handle and update the name to use for searching products
+     * Handles and updates the name to use for searching products
      */
     handleSearchingInputChange = (event) => {
         this.setState({ searchingValue: event.target.value });
@@ -32,11 +36,7 @@ class SearchBar extends React.Component {
      * Navigate to the result view of the search
      */
     search = (event) => {
-        history.push({
-            pathname: '/products',
-            data: { searchingValue: this.state.searchingValue }
-        });
-
+        this.props.searchToDo(this.state.searchingValue);
         event.preventDefault();
     }
 
@@ -46,14 +46,35 @@ class SearchBar extends React.Component {
     render() {
         return (
             <Form inline>
-                <FormControl type='text' placeholder='Rechercher' className='mr-sm-2'
-                    value={this.state.searchingValue} onChange={this.handleSearchingInputChange} />
-                <Button className='btn-secondary' onClick={this.search}>
+                <FormControl
+                    type='text'
+                    placeholder={this.props.placeholder}
+                    className='searchInput'
+                    ref='search-input'
+                    value={this.state.searchingValue}
+                    onChange={this.handleSearchingInputChange}
+                    onKeyPress={e => {
+                        if (e.key === 'Enter') {
+                            this.search(e);
+                        }
+                    }}
+                />
+                <Button variant='' className='button-secondary searchButton' onClick={this.search} ref='search-submit'>
                     <FontAwesomeIcon icon={faSearch} />
                 </Button>
             </Form>
         );
     }
 }
+
+SearchBar.defaultProps = {
+    placeholder: '',
+    searchToDo: ()=>{}
+};
+
+SearchBar.propTypes = {
+    placeholder: PropTypes.string,
+    searchToDo: PropTypes.func
+};
 
 export default SearchBar;

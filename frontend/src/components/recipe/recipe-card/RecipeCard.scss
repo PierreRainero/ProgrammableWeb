@@ -1,0 +1,63 @@
+@import '../../../_shared.scss';
+
+.card.recipe-card-container {
+    margin: 2em 6em;
+}
+
+.card-body.recipe-card-content {
+    padding: 0.3em;
+}
+
+.productImg {
+    width: 150px;
+    height: 150px;
+}
+
+.definition {
+    cursor: help;
+}
+
+.card-text-zone {
+    text-align: left;
+}
+
+.secondary-informations {
+    display: inline-block;
+    color: $gray;
+    font-size: smaller;
+}
+
+.card-title.h5 {
+    margin-bottom: 0.3rem;
+}
+
+.separator {
+    border-left-style: solid;
+    border-color: $gray;
+    border-width: 0.75px;
+    margin: 0 4px;
+}
+
+.ingredients-zone{
+    margin: 0.75em 0;
+}
+
+@media (max-width: 768px) {
+    .card.recipe-card-container {
+        margin: 2em 4em;
+    }
+}
+
+@media (max-width: 576px) {
+    .card.recipe-card-container {
+        margin: 2em 2em;
+    }
+
+    .card-text-zone {
+        text-align: center;
+    }
+
+    .ingredients-zone {
+        margin: 4px 1em;
+    }
+}
