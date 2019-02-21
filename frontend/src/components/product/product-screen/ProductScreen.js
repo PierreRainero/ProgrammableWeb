@@ -14,6 +14,7 @@ import PricesCard from "../pricesCard/PricesCard";
  */
 class ProductScreen extends React.Component {
 
+    fetchRecipes = this.fetchRecipes.bind(this);
     fetchPrices = this.fetchPrices.bind(this);
 
     /**
@@ -24,6 +25,7 @@ class ProductScreen extends React.Component {
         super(props);
 
         this.state = {
+            id: null,
             loading: true,
             product: null,
             productImage: require('../../../assets/imgs/placeholder.png'),
@@ -42,13 +44,13 @@ class ProductScreen extends React.Component {
         if (this.props.location.data) {
             const productReceived = this.props.location.data.product;
             if (productReceived.img !== '') {
-                this.setState({ loading: false, product: productReceived, productImage: productReceived.img });
+                this.setState({ id: productReceived.code, loading: false, product: productReceived, productImage: productReceived.img }, () => {this.fetchPrices(); this.fetchRecipes()});
             } else {
-                this.setState({ loading: false, product: productReceived });
+                this.setState({ id: productReceived.code, loading: false, product: productReceived }, () => {this.fetchPrices(); this.fetchRecipes()});
             }
         } else {
             ProductService.searchProductByCode(this.props.match.params.id).then(product => {
-                this.setState({ loading: false, product: product });
+                this.setState({ id: product.code, loading: false, product: product }, () => {this.fetchPrices(); this.fetchRecipes()});
                 ProductService.getProductImage(this.state.product.code, this.signalController.signal, (imgURL) => {
                     if (imgURL !== '') {
                         this.setState({ productImage: imgURL });
@@ -58,16 +60,18 @@ class ProductScreen extends React.Component {
                 console.log(error.message);
             });
         }
-        ProductService.getProductRecipes(this.props.match.params.id).then(recipes => {
+    }
+
+    fetchRecipes(){
+        ProductService.getProductRecipes(this.state.id).then(recipes => {
             this.setState({ recipes: recipes });
         }).catch(error => {
             console.log(error.message);
         });
-        this.fetchPrices();
     }
 
     fetchPrices(){
-        ProductService.getProductPrices(this.props.match.params.id).then(prices => {
+        ProductService.getProductPrices(this.state.id).then(prices => {
             this.setState({ prices: prices });
         }).catch(error => {
             console.log(error.message);
