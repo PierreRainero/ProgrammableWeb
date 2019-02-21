@@ -28,6 +28,34 @@ class StoreService {
                 console.log(error.message);
             });
     }
+
+    /**
+     * Create a new store
+     * @param {Store} store store to add in the database
+     * @param {function} callback function to execute once the store was created
+     */
+    static createAStore(store, callback){
+        const url = `${HTTPService.getBaseUrl()}/api/stores`;
+        fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: store.toSupportedJSON()
+            })
+            .then(response => {
+                response.json().then((parsedResponse) => {
+                    callback(new Store(parsedResponse._id,
+                        parsedResponse.name,
+                        parsedResponse.location,
+                        parsedResponse.region));
+                }).catch(error => console.log(error.message));
+            })
+            .catch(error => {
+                console.log(error.message);
+        });
+    }
 }
 
 export default StoreService;  
