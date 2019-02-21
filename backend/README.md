@@ -749,8 +749,8 @@ Permet de retrouver un promagasin à partir de son id. L'objet retourné dans le
 ]
 ```
 
-
 ### Regions
+
 `/api/regions` : **GET**  
 Permet de récuperer toutes les regions enregistrées en base de données (à utiliser en front pour un select region par exemple) :
 
@@ -776,6 +776,5 @@ Permet de récuperer toutes les regions enregistrées en base de données (à ut
     "code": "BFC",
     "radius": 150
   }
-  // ....
 ]
 ```
