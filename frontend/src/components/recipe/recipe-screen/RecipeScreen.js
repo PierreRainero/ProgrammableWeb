@@ -1,7 +1,7 @@
 import React from 'react';
 import Loading from '../../loading/Loading';
 import RecipeService from '../RecipeService';
-import { Col, Container, OverlayTrigger, Row, Tooltip } from 'react-bootstrap';
+import {Card, Col, Container, OverlayTrigger, Row, Tooltip} from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClock } from '@fortawesome/free-solid-svg-icons';
 import history from '../../../history';
@@ -117,10 +117,18 @@ class RecipeScreen extends React.Component {
                         </div>
                         <Container className='recipeDetails'>
                             <Row className='recipeDetailsRow'>
-                                <Col md={6}>
+                                <Col md={4}>
+                                    <Card className='shadow' style={{ width: '18rem' }}>
+                                        <Card.Body>
+                                            <Card.Title>Description</Card.Title>
+                                            <p>{this.state.recipe.description}</p>
+                                        </Card.Body>
+                                    </Card>
+                                </Col>
+                                <Col md={4}>
                                     <CardList title='Ingrédients' data={this.state.recipe.ingredients} actionOnClick={this.goToProductPage} />
                                 </Col>
-                                <Col md={6}>
+                                <Col md={4}>
                                     <CommentsCard title='Commentaires' data={this.state.recipe.comments} />
                                 </Col>
                             </Row>
