@@ -4,12 +4,29 @@ import {Button, Card, Col, Form, FormControl, ListGroup, Row} from 'react-bootst
 
 import './CommentsCard.scss';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faClock, faPlus} from "@fortawesome/free-solid-svg-icons";
+import {faClock} from "@fortawesome/free-solid-svg-icons";
+import RecipeService from "../../RecipeService";
 
 /**
  * Component to present a list using cards.
  */
 class CommentsCard extends React.Component {
+
+    state={
+        name: "",
+        comment: ""
+    }
+    comment = this.comment.bind(this);
+
+    comment(){
+        RecipeService.addComment(this.props.recipe.id, this.state.name, this.state.comment)
+            .then(() => {
+                this.setState({name: "", comment: ""});
+                this.props.update();
+            })
+            .catch(err => console.error(err.message));
+    }
+
     /**
      * Render the component
      */
@@ -45,14 +62,22 @@ class CommentsCard extends React.Component {
                     <Form inline>
                         <FormControl
                             type='text'
-                            placeholder=''
+                            placeholder='Nom'
+                            className='nameInput'
+                            ref='name-input'
+                            value={this.state.name}
+                            onChange={e => this.setState({name: e.target.value})}
+                        />
+                        <FormControl
+                            type='text'
+                            placeholder='Commentaire'
                             className='commentInput'
                             ref='comment-input'
-                            value={''}
-                            onChange={e => console.log(e)}
+                            value={this.state.comment}
+                            onChange={e => this.setState({comment: e.target.value})}
                         />
-                        <Button variant='' className='button-secondary addButton' onClick={this.search} ref='comment-submit'>
-                            <FontAwesomeIcon icon={faPlus} />
+                        <Button variant='' className='button-secondary addButton' onClick={this.comment} ref='comment-submit'>
+                            Ajouter le commentaire
                         </Button>
                     </Form>
                 </Card.Body>

@@ -1,5 +1,6 @@
 import HTTPService from '../../HTTPService';
 import Product from './Product';
+import Store from "../store/Store";
 
 /**
  * Exposes all needed function to find one or multiple products
@@ -80,6 +81,61 @@ class ProductService {
                     response.json().then((parsedResponse) => {
                         resolve(parsedResponse);
                     }).catch(error => reject(error));
+                })
+                .catch(error => {
+                    reject(error);
+                });
+        });
+    }
+
+    /**
+     * Find prices of a product is all stores
+     * @param {string} code barcode to search
+     * @return {Promise} promise
+     */
+    static getProductPrices(code) {
+        const url = `${HTTPService.getBaseUrl()}/api/prices?productCode=${code}`;
+        return new Promise(function (resolve, reject) {
+            fetch(url, { method: 'GET' })
+                .then(response => {
+                    response.json().then((parsedResponse) => {
+                        let prices = [];
+                        for(let price of parsedResponse){
+                            prices.push({store: new Store(price.store_id, price.store_name, price.store_location, price.store_region), price: price.price});
+                        }
+                        resolve(prices);
+                    }).catch(error => reject(error));
+                })
+                .catch(error => {
+                    reject(error);
+                });
+        });
+    }
+
+    /**
+     * Set the price of a product in a given store
+     * @param {string} productCode code of the product
+     * @param {string} storeId id of the store
+     * @param {number} price price of the product
+     * @return {Promise} promise
+     */
+    static setProductPrice(productCode, storeId, price) {
+        const url = `${HTTPService.getBaseUrl()}/api/prices`;
+        return new Promise(function (resolve, reject) {
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    productCode: productCode,
+                    storeId: storeId,
+                    price: price
+                })
+            })
+                .then(response => {
+                    resolve(response);
                 })
                 .catch(error => {
                     reject(error);
