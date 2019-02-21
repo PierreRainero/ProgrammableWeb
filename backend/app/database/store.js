@@ -5,7 +5,7 @@ const storeSchema = mongoose.Schema({
   name: { type: String, require: true },
   location: {
     lat: { type: Number, require: true },
-    long: { type: Number, require: true }
+    lng: { type: Number, require: true }
   }
 }, {
     strict: true

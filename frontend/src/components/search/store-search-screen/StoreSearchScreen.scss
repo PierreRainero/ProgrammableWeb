@@ -1,4 +1,4 @@
-@import '../../../styles/_colors.scss';
+@import '../../../_shared.scss';
 
 .leaflet-container {
     position: relative;
@@ -20,4 +20,8 @@
 .subtitle {
     color: $gray;
     text-align: center;
+}
+
+.form-group.tight {
+    margin-bottom: 0.5em;
 }

@@ -65,7 +65,7 @@ const createStore = async (req, res) => {
             res.status(422).send("Store name is missing.");
             return;
         }
-        if (!bodyParameters.location || !bodyParameters.location.x || !bodyParameters.location.y) {
+        if (!bodyParameters.location || !bodyParameters.location.lat || !bodyParameters.location.lng) {
             res.status(422).send("Store location is missing.");
             return;
         }

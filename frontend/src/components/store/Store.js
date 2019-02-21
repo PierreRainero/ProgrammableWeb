@@ -15,6 +15,14 @@ class Store {
         this.location = location;
         this.region = region;
     }
+
+    /**
+     * Convert a store object to JSON understandable by the backend
+     * @return {string} name and location in a JSON string
+     */
+    toSupportedJSON() {
+        return JSON.stringify({ name: this.name, location: this.location });
+    }
 }
 
 export default Store;
