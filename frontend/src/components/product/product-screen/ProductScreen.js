@@ -3,6 +3,7 @@ import Loading from '../../loading/Loading';
 import ProductService from '../ProductService';
 import ProductScore from '../product-score/ProductScore';
 import CardList from '../../cardList/CardList';
+import history from '../../../history';
 import { Col, Container, Row } from 'react-bootstrap';
 
 import './ProductScreen.scss';
@@ -21,7 +22,9 @@ class ProductScreen extends React.Component {
         this.state = {
             loading: true,
             product: null,
-            productImage: require('../../../assets/imgs/placeholder.png')
+            productImage: require('../../../assets/imgs/placeholder.png'),
+            recipes: [],
+            prices: []
         }
 
         this.signalController = new AbortController()
@@ -51,6 +54,11 @@ class ProductScreen extends React.Component {
                 console.log(error.message);
             });
         }
+        ProductService.getProductRecipes(this.props.match.params.id).then(recipes => {
+            this.setState({ recipes: recipes });
+        }).catch(error => {
+            console.log(error.message);
+        });
     }
 
     /**
@@ -59,6 +67,15 @@ class ProductScreen extends React.Component {
     componentWillUnmount(){
         this.signalController.abort();
         this.mounted = false;
+    }
+
+    /**
+     * Go to recipe page
+     */
+    goToRecipePage = (item) => {
+        history.push({
+            pathname: `/recipes/${item._id}`
+        });
     }
 
     /**
@@ -106,7 +123,7 @@ class ProductScreen extends React.Component {
                             </Row>
                             <Row className='productDetailsRow'>
                                 <Col md={6}>
-                                    <CardList title='Recettes' data={[]} />
+                                    <CardList title='Recettes' data={this.state.recipes} actionOnClick={this.goToRecipePage}  />
                                 </Col>
                                 <Col md={6}>
                                     <CardList title='Comparaison des prix' data={[]} />

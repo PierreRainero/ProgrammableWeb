@@ -68,6 +68,26 @@ class ProductService {
     }
 
     /**
+     * Find recipes where a product is used
+     * @param {string} code barcode to search
+     * @return {Promise} promise
+     */
+    static getProductRecipes(code) {
+        const url = `${HTTPService.getBaseUrl()}/api/products/${code}/recipes`;
+        return new Promise(function (resolve, reject) {
+            fetch(url, { method: 'GET' })
+                .then(response => {
+                    response.json().then((parsedResponse) => {
+                        resolve(parsedResponse);
+                    }).catch(error => reject(error));
+                })
+                .catch(error => {
+                    reject(error);
+                });
+        });
+    }
+
+    /**
      * Get image for a specific product using OpenFoodFacts API
      * @param {number} code barcode to find the product
      * @param {AbortController.signal} signal signal controller to interact with the fetch operation
