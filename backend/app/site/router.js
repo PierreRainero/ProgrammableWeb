@@ -13,5 +13,6 @@ router.use('/products', require('../products/router'));
 router.use('/prices', require('../prices/router'));
 router.use('/recipes', require('../recipes/router'));
 router.use('/stores', require('../stores/router'));
+router.use('/regions', require('../regions/router'));
 
 module.exports = router;

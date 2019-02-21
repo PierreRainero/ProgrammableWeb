@@ -7,11 +7,16 @@ import history from '../../../history';
 import { Col, Container, Row } from 'react-bootstrap';
 
 import './ProductScreen.scss';
+import PricesCard from '../pricesCard/PricesCard';
 
 /**
  * Component to fully present a product.
  */
 class ProductScreen extends React.Component {
+
+    fetchRecipes = this.fetchRecipes.bind(this);
+    fetchPrices = this.fetchPrices.bind(this);
+
     /**
      * Normal constructor
      * @param {object} props
@@ -20,6 +25,7 @@ class ProductScreen extends React.Component {
         super(props);
 
         this.state = {
+            id: null,
             loading: true,
             product: null,
             productImage: require('../../../assets/imgs/placeholder.png'),
@@ -29,7 +35,7 @@ class ProductScreen extends React.Component {
 
         this.signalController = new AbortController()
     }
-    
+
 
     /**
      * Call after fully finishing to build this component
@@ -38,13 +44,13 @@ class ProductScreen extends React.Component {
         if (this.props.location.data) {
             const productReceived = this.props.location.data.product;
             if (productReceived.img !== '') {
-                this.setState({ loading: false, product: productReceived, productImage: productReceived.img });
+                this.setState({ id: productReceived.code, loading: false, product: productReceived, productImage: productReceived.img }, () => { this.fetchPrices(); this.fetchRecipes() });
             } else {
-                this.setState({ loading: false, product: productReceived });
+                this.setState({ id: productReceived.code, loading: false, product: productReceived }, () => { this.fetchPrices(); this.fetchRecipes() });
             }
         } else {
             ProductService.searchProductByCode(this.props.match.params.id).then(product => {
-                this.setState({ loading: false, product: product });
+                this.setState({ id: product.code, loading: false, product: product }, () => { this.fetchPrices(); this.fetchRecipes() });
                 ProductService.getProductImage(this.state.product.code, this.signalController.signal, (imgURL) => {
                     if (imgURL !== '') {
                         this.setState({ productImage: imgURL });
@@ -54,8 +60,19 @@ class ProductScreen extends React.Component {
                 console.log(error.message);
             });
         }
-        ProductService.getProductRecipes(this.props.match.params.id).then(recipes => {
+    }
+
+    fetchRecipes() {
+        ProductService.getProductRecipes(this.state.id).then(recipes => {
             this.setState({ recipes: recipes });
+        }).catch(error => {
+            console.log(error.message);
+        });
+    }
+
+    fetchPrices() {
+        ProductService.getProductPrices(this.state.id).then(prices => {
+            this.setState({ prices: prices });
         }).catch(error => {
             console.log(error.message);
         });
@@ -64,7 +81,7 @@ class ProductScreen extends React.Component {
     /**
      * Call when this component is destroyed 
      */
-    componentWillUnmount(){
+    componentWillUnmount() {
         this.signalController.abort();
         this.mounted = false;
     }
@@ -123,10 +140,10 @@ class ProductScreen extends React.Component {
                             </Row>
                             <Row className='productDetailsRow'>
                                 <Col md={6}>
-                                    <CardList title='Recettes' data={this.state.recipes} actionOnClick={this.goToRecipePage}  />
+                                    <CardList title='Recettes' data={this.state.recipes} actionOnClick={this.goToRecipePage} />
                                 </Col>
                                 <Col md={6}>
-                                    <CardList title='Comparaison des prix' data={[]} />
+                                    <PricesCard title='Comparaison des prix' data={this.state.prices} product={this.state.product} update={this.fetchPrices} />
                                 </Col>
                             </Row>
                         </Container>
