@@ -19,7 +19,7 @@ Il faut ensuite utiliser la commande `npm i` pour récupérer toutes les dépend
 
 ## API
 
-Une fois le serveur du "backend" lancé l'api suivante est exposée (port 3000) :
+Une fois le serveur du "backend" lancé l'api suivante est exposée (port 8080) :
 
 ```text
   /
