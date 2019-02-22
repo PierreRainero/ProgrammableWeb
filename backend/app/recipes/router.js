@@ -11,6 +11,7 @@
 const recipesDb = require('../database/recipes.js');
 let router = require('express').Router();
 const ise = require('../errors/internal-server-error');
+const priceDb = require('../database/price');
 
 /**
  * Get all recipes.
@@ -52,8 +53,23 @@ const getRecipeByCode = async (req, res) => {
 
     recipesDb.findById(
         req.params.recipeId,
-        (productFound) => {
-            res.status(200).send(productFound);
+        (recipe) => {
+            let productsIds = Array();
+            for (const ingredient of recipe.ingredients) {
+                productsIds.push(ingredient.code);
+            }
+
+            priceDb.findProductsMeanPrice(
+                productsIds,
+                (meanPricesFound) => {
+                    meanPricesFound = (meanPricesFound > 0 ? meanPricesFound : -1);
+                    recipe.price = Number(meanPricesFound.toFixed(2));
+                    res.status(200).send(recipe);
+                },
+                (error) => {
+                    ise(res, error, 'There was an error finding the recipe price.');
+                }
+            );
         },
         (error) => {
             ise(res, error, 'There was an error finding the recipe.');

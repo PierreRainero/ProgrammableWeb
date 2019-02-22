@@ -19,7 +19,7 @@ const insert = async (productCode, storeId, price, successCallBack, errorCallbac
     store_id: mongoose.Types.ObjectId(storeId),
     price: price
   }, (err, result) => {
-    if(err)
+    if (err)
       return errorCallback(err);
     successCallBack();
   })
@@ -27,18 +27,36 @@ const insert = async (productCode, storeId, price, successCallBack, errorCallbac
 
 const find = async (productCode, storeId, successCallBack, errorCallback) => {
   let query = {};
-  if(productCode)
+  if (productCode)
     query.product_id = productCode;
-  if(storeId)
+  if (storeId)
     query.store_id = storeId;
   pricesModel.find(query).exec((err, result) => {
-    if(err)
+    if (err)
       return errorCallback(err);
     successCallBack(result);
+  });
+}
+
+const findProductsMeanPrice = async (productsCodes, successCallBack, errorCallback) => {
+  pricesModel.aggregate([
+    { $match: { product_id: { $in: productsCodes } } },
+    { $group : { _id: "$product_id", avgPrice: { $avg: "$price" }}}
+  ], function (err, productMeanPrices) {
+    if (err) {
+      errorCallback(err);
+    }
+    let totalPrice = 0;
+
+    for (const productMeanPrice of productMeanPrices){
+      totalPrice += productMeanPrice.avgPrice;
+    }
+    successCallBack(totalPrice);
   });
 }
 
 module.exports = {
   insert: insert,
   find: find,
+  findProductsMeanPrice: findProductsMeanPrice
 };
