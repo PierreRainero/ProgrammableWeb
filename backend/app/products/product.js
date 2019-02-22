@@ -69,7 +69,7 @@ module.exports = class Product {
      * Add an allergen to the product
      * @param {string} allergenToAdd allergen name
      */
-    addAllergen(allergenToAdd){
+    addAllergen(allergenToAdd) {
         const formatAllergen = formatKey(allergenToAdd);
         if (this.allergens.indexOf(formatAllergen) === -1) {
             this.allergens.push(formatAllergen);
@@ -80,7 +80,7 @@ module.exports = class Product {
      * Add an additive to the product
      * @param {string} additiveToAdd additive name (id)
      */
-    addAdditive(additiveToAdd){
+    addAdditive(additiveToAdd) {
         const formatAdditive = formatKey(additiveToAdd);
         if (this.additives.indexOf(formatAdditive) === -1) {
             this.additives.push(formatAdditive);
@@ -90,9 +90,9 @@ module.exports = class Product {
     /**
      * Calculate product score
      */
-    calculateScore(){
-        let scoreCalcul = this.novaGroup!==-1? (this.novaGroup-1)*5 : 20;
-        switch(this.nutrigrade.toLocaleUpperCase()){
+    calculateScore() {
+        let scoreCalcul = this.novaGroup !== -1 ? (this.novaGroup - 1) * 5 : 20;
+        switch (this.nutrigrade.toLocaleUpperCase()) {
             case 'A':
                 scoreCalcul += 0;
                 break;
@@ -104,19 +104,19 @@ module.exports = class Product {
             case 'C':
                 scoreCalcul += 10;
                 break;
-            
+
             case 'D':
                 scoreCalcul += 15;
-                break;   
-            
+                break;
+
             default:
                 scoreCalcul += 15;
                 break;
         }
 
-        scoreCalcul += this.additives.length*3;
-        scoreCalcul = 100-scoreCalcul;
+        scoreCalcul += this.additives.length * 3;
+        scoreCalcul = 100 - scoreCalcul;
 
-        this.score = scoreCalcul>0 ? scoreCalcul : 0;
+        this.score = scoreCalcul > 0 ? scoreCalcul : 0;
     }
 }

@@ -31,7 +31,7 @@ const find = async (productCode, storeId, successCallBack, errorCallback) => {
     query.product_id = productCode;
   if (storeId)
     query.store_id = storeId;
-  pricesModel.find(query).exec((err, result) => {
+  pricesModel.find(query).populate({ path: 'store_id', model: 'stores', select: ['name', '_id'] }).exec((err, result) => {
     if (err)
       return errorCallback(err);
     successCallBack(result);
@@ -41,14 +41,14 @@ const find = async (productCode, storeId, successCallBack, errorCallback) => {
 const findProductsMeanPrice = async (productsCodes, successCallBack, errorCallback) => {
   pricesModel.aggregate([
     { $match: { product_id: { $in: productsCodes } } },
-    { $group : { _id: "$product_id", avgPrice: { $avg: "$price" }}}
+    { $group: { _id: "$product_id", avgPrice: { $avg: "$price" } } }
   ], function (err, productMeanPrices) {
     if (err) {
       errorCallback(err);
     }
     let totalPrice = 0;
 
-    for (const productMeanPrice of productMeanPrices){
+    for (const productMeanPrice of productMeanPrices) {
       totalPrice += productMeanPrice.avgPrice;
     }
     successCallBack(totalPrice);
