@@ -548,7 +548,8 @@ Permet de créer une nouvelle recette.
 * **description** : requis
 
 `/api/recipes/{recipeId}` : **GET**  
-Permet de retrouver une recette à partir de son id. L'objet retourné dans le cas d'une recherche réussit (code 200) et où le _recipeId_ vaut "5c61a630cf721c1447e2c38e" est le suivant :
+Permet de retrouver une recette à partir de son id. Le prix est ajouté à cette route, et est calculé en faisant la somme des prix moyens de ses ingrédients. Si le prix est manquant pour un ingrédient, ce dernier sera alors ignoré (il vaudra 0). Si aucun prix n'est renseigné pour l'ensemble des ingrédients d'une recette, alors -1 est retourné.  
+L'objet retourné dans le cas d'une recherche réussit (code 200) et où le _recipeId_ vaut "5c61a630cf721c1447e2c38e" est le suivant :
 
 ```json
 {
