@@ -101,7 +101,8 @@ class ProductService {
                     response.json().then((parsedResponse) => {
                         let prices = [];
                         for (let price of parsedResponse) {
-                            prices.push({ store: new Store(price.store_id, price.store_name, price.store_location, price.store_region), price: price.price });
+                            if(price.store_id && price.price)
+                                prices.push({ store: new Store(price.store_id._id, price.store_id.name, null, null), price: price.price });
                         }
                         resolve(prices);
                     }).catch(error => reject(error));

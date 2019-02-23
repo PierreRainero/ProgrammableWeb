@@ -72,23 +72,38 @@ const createStore = async (req, res) => {
             res.status(422).send("Store location is missing.");
             return;
         }
-        if (!bodyParameters.region) {
-            res.status(422).send("Store region is missing.");
-            return;
-        }
 
-        storeDb.create(
-            bodyParameters.name,
-            bodyParameters.location,
-            bodyParameters.region,
-            (storeCreated) => {
-                res.status(200).send(storeCreated.toJSON());
+        regionDb.getRegionsForLocation(
+            bodyParameters.location.lat, bodyParameters.location.lng,
+            (regions) => {
+                if (regions.length === 0) {
+                    console.log("Error: " + error.message);
+                    res.status(500).send(error.message);
+                }
+                let arrayNameRegions = new Array();
+                for (region of regions) {
+                    arrayNameRegions.push(region.name);
+                }
+
+                storeDb.create(
+                    bodyParameters.name,
+                    bodyParameters.location,
+                    arrayNameRegions[0],
+                    (storeCreated) => {
+                        res.status(200).send(storeCreated.toJSON());
+                    },
+                    (error) => {
+                        console.log("Error: " + error.message);
+                        res.status(500).send(error.message);
+                    }
+                );
+
             },
             (error) => {
                 console.log("Error: " + error.message);
                 res.status(500).send(error.message);
             }
-        );
+        )
 
     }
 }
