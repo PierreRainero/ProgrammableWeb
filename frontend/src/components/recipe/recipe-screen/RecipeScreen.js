@@ -124,7 +124,7 @@ class RecipeScreen extends React.Component {
                         </div>
                         <Container className='recipeDetails'>
                             <Row className='recipeDetailsRow'>
-                                <Col md={4}>
+                                <Col md={6}>
                                     <Card className='shadow' style={{ width: '18rem' }}>
                                         <Card.Body>
                                             <Card.Title>Description</Card.Title>
@@ -132,10 +132,12 @@ class RecipeScreen extends React.Component {
                                         </Card.Body>
                                     </Card>
                                 </Col>
-                                <Col md={4}>
+                                <Col md={6}>
                                     <CardList title='Ingrédients' data={this.state.recipe.ingredients} actionOnClick={this.goToProductPage} />
                                 </Col>
-                                <Col md={4}>
+                            </Row>
+                            <Row className='recipeDetailsRow'>
+                                <Col md={12}>
                                     <CommentsCard
                                         title='Commentaires'
                                         data={this.state.recipe.comments}
