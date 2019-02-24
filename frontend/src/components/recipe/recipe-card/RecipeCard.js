@@ -68,6 +68,7 @@ class RecipeCard extends React.Component {
                                 <span> {this.recipe.comments.length}</span>
                             </div>
                         </OverlayTrigger>
+                        <div className='recipe-price'><span className='h6'>Prix moyen :</span> {this.recipe.price} €</div>
                         <div className='text-left ingredients-zone'>
                             <span className='h6'>Ingrédients : </span>
                             {this.recipe.ingredients.map(product => {
