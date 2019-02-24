@@ -1,0 +1,70 @@
+@import '../../../../shared';
+
+.comparatorOverlay{
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  padding-top: 56px;
+}
+
+.comparatorOverlayCol{
+  padding: 50px 30px 30px;
+  display: inline-block;
+  height: 100%;
+}
+
+.comparatorOverlayCol>.card{
+  height: 100%;
+  overflow: hidden;
+}
+
+.comparatorOverlayImage{
+  display: inline-block;
+  margin-bottom: 20px;
+}
+
+.comparatorOverlayImage img{
+  border: 7px solid white;
+  border-radius: 50%;
+  width: 200px;
+  height: 200px;
+}
+
+.comparatorOverlayTitle{
+  margin-bottom: 20px!important;
+}
+
+.comparatorOverlayScore{
+  display: inline-block;
+  width: 100px;
+  height: 100px;
+  margin-bottom: 20px;
+}
+
+.comparatorOverlayCard{
+  display: inline-block;
+}
+
+.comparatorOverlayCard .card{
+  max-height: 100%;
+  overflow-y: auto;
+  width: 100% !important;
+}
+
+.comparatorOverlayCol .card-body{
+  height: 100%;
+}
+
+.comparatorOverlayClose{
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-top: 56px;
+  padding: 10px;
+  font-size: 15pt;
+  color: white;
+  z-index: 3;
+}

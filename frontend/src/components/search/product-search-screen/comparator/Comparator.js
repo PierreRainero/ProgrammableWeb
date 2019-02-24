@@ -17,6 +17,7 @@ class Comparator extends React.Component {
     }
     addProductToCompare = this.addProductToCompare.bind(this);
     removeProductToCompare = this.removeProductToCompare.bind(this);
+    compare = this.compare.bind(this);
 
     addProductToCompare(product){
         if(this.state.toCompare.length < 4 && this.state.toCompare.indexOf(product.product) === -1) {
@@ -33,6 +34,14 @@ class Comparator extends React.Component {
             newToCompare.splice(position, 1);
             this.setState({toCompare: newToCompare});
         }
+    }
+
+    compare(){
+        let products = [];
+        for(let product of this.state.toCompare){
+            products.push(product.split('|')[0]);
+        }
+        this.props.callback(products);
     }
 
     /**
@@ -81,7 +90,7 @@ class Comparator extends React.Component {
                                         </ul>
                                         {
                                             this.state.toCompare.length > 1 ?
-                                                <Button variant='' className='button-secondary compareButton'>Comparer</Button>
+                                                <Button variant='' className='button-secondary compareButton' onClick={() => this.compare()}>Comparer</Button>
                                                 : null
                                         }
                                     </div>
@@ -104,13 +113,5 @@ class Comparator extends React.Component {
         );
     }
 }
-
-Comparator.defaultProps = {
-
-};
-
-Comparator.propTypes = {
-
-};
 
 export default Comparator;

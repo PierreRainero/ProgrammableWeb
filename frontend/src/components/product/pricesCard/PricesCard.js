@@ -28,10 +28,10 @@ class PricesCard extends React.Component {
                                 this.props.data.map((item, index) => {
                                     return (
                                         <ListGroup.Item key={index}>
-                                            <Col md={9}>
+                                            <Col md={8} className='priceItemName'>
                                                 <h6>{item.store.name}</h6>
                                             </Col>
-                                            <Col md={3} className='pricePart'>
+                                            <Col md={4} className='pricePart'>
                                                 <p>{`${item.price} €`}</p>
                                             </Col>
                                         </ListGroup.Item>
@@ -41,7 +41,11 @@ class PricesCard extends React.Component {
                                 <p className='commentsEmpty'>Aucun prix n'a été renseigné pour ce produit.</p>
                         }
                     </ListGroup>
-                    <Button variant='' className='button-secondary addButton' onClick={() => this.setState({ showNewPriceModal: true })}>Ajouter un prix</Button>
+                    {
+                        this.props.update ?
+                            <Button variant='' className='button-secondary addButton' onClick={() => this.setState({ showNewPriceModal: true })}>Ajouter un prix</Button>
+                            : null
+                    }
                 </Card.Body>
                 <NewPriceModal
                     show={this.state.showNewPriceModal}
@@ -56,7 +60,7 @@ class PricesCard extends React.Component {
 PricesCard.defaultProps = {
     title: '',
     data: [],
-    update: ()=>{}
+    update: null
 };
 
 PricesCard.propTypes = {

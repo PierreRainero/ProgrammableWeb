@@ -9,13 +9,19 @@ import history from '../../../history';
 import ProductService from '../../product/ProductService';
 
 import './ProductSearchScreen.scss';
-import {Droppable} from "react-drag-and-drop";
 import Comparator from "./comparator/Comparator";
+import ComparatorOverlay from "./comparator-overlay/ComparatorOverlay";
 
 /**
  * Component to present a result of a products research.
  */
 class ProductSearchScreen extends React.Component {
+
+    state={
+        productsToCompare: [],
+        comparatorVisible: false
+    }
+
     /**
      * Normal constructor
      * @param {object} props
@@ -23,7 +29,7 @@ class ProductSearchScreen extends React.Component {
     constructor(props) {
         super(props);
 
-        this.itemsPerPage = 20;
+        this.itemsPerPage = 12;
         this.state = {
             loading: true,
             page: 1,
@@ -146,7 +152,8 @@ class ProductSearchScreen extends React.Component {
                 </div>
                 {content}
                 {pagination}
-                <Comparator/>
+                <Comparator callback={products => this.setState({productsToCompare: products, comparatorVisible: true})} />
+                <ComparatorOverlay products={this.state.productsToCompare} show={this.state.comparatorVisible} close={() => this.setState({comparatorVisible: false})}/>
             </div>
         );
     }
