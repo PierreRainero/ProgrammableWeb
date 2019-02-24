@@ -29,7 +29,7 @@ class PricesCard extends React.Component {
                                     return (
                                         <ListGroup.Item key={index}>
                                             <Col md={9}>
-                                                <h6>{item.store.id}</h6>
+                                                <h6>{item.store.name}</h6>
                                             </Col>
                                             <Col md={3} className='pricePart'>
                                                 <p>{`${item.price} €`}</p>

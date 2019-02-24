@@ -36,7 +36,7 @@ class RecipeForm extends React.Component {
         }
 
         this.itemsPerPage = 10;
-        this.recipeToCreate = new Recipe('', '', '', '', [], [], undefined, undefined, '');
+        this.recipeToCreate = new Recipe('', '', '', '', [], [], undefined, undefined, '', -1);
 
         this.handleRecipeNameChange = this.handleRecipeNameChange.bind(this);
         this.handleRecipeAuthorChange = this.handleRecipeAuthorChange.bind(this);
@@ -106,7 +106,7 @@ class RecipeForm extends React.Component {
 
         RecipeService.createARecipe(this.recipeToCreate, (result) => {
             if(result){
-                this.recipeToCreate = new Recipe('', '', '', '', [], [], undefined, undefined, '');
+                this.recipeToCreate = new Recipe('', '', '', '', [], [], undefined, undefined, '', -1);
                 this.setState({ show: true, recipeName: '', recipeAuthor: '', recipeImg: '', open: false, validated: false });
             }
         });

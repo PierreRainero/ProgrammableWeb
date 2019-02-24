@@ -17,11 +17,12 @@ class Recipe {
      * @param {date} updatedAt Last modification date
      * @param {string} description Description of the recipe
      */
-    constructor(id, name, author, img, ingredients, comments, createdAt, updatedAt, description) {
+    constructor(id, name, author, img, ingredients, comments, createdAt, updatedAt, description, price) {
         this.id = id
         this.name = name;
         this.author = author;
         this.img = img;
+        this.price = price;
 
         this.ingredients = [];
         for (const ingredient of ingredients) {

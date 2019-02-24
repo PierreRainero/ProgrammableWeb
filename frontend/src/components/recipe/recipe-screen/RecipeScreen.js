@@ -40,7 +40,7 @@ class RecipeScreen extends React.Component {
     componentDidMount() {
         if (this.props.location.data) {
             const recipe = this.props.location.data.recipe;
-            if (recipe.img !== '') {
+            if (recipe.img && recipe.img !== '') {
                 this.setState({ loading: false, recipe: recipe, recipeImage: recipe.img });
             } else {
                 this.setState({ loading: false, recipe: recipe });
@@ -53,7 +53,7 @@ class RecipeScreen extends React.Component {
 
     fetchRecipe(){
         RecipeService.searchRecipeByCode(this.props.match.params.id).then(recipe => {
-            if (recipe.img !== '') {
+            if (recipe.img && recipe.img !== '') {
                 this.setState({ loading: false, recipe: recipe, recipeImage: recipe.img });
             } else {
                 this.setState({ loading: false, recipe: recipe });
@@ -85,6 +85,7 @@ class RecipeScreen extends React.Component {
      * Render the component
      */
     render() {
+        console.log(this.state.recipeImage);
         return (
             <div style={{ height: '100%' }}>
                 {this.state.loading ?
@@ -94,7 +95,7 @@ class RecipeScreen extends React.Component {
                     :
                     <div style={{ height: '100%' }}>
                         <div className='recipeHeader'>
-                            <img src='http://lorempixel.com/1920/250/food' alt='header' />
+                            <img src={this.state.recipeImage} alt='header' />
                         </div>
                         <div className='recipeGeneralInfos'>
                             <div className='recipeImage'>
@@ -107,6 +108,10 @@ class RecipeScreen extends React.Component {
                             <div className={`recipeName ${window.innerWidth > 576 ? 'textShadow' : ''}`}>
                                 <div>{`Recette de ${this.state.recipe.name}`}</div>
                                 <div className='recipeAuthor'>{`Proposée par ${this.state.recipe.author}`}</div>
+                                {this.state.recipe.price !== -1 ?
+                                    <div className='recipePrice'>Prix moyen : {this.state.recipe.price} €</div>
+                                    : null
+                                }
                                 <OverlayTrigger
                                     placement='bottom'
                                     overlay={
@@ -124,7 +129,7 @@ class RecipeScreen extends React.Component {
                         </div>
                         <Container className='recipeDetails'>
                             <Row className='recipeDetailsRow'>
-                                <Col md={4}>
+                                <Col md={6}>
                                     <Card className='shadow' style={{ width: '18rem' }}>
                                         <Card.Body>
                                             <Card.Title>Description</Card.Title>
@@ -132,10 +137,12 @@ class RecipeScreen extends React.Component {
                                         </Card.Body>
                                     </Card>
                                 </Col>
-                                <Col md={4}>
+                                <Col md={6}>
                                     <CardList title='Ingrédients' data={this.state.recipe.ingredients} actionOnClick={this.goToProductPage} />
                                 </Col>
-                                <Col md={4}>
+                            </Row>
+                            <Row className='recipeDetailsRow'>
+                                <Col md={12}>
                                     <CommentsCard
                                         title='Commentaires'
                                         data={this.state.recipe.comments}
