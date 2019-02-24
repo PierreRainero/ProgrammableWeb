@@ -346,7 +346,8 @@ Permet de trouver les informations de prix correspondant aux produit et/ou au po
 ### Recettes
 
 `/api/recipes?page=1&itemsPerPage=2` : **GET**  
-Permet de retrouver tous les recettes contenues dans la base de données, par groupe. Les produits sont classés en fonction de leur "id", on peut choisir le nombre de recettes par groupe et quel groupe l'on souhaite chercher :  
+Permet de retrouver tous les recettes contenues dans la base de données, par groupe. Le prix est ajouté à cette route, et est calculé en faisant la somme des prix moyens de ses ingrédients. Si le prix est manquant pour un ingrédient, ce dernier sera alors ignoré (il vaudra 0). Si aucun prix n'est renseigné pour l'ensemble des ingrédients d'une recette, alors -1 est retourné.  
+Les produits sont classés en fonction de leur "id", on peut choisir le nombre de recettes par groupe et quel groupe l'on souhaite chercher :  
 **Par défaut :** _page=1, itemsPerPage=20_
 
 ```json
@@ -437,7 +438,8 @@ Permet de retrouver tous les recettes contenues dans la base de données, par gr
 ```
 
 `/api/recipes?name=macaroni&page=1&itemsPerPage=2` : **GET**  
-Permet de retrouver tous les recettes contenant le chaine recherché (non sensible à la casse), par groupe. Les produits sont classés en fonction de leur "id", on peut choisir le nombre de recettes par groupe et quel groupe l'on souhaite chercher :  
+Permet de retrouver tous les recettes contenant le chaine recherché (non sensible à la casse), par groupe. Le prix est ajouté à cette route, et est calculé en faisant la somme des prix moyens de ses ingrédients. Si le prix est manquant pour un ingrédient, ce dernier sera alors ignoré (il vaudra 0). Si aucun prix n'est renseigné pour l'ensemble des ingrédients d'une recette, alors -1 est retourné.  
+Les produits sont classés en fonction de leur "id", on peut choisir le nombre de recettes par groupe et quel groupe l'on souhaite chercher :  
 **Par défaut :** _page=1, itemsPerPage=20_
 
 ```json
@@ -528,7 +530,7 @@ Permet de retrouver tous les recettes contenant le chaine recherché (non sensib
 ```
 
 `/api/recipes` : **POST**  
-Permet de créer une nouvelle recette.  
+Permet de créer une nouvelle recette. Le prix est ajouté à cette route, et est calculé en faisant la somme des prix moyens de ses ingrédients. Si le prix est manquant pour un ingrédient, ce dernier sera alors ignoré (il vaudra 0). Si aucun prix n'est renseigné pour l'ensemble des ingrédients d'une recette, alors -1 est retourné.  
 **Exemple d'utilisation :** création de la recette "Cheese & Macaroni" :  
 
 ```json
