@@ -2,14 +2,16 @@
 
 .productHeader {
   overflow: hidden;
+  height: 250px;
+  background: #b9b9b9;
 }
 
 .productHeader img{
   position: relative;
   width: 100%;
-  height: 250px;
   filter: blur(5px);
   -webkit-filter: blur(5px);
+  transform: translate(0, -50%);
 }
 
 .productGeneralInfos{

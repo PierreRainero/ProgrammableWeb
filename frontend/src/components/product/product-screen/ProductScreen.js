@@ -43,7 +43,7 @@ class ProductScreen extends React.Component {
     componentDidMount() {
         if (this.props.location.data) {
             const productReceived = this.props.location.data.product;
-            if (productReceived.img !== '') {
+            if (productReceived.img && productReceived.img !== '') {
                 this.setState({ id: productReceived.code, loading: false, product: productReceived, productImage: productReceived.img }, () => { this.fetchPrices(); this.fetchRecipes() });
             } else {
                 this.setState({ id: productReceived.code, loading: false, product: productReceived }, () => { this.fetchPrices(); this.fetchRecipes() });
@@ -52,7 +52,7 @@ class ProductScreen extends React.Component {
             ProductService.searchProductByCode(this.props.match.params.id).then(product => {
                 this.setState({ id: product.code, loading: false, product: product }, () => { this.fetchPrices(); this.fetchRecipes() });
                 ProductService.getProductImage(this.state.product.code, this.signalController.signal, (imgURL) => {
-                    if (imgURL !== '') {
+                    if (imgURL && imgURL !== '') {
                         this.setState({ productImage: imgURL });
                     }
                 });
@@ -108,7 +108,7 @@ class ProductScreen extends React.Component {
                     :
                     <div style={{ height: '100%' }}>
                         <div className='productHeader'>
-                            <img src='http://lorempixel.com/1920/250/food' alt='header' />
+                            <img src={this.state.productImage} alt='header' />
                         </div>
                         <div className='productGeneralInfos'>
                             <div className='productImage'>

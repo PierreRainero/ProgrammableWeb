@@ -45,7 +45,8 @@ class RecipeService {
                             recipe.comments,
                             recipe.createdAt,
                             recipe.updatedAt,
-                            recipe.description));
+                            recipe.description,
+                            recipe.price));
                     }
                     callback(data);
                 }).catch(error => console.log(error.message));
@@ -73,7 +74,8 @@ class RecipeService {
                             parsedResponse.comments,
                             parsedResponse.createdAt,
                             parsedResponse.updatedAt,
-                            parsedResponse.description));
+                            parsedResponse.description,
+                            parsedResponse.price));
                     }).catch(error => reject(error));
                 })
                 .catch(error => {
