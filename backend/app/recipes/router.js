@@ -10,6 +10,7 @@
 
 const recipesDb = require('../database/recipes.js');
 let router = require('express').Router();
+let async = require("async");
 const ise = require('../errors/internal-server-error');
 const priceDb = require('../database/price');
 
@@ -106,11 +107,7 @@ const getRecipesByName = (res, name, page, itemsPerPage) => {
     recipesDb.findAllByName(
         name, page, itemsPerPage,
         (recipesFound) => {
-            const result = [];
-            for(let recipe of recipesFound){
-                result.push(checkRecipeAttributes(recipe));
-            }
-            res.status(200).send(result);
+            getRecipesWithPrices(res, recipesFound);
         },
         (error) => {
             ise(res, error, error.message);
@@ -128,16 +125,43 @@ const getAllRecipesWithIndex = (res, page, itemsPerPage) => {
     recipesDb.findAll(
         page, itemsPerPage,
         (recipesFound) => {
-            const result = [];
-            for(let recipe of recipesFound){
-                result.push(checkRecipeAttributes(recipe));
-            }
-            res.status(200).send(result);
-        },
-        (error) => {
+            getRecipesWithPrices(res, recipesFound);
+        }, (error) => {
             ise(res, error, error.message);
+        });
+}
+
+/**
+ * Compute the mean price of recipe's ingredients
+ * 
+ * @param {express.Response} res Express HTTP response 
+ * @param {*} recipesFound Array containing recipes
+ */
+const getRecipesWithPrices = (res, recipesFound) => {
+    async.each(recipesFound, function (recipe, callback) {
+        let productsIds = Array();
+        for (const ingredient of recipe.ingredients) {
+            productsIds.push(ingredient.code);
         }
-    );
+
+        priceDb.findProductsMeanPrice(
+            productsIds,
+            (meanPricesFound) => {
+                meanPricesFound = (meanPricesFound > 0 ? meanPricesFound : -1);
+                recipe.price = Number(meanPricesFound.toFixed(2));
+                callback();
+            },
+            (error) => {
+                ise(res, error, 'There was an error finding the recipe price.');
+            }
+        );
+    }, function (err) {
+        if (err) {
+            ise('There was an error finding the recipe price.')
+        } else {
+            res.status(200).send(recipesFound);
+        }
+    });
 }
 
 /**
@@ -242,15 +266,6 @@ const createComment = async (req, res) => {
             }
         );
     }
-}
-
-const checkRecipeAttributes = (recipeToCheck) => {
-    let result = recipeToCheck;
-    if(!recipeToCheck.pictureUrl){
-        result.pictureUrl = '';
-    }
-
-    return result;
 }
 
 // ROUTES :
