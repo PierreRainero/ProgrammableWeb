@@ -21,7 +21,7 @@ Ce projet a été réalisé dans le cadre d'un double module visant à mettre en
 Le projet est actuellement hébergé en ligne, il est possible d’accéder aux deux parties de l'application via les adresses suivantes :
 
 * [Client side](https://programmable-web.herokuapp.com/)
-* [Server side](https://frasquet.fr/progweb/api/)
+* [Server side](https://enigmatic-reaches-75165.herokuapp.com/api)
 
 ## Documentation
 
