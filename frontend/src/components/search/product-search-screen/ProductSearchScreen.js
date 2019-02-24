@@ -29,7 +29,7 @@ class ProductSearchScreen extends React.Component {
     constructor(props) {
         super(props);
 
-        this.itemsPerPage = 12;
+        this.itemsPerPage = 14;
         this.state = {
             loading: true,
             page: 1,
