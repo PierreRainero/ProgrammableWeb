@@ -85,7 +85,6 @@ class RecipeScreen extends React.Component {
      * Render the component
      */
     render() {
-        console.log(this.state.recipeImage);
         return (
             <div style={{ height: '100%' }}>
                 {this.state.loading ?

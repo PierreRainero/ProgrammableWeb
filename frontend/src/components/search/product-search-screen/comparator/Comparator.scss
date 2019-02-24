@@ -1,0 +1,78 @@
+@import '../../../../_shared.scss';
+
+.comparator{
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  margin-left: 20px;
+  width: 300px;
+  max-height: 450px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  overflow: hidden;
+  background: white;
+}
+
+.comparatorHeader{
+  font-size: 12pt;
+  font-weight: bold;
+  color: $primary-color-text;
+}
+
+.comparatorHeaderLeft, .comparatorHeaderRight{
+  width: 50%;
+  display: inline-block;
+  padding: 10px;
+  background-color: $primary-color;
+}
+
+.comparatorHeaderLeft{
+  text-align: left;
+}
+
+.comparatorHeaderRight{
+  text-align: right;
+}
+
+.comparatorBody{
+  margin: 10px;
+}
+
+.productDroppable{
+  width: 250px;
+  height: 250px;
+  border: 5px dashed #aaa;
+  border-radius: 20px;
+  color: #aaa;
+  font-size: 12pt;
+  font-weight: bold;
+  display: inline-block;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.productDroppable *{
+  text-align: center;
+  vertical-align: middle;
+  line-height: 230px;
+}
+
+.compareListNames{
+  padding-left: 20px;
+  width: 80%;
+  display: inline-block;
+  text-align: left;
+}
+
+.compareListIcons{
+  padding: 0px;
+  list-style: none;
+  width: 20%;
+  display: inline-block;
+  text-align: right;
+}
+
+.compareButton{
+  width: 100%;
+  display: inline-block;
+}

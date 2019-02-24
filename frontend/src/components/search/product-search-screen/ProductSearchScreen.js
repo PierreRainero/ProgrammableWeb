@@ -9,6 +9,8 @@ import history from '../../../history';
 import ProductService from '../../product/ProductService';
 
 import './ProductSearchScreen.scss';
+import {Droppable} from "react-drag-and-drop";
+import Comparator from "./comparator/Comparator";
 
 /**
  * Component to present a result of a products research.
@@ -144,6 +146,7 @@ class ProductSearchScreen extends React.Component {
                 </div>
                 {content}
                 {pagination}
+                <Comparator/>
             </div>
         );
     }

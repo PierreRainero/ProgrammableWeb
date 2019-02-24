@@ -7,6 +7,7 @@ import ProductScore from '../product-score/ProductScore'
 import ProductService from '../ProductService';
 
 import './ProductCard.scss';
+import {Draggable} from "react-drag-and-drop";
 
 /**
  * Component to quickly present a product.
@@ -51,28 +52,32 @@ class ProductCard extends React.Component {
      * Render the component
      */
     render() {
-        return <Card style={{ width: '200px', display: 'inline-block' }} className='product-card-container clickable shadow'>
-            <Card.Body className='product-card-content'>
-                <OverlayTrigger
-                    placement='top'
-                    overlay={
-                        <Tooltip>
-                            {this.product.name}
-                        </Tooltip>
-                    }
-                >
-                    <Card.Title className='one-line-title' ref='product-card-title'>{this.product.name}</Card.Title>
-                </OverlayTrigger>
-                <img
-                    alt='product_img'
-                    src={this.state.img}
-                    className='d-inline-block align-bottom productImg'
-                />
-                <div className='score-zone'>
-                    <ProductScore score={this.product.score} nutrigrade={this.product.nutrigrade} novaGroup={this.product.novaGroup} fontsize='12pt'/>
-                </div>
-            </Card.Body>
-        </Card>;
+        return (
+            <Draggable style={{display: 'inline-block'}} type="product" data={`${this.product.code}|${this.product.name}`}>
+                <Card style={{ width: '200px' }} className='product-card-container clickable shadow'>
+                    <Card.Body className='product-card-content'>
+                        <OverlayTrigger
+                            placement='top'
+                            overlay={
+                                <Tooltip>
+                                    {this.product.name}
+                                </Tooltip>
+                            }
+                        >
+                            <Card.Title className='one-line-title' ref='product-card-title'>{this.product.name}</Card.Title>
+                        </OverlayTrigger>
+                        <img
+                            alt='product_img'
+                            src={this.state.img}
+                            className='d-inline-block align-bottom productImg'
+                        />
+                        <div className='score-zone'>
+                            <ProductScore score={this.product.score} nutrigrade={this.product.nutrigrade} novaGroup={this.product.novaGroup} fontsize='12pt'/>
+                        </div>
+                    </Card.Body>
+                </Card>
+            </Draggable>
+        );
     }
 }
 
