@@ -88,7 +88,7 @@ class NewPriceModal extends React.Component {
                         variant=''
                         className='button-secondary addButton'
                         onClick={() => {
-                            if (this.state.price !== 0) {
+                            if (this.state.price !== 0 && this.state.price !== '') {
                                 ProductService.setProductPrice(this.props.product.code, this.state.selectedStore, this.state.price).then(() => this.props.update()).catch(error => console.error(error.message));
                                 this.props.onHide();
                             } else {

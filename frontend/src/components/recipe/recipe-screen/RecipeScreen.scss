@@ -1,179 +1,172 @@
 @import '../../../_shared.scss';
-
 .recipeHeader {
-  overflow: hidden;
-  height: 250px;
-  background: #b9b9b9;
+    overflow: hidden;
+    height: 250px;
+    background: #b9b9b9;
 }
 
-.recipeHeader img{
-  position: relative;
-  width: 100%;
-  filter: blur(5px);
-  -webkit-filter: blur(5px);
-  transform: translate(0, -50%);
+.recipeHeader img {
+    position: relative;
+    width: 100%;
+    filter: blur(5px);
+    -webkit-filter: blur(5px);
+    transform: translate(0, -50%);
 }
 
-.recipeGeneralInfos{
-  position: relative;
-  margin-top: -175px;
-  text-align: left;
-  padding-left: 75px;
-  padding-right: 75px;
+.recipeGeneralInfos {
+    position: relative;
+    margin-top: -175px;
+    text-align: left;
+    padding-left: 75px;
+    padding-right: 75px;
 }
 
-.recipeImage{
-  display: inline-block;
+.recipeImage {
+    display: inline-block;
 }
 
-.recipeImage img{
-  border: 7px solid white;
-  border-radius: 50%;
-  width: 300px;
-  height: 300px;
+.recipeImage img {
+    border: 7px solid white;
+    border-radius: 50%;
+    width: 300px;
+    height: 300px;
 }
 
-.recipeName{
-  display: inline-block;
-  vertical-align: top;
-  margin-left: 30px;
-  margin-top: 20px;
-  color: $primary-color-text;
-  font-size: 30pt;
+.recipeName {
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 30px;
+    margin-top: 20px;
+    color: $primary-color-text;
+    font-size: 30pt;
 }
 
-.recipeAuthor{
-  font-size: 17pt;
+.recipeAuthor {
+    font-size: 17pt;
 }
 
-.recipePrice{
-  font-size: 13pt;
+.recipePrice {
+    font-size: 13pt;
 }
 
-.recipeDate{
-  font-size: 12pt;
-  margin-top: 5px;
-  width: fit-content;
+.recipeDate {
+    font-size: 12pt;
+    margin-top: 5px;
+    width: fit-content;
 }
 
-.recipeDetails{
-  text-align: left;
-  margin-top: -110px;
-  margin-left: 0!important;
-  margin-right: 0!important;
-  max-width: none!important;
-  padding-left: 405px!important;
-  padding-right: 75px;
-  height: 65%;
+.recipeDetails {
+    text-align: left;
+    margin-top: -110px;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    max-width: none !important;
+    padding-left: 405px !important;
+    padding-right: 75px;
+    height: 65%;
 }
 
-.recipeDetails *{
-  display: inline-block;
-  width: 100%!important;
+.recipeDetails * {
+    display: inline-block;
 }
 
-.recipeDetailsRow{
-  margin-right: 0!important;
-  margin-left: 0!important;
-  height: 50%;
-  padding-top: 5px;
-  padding-bottom: 5px;
+.recipeDetailsRow {
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+    height: 50%;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 
-.recipeDetailsRow>*{
-  height: 100%!important;
+.recipeDetailsRow>* {
+    height: 100% !important;
 }
 
-.recipeDetailsRow .card{
-  max-height: 100%;
-  overflow-y: auto;
+.recipeDetailsRow .card {
+    max-height: 100%;
+    width: 100% !important;
+    overflow-y: auto;
+}
+
+.formWidthAlign {
+    width: 100% !important;
 }
 
 @media (min-width: 576px) and (max-width: 768px) {
-  .recipeGeneralInfos{
-    position: relative;
-    margin-top: -175px;
-    text-align: left;
-    padding-left: 15px;
-    padding-right: 15px;
-  }
-
-  .recipeName{
-    display: inline-block;
-    vertical-align: top;
-    width: 40%;
-    margin-left: 30px;
-    margin-top: 30px;
-    color: $primary-color-text;
-    font-size: 30pt;
-  }
-
-  .recipeDetails{
-    text-align: left;
-    margin-top: 20px;
-    margin-left: 0!important;
-    margin-right: 0!important;
-    max-width: none!important;
-    padding-left: 5px!important;
-    padding-right: 5px!important;
-    height: 100%;
-  }
-
-  .recipeDetails *{
-    margin-bottom: 20px;
-  }
+    .recipeGeneralInfos {
+        position: relative;
+        margin-top: -175px;
+        text-align: left;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    .recipeName {
+        display: inline-block;
+        vertical-align: top;
+        width: 40%;
+        margin-left: 30px;
+        margin-top: 30px;
+        color: $primary-color-text;
+        font-size: 30pt;
+    }
+    .recipeDetails {
+        text-align: left;
+        margin-top: 20px;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        max-width: none !important;
+        padding-left: 5px !important;
+        padding-right: 5px !important;
+        height: 100%;
+    }
+    .recipeDetails * {
+        margin-bottom: 20px;
+    }
 }
 
 @media (max-width: 576px) {
-  .recipeGeneralInfos{
-    position: relative;
-    margin-top: -175px;
-    text-align: center;
-    padding-left: 5px;
-    padding-right: 5px;
-  }
-
-  .recipeName{
-    margin-left: 0px;
-    margin-top: 10px;
-    color: $secondary-color-text;
-  }
-
-  .recipeDate{
-    width: auto;
-  }
-
-  .recipeDetails{
-    text-align: left;
-    margin-top: 20px;
-    margin-left: 0!important;
-    margin-right: 0!important;
-    max-width: none!important;
-    padding-left: 0px!important;
-    padding-right: 0px!important;
-    height: auto;
-  }
-
-  .recipeDetails *{
-    display: inline-block;
-    width: 100%!important;
-  }
-
-  .recipeDetailsRow{
-    margin-right: 0!important;
-    margin-left: 0!important;
-    height: auto;
-    padding-top: 5px;
-    padding-bottom: 5px;
-  }
-
-  .recipeDetailsRow>*{
-    height: 100%!important;
-  }
-
-  .recipeDetailsRow .card{
-    max-height: 100%;
-    overflow-y: auto;
-    margin-bottom: 10px;
-  }
+    .recipeGeneralInfos {
+        position: relative;
+        margin-top: -175px;
+        text-align: center;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+    .recipeName {
+        margin-left: 0px;
+        margin-top: 10px;
+        color: $secondary-color-text;
+    }
+    .recipeDate {
+        width: auto;
+    }
+    .recipeDetails {
+        text-align: left;
+        margin-top: 20px;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        max-width: none !important;
+        padding-left: 0px !important;
+        padding-right: 0px !important;
+        height: auto;
+    }
+    .recipeDetails * {
+        display: inline-block;
+        width: 100% !important;
+    }
+    .recipeDetailsRow {
+        margin-right: 0 !important;
+        margin-left: 0 !important;
+        height: auto;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+    .recipeDetailsRow>* {
+        height: 100% !important;
+    }
+    .recipeDetailsRow .card {
+        max-height: 100%;
+        overflow-y: auto;
+        margin-bottom: 10px;
+    }
 }

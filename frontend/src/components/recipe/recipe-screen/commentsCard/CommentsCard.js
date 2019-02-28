@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Button, Card, Col, Form, FormControl, ListGroup, Row} from 'react-bootstrap';
+import { Button, Card, Col, Form, FormControl, ListGroup, Row } from 'react-bootstrap';
 
 import './CommentsCard.scss';
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faClock} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faClock } from "@fortawesome/free-solid-svg-icons";
 import RecipeService from "../../RecipeService";
 
 /**
@@ -12,16 +12,16 @@ import RecipeService from "../../RecipeService";
  */
 class CommentsCard extends React.Component {
 
-    state={
+    state = {
         name: "",
         comment: ""
     }
     comment = this.comment.bind(this);
 
-    comment(){
+    comment() {
         RecipeService.addComment(this.props.recipe.id, this.state.name, this.state.comment)
             .then(() => {
-                this.setState({name: "", comment: ""});
+                this.setState({ name: "", comment: "" });
                 this.props.update();
             })
             .catch(err => console.error(err.message));
@@ -46,8 +46,8 @@ class CommentsCard extends React.Component {
                                                     <h6>{`${item.author}:`}</h6>
                                                 </Col>
                                                 <Col md={6} className='commentDate'>
-                                                    <FontAwesomeIcon icon={faClock} className='commentDateIcon'/>
-                                                    <span className='commentDateText'> {item.createdAt}</span>
+                                                    <FontAwesomeIcon icon={faClock} className='commentDateIcon' />
+                                                    <span className='commentDateText'> {item.formatDate(item.createdAt)}</span>
                                                 </Col>
                                             </Row>
                                             <p className='commentBody'>{item.body}</p>
@@ -59,14 +59,14 @@ class CommentsCard extends React.Component {
                         }
                     </ListGroup>
                     <h5>Ajouter un commentaire :</h5>
-                    <Form inline>
+                    <Form className='text-center formWidthAlign'>
                         <FormControl
                             type='text'
                             placeholder='Nom'
                             className='nameInput'
                             ref='name-input'
                             value={this.state.name}
-                            onChange={e => this.setState({name: e.target.value})}
+                            onChange={e => this.setState({ name: e.target.value })}
                         />
                         <FormControl
                             type='text'
@@ -74,7 +74,7 @@ class CommentsCard extends React.Component {
                             className='commentInput'
                             ref='comment-input'
                             value={this.state.comment}
-                            onChange={e => this.setState({comment: e.target.value})}
+                            onChange={e => this.setState({ comment: e.target.value })}
                         />
                         <Button variant='' className='button-secondary addButton' onClick={this.comment} ref='comment-submit'>
                             Ajouter le commentaire

@@ -15,6 +15,16 @@ class Comment {
         this.body = body;
         this.createdAt = createdAt;
     }
+
+    /**
+     * Convert a date to a string as dd/mm/YYYY
+     * @param {string} dateToFormat date as string to format
+     * @return {string} format date
+     */
+    formatDate(dateToFormat) {
+        const date = new Date(dateToFormat);
+        return `${date.getDate()}/${date.getMonth() < 10 ? `0${date.getMonth()}` : date.getMonth()}/${date.getUTCFullYear()}`;
+    }
 }
 
 export default Comment;
